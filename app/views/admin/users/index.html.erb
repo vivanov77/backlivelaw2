@@ -1,0 +1,29 @@
+<h1>Пользователи</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Электронная почта</th>
+      <th>Роль</th>      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email %></td>        
+        <td><%= user.roles.first.title %></td>        
+        <td><%= link_to 'Показать', [:admin, user] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_user_path(user) %></td>
+        <td><%= link_to 'Удалить', [:admin, user], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to 'Новый вопрос', new_admin_user_path %>

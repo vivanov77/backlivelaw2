@@ -1,0 +1,6 @@
+<h1>Редактирование вопроса</h1>
+
+<%= render 'form', question: @question %>
+
+<%= link_to 'Показать', [:admin, @question] %> |
+<%= link_to 'Назад', admin_questions_path %>

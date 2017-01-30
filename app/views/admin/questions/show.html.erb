@@ -1,0 +1,16 @@
+<p>
+  <strong>Заголовок:</strong>
+  <%= @question.title %>
+</p>
+
+<% if @question.users.first %>
+
+<p>
+  <strong>Клиент:</strong>
+  <%= @question.users.first.email %>
+</p>
+
+<% end %>
+
+<%= link_to 'Редактировать', edit_admin_question_path(@question) %> |
+<%= link_to 'Назад', admin_questions_path %>
