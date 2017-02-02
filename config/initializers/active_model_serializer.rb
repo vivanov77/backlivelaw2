@@ -1,3 +1,3 @@
 # Be sure to restart your server when you modify this file.
 
-ActiveModel::Serializer.config.adapter = ActiveModel::Serializer::Adapter::JsonApi
+ActiveModel::Serializer.config.adapter = ActiveModelSerializers::Adapter::JsonApi

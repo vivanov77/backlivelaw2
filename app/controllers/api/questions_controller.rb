@@ -5,7 +5,15 @@ class Api::QuestionsController < Api::ApplicationController
 
     @questions = Question.all;
 
-    render json: api_paginate(@questions, 3)
+    if params[:offset]
+
+      render json: api_paginate(@questions, 3)
+
+    else
+      
+      render json: @questions      
+
+    end
   end
 
   # GET /questions/1

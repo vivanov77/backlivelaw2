@@ -4,12 +4,15 @@ class Admin::QuestionsController < Admin::ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @page = params[:page]
-
-    @page = true
+    @page = params[:offset]
     
-    if @page
-      @questions = Question.all.page(params[:page].blank? ? 1 : params[:page]);
+    if params[:offset]
+      @questions = Question.all.page(params[:offset]);
+
+      if params[:limit]
+        @questions = @questions.per(params[:limit]);        
+      end
+
     else
       @questions = Question.all;
     end

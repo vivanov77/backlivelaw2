@@ -12,6 +12,15 @@ module Backlivelaw2
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        # https://github.com/cyu/rack-cors/issues/44
+        # resource '*', :headers => :any, :methods => [:get, :post, :options]
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :options]
+      end
+    end    
+
 # http://stackoverflow.com/questions/4110866/ruby-on-rails-where-to-define-global-constants
     config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат"}
 
