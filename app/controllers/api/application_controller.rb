@@ -1,4 +1,6 @@
 class Api::ApplicationController < ActionController::API
+
+  include ApplicationHelper
 	
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_record
 

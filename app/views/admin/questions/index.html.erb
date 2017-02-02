@@ -25,3 +25,5 @@
 <br>
 
 <%= link_to 'Новый вопрос', new_admin_question_path %>
+
+<%= paginate @questions if @page %>

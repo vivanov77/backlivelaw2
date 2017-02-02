@@ -4,7 +4,15 @@ class Admin::QuestionsController < Admin::ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @page = params[:page]
+
+    @page = true
+    
+    if @page
+      @questions = Question.all.page(params[:page].blank? ? 1 : params[:page]);
+    else
+      @questions = Question.all;
+    end
   end
 
   # GET /questions/1

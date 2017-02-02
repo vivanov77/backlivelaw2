@@ -2,9 +2,10 @@ class Api::QuestionsController < Api::ApplicationController
   before_action :set_question, only: [:show, :update, :destroy]
   # GET /questions
   def index
-    @questions = Question.all
 
-    render json: @questions
+    @questions = Question.all;
+
+    render json: api_paginate(@questions, 3)
   end
 
   # GET /questions/1
