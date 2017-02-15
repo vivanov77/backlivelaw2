@@ -10,11 +10,11 @@ class Admin::QuestionsController < Admin::ApplicationController
       @questions = Question.all.page(params[:offset]);
 
       if params[:limit]
-        @questions = @questions.per(params[:limit]);        
+        @questions = @questions.per(params[:limit]).order(:id);        
       end
 
     else
-      @questions = Question.all;
+      @questions = Question.order(:id);
     end
   end
 
@@ -80,7 +80,7 @@ class Admin::QuestionsController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
-      params.require(:question).permit(:title, :user_ids)
+      params.require(:question).permit(:title, :user_id, :category_ids)
       # params.require(:question).permit!
     end
 end

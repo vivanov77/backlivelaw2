@@ -1,0 +1,29 @@
+<%= form_for([:admin, category]) do |f| %>
+  <% if category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+      <% category.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Имя" %>
+    <%= f.text_field :name %>
+  </div>
+
+<!--   <div class="field">
+    <%#= f.label "Вопрос" %><br />
+    <%#= f.collection_select :question_ids, Question.order(:title), :id, :title, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите вопрос' %>          
+  </div>     -->
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -25,10 +25,10 @@ class Api::UsersController < Api::ApplicationController
   end
 
   # DELETE /users/1
-  def destroy
-    @user.destroy
-    render json: "User with id=\"#{@user.id}\" deleted successfully".to_json, status: :ok
-  end
+  # def destroy
+  #   @user.destroy
+  #   render json: "User with id=\"#{@user.id}\" deleted successfully".to_json, status: :ok
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

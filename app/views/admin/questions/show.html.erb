@@ -3,14 +3,19 @@
   <%= @question.title %>
 </p>
 
-<% if @question.users.first %>
+<% if @question.user %>
 
 <p>
   <strong>Клиент:</strong>
-  <%= @question.users.first.email %>
+  <%= @question.user.email %>
 </p>
 
 <% end %>
+
+<p>
+  <strong>Категория:</strong>
+  <%= @question.categories.size > 0 ? @question.categories.first.name : "Не указано" %>
+</p>
 
 <%= link_to 'Редактировать', edit_admin_question_path(@question) %> |
 <%= link_to 'Назад', admin_questions_path %>

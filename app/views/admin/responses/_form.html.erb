@@ -1,0 +1,36 @@
+<%= form_for([:admin, response]) do |f| %>
+  <% if response.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(response.errors.count, "error") %> prohibited this response from being saved:</h2>
+
+      <ul>
+      <% response.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Заголовок" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Вопрос" %><br />
+    <%= f.collection_select :question_id, Question.order(:title), :id, :title, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите вопрос' %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Пользователь" %><br />
+    <%= f.collection_select :user_id, User.roled(:client), :id, :email, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите клиента' %>          
+  </div> 
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

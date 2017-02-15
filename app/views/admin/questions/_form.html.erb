@@ -18,9 +18,18 @@
 
   <div class="field">
     <%= f.label "Пользователь" %><br />
-    <%= f.collection_select :user_ids, User.roled(:client), :id, :email, {:include_blank => "Ничего не выбрано"},
+    <%= f.collection_select :user_id, User.roled(:client), :id, :email, {:include_blank => "Ничего не выбрано"},
   # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
     prompt: 'Выберите клиента' %>          
+  </div>
+
+   <div class="field">
+    <%= f.label "Категория" %>
+    <%= f.collection_select :category_ids, Category.order(:name), :id, :name,
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+  # http://guides.rubyonrails.org/form_helpers.html#using-form-helpers
+                  :prompt => 'Выберите категорию' %>
+
   </div>  
 
   <div class="actions">

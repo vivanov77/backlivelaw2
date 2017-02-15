@@ -1,0 +1,27 @@
+<h1>Категории</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Имя</th>
+<!--       <th>ID Вопроса</th> -->
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.name %></td>
+        <!-- <td><%#= category.question_id %></td> -->
+        <td><%= link_to 'Показать', [:admin, category] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_category_path(category) %></td>
+        <td><%= link_to 'Удалить', [:admin, category], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новая категория', new_admin_category_path %>

@@ -1,0 +1,17 @@
+<p>
+  <strong>Заголовок:</strong>
+  <%= @comment.title %>
+</p>
+
+<p>
+  <strong>Пользователь:</strong>
+  <%= @comment.user.email %>
+</p>
+
+<p>
+  <strong>Ответ:</strong>
+  <%= @comment.response.title %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_comment_path(@comment) %> |
+<%= link_to 'Назад', admin_comments_path %>

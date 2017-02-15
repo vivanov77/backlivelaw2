@@ -3,22 +3,40 @@ class Api::QuestionsController < Api::ApplicationController
   # GET /questions
   def index
 
-    @questions = Question.all;
+    @questions = Question.order(:id);
+
+    if params[:category]
+
+      @questions = @questions.includes(:categories).where(:categories => {name: params[:category]});
+
+    end    
 
     if params[:offset]
 
-      render json: api_paginate(@questions, 3)
-
-    else
-      
-      render json: @questions      
+      @questions = api_paginate(@questions, 20)
 
     end
+
+    render json: @questions
+
   end
 
   # GET /questions/1
   def show
-    render json: @question
+    # Получение одного вопроса с комментариями.
+
+    if params[:include] == "responses"
+
+      @question = Question.includes(:responses).where(id: params[:id]).first
+
+      render json: @question, include: [:responses]
+
+    else
+
+      render json: @question
+
+    end
+
   end
 
   # POST /questions
@@ -45,7 +63,7 @@ class Api::QuestionsController < Api::ApplicationController
   # DELETE /questions/1
   def destroy
     @question.destroy
-    render json: "Question with id=\"#{@question.id}\" deleted successfully".to_json, status: :ok    
+    render json: "Вопрос с id=\"#{@question.id}\" успешно удалён".to_json, status: :ok    
   end
 
   private

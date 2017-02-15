@@ -5,7 +5,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_and_belongs_to_many :questions
+  has_many :questions, :inverse_of => :user
+  has_many :responses, :inverse_of => :user
 
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат"}

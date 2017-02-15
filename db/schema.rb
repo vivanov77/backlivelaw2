@@ -10,22 +10,51 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170127135614) do
+ActiveRecord::Schema.define(version: 20170215122831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "questions", force: :cascade do |t|
-    t.string   "title"
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "questions_users", id: false, force: :cascade do |t|
-    t.integer "user_id",     null: false
+  create_table "categories_questions", id: false, force: :cascade do |t|
     t.integer "question_id", null: false
-    t.index ["question_id"], name: "index_questions_users_on_question_id", using: :btree
-    t.index ["user_id"], name: "index_questions_users_on_user_id", using: :btree
+    t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_categories_questions_on_category_id", using: :btree
+    t.index ["question_id"], name: "index_categories_questions_on_question_id", using: :btree
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "user_id"
+    t.integer  "response_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["response_id"], name: "index_comments_on_response_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "delta",      default: true, null: false
+    t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["question_id"], name: "index_responses_on_question_id", using: :btree
+    t.index ["user_id"], name: "index_responses_on_user_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|

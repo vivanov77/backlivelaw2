@@ -1,0 +1,6 @@
+<h1>Редактирование комментария</h1>
+
+<%= render 'form', comment: @comment %>
+
+<%= link_to 'Показать', [:admin, @comment] %> |
+<%= link_to 'Назад', admin_comments_path %>
