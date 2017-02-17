@@ -16,10 +16,21 @@
     <%= @user.email %>
   </div>
 
+  <div style="color:red">Примечание: Логин пользователя (т.е. электронная почта) не меняется.</div><br>
+
   <div class="field">
     <%= f.label "Имя" %>
     <%= f.text_field :first_name %>
   </div>
+
+   <div class="field">
+    <%= f.label "Роль" %>
+    <%= f.collection_select :role_ids, Role.order(:title), :id, :title,
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+  # http://guides.rubyonrails.org/form_helpers.html#using-form-helpers
+                  :prompt => 'Выберите роль' %>
+
+  </div>    
 
   <div class="actions">
     <%= f.submit %>

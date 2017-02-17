@@ -2,10 +2,6 @@
 
 one:
   title: MyString
-  user: one
-  response: one
 
 two:
   title: MyString
-  user: two
-  response: two

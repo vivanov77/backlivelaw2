@@ -16,6 +16,11 @@ end
 User.destroy_all
 
 # http://stackoverflow.com/questions/4316940/create-a-devise-user-from-ruby-console
+admin = User.find_or_create_by(email: "admin@example.com") { |u| u.password = "12345678"}
+admin.add_role :admin
+admin.first_name = "Admin"
+admin.save!
+
 user1 = User.find_or_create_by(email: "user1@example.com") { |u| u.password = "12345678"}
 user1.add_role :client
 user1.first_name = "John"
@@ -25,3 +30,32 @@ user2 = User.find_or_create_by(email: "user2@example.com") { |u| u.password = "1
 user2.add_role :lawyer
 user2.first_name = "Jack"
 user2.save!
+
+Category.delete_all
+
+["Category1", "Category2", "Category3", "Category4", "Category5"].each do |elem|
+
+	Category.find_or_create_by name: elem
+
+end
+
+Question.delete_all
+
+["First", "Second", "Third", "Четвёртый", "Пятый", "Шестой", "Седьмой", "Восьмой", "Девятый", "Десятый"].each do |elem|
+
+	Question.find_or_create_by title: elem
+
+end
+
+Comment.delete_all
+
+comment1 = Comment.find_or_create_by title: "Comment1", commentable_type: "Question"
+comment1.comments.create title: "Subcomment1_1", commentable_type: "Question"
+comment1.comments.create title: "Subcomment1_2", commentable_type: "Question"
+
+
+comment2 = Comment.find_or_create_by title: "Comment2", commentable_type: "Question"
+comment2.comments.create title: "Subcomment2_1", commentable_type: "Question"
+comment2.comments.create title: "Subcomment2_2", commentable_type: "Question"
+
+comment3 = Comment.find_or_create_by title: "Comment3", commentable_type: "Question"

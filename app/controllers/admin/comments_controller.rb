@@ -1,10 +1,11 @@
 class Admin::CommentsController < Admin::ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_commentable, only: [:new, :create]
 
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    @comments = Comment.questions.order(:title)
   end
 
   # GET /comments/1
@@ -24,7 +25,12 @@ class Admin::CommentsController < Admin::ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(comment_params)
+
+    # if @commentable
+
+      @comment = @commentable.comments.new comment_params
+
+    # end
 
     respond_to do |format|
       if @comment.save
@@ -67,8 +73,16 @@ class Admin::CommentsController < Admin::ApplicationController
       @comment = Comment.find(params[:id])
     end
 
+    def set_commentable
+
+      @commentable = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
+      
+      @commentable = Question.find_by_id(params[:question_id]) if params[:question_id]
+
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:title, :user_id, :response_id)
+      params.require(:comment).permit(:title, :commentable_id, :user_id)
     end
 end

@@ -8,16 +8,20 @@ Rails.application.routes.draw do
 
 	namespace :admin do
 
-		resources :questions
+		# resources :questions
 
 		# resources :questions do
 		#   get 'page/:page', action: :index, on: :collection
 		# end
-		resources :responses
+		  resources :questions do
+		    resources :comments
+		  end
+
+		  resources :comments do
+		    resources :comments
+		  end
 
 	    resources :categories
-
-		resources :comments	    
 
 	    resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!	
 
@@ -27,11 +31,9 @@ Rails.application.routes.draw do
 
 		resources :questions
 
-		resources :responses
+		resources :comments
 
-	    resources :categories
-
-		resources :comments	    
+	    resources :categories  
 
 		# resources :questions do
 		#   get 'page/:page', action: :index, on: :collection

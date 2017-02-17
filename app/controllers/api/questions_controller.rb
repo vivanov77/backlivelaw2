@@ -25,11 +25,11 @@ class Api::QuestionsController < Api::ApplicationController
   def show
     # Получение одного вопроса с комментариями.
 
-    if params[:include] == "responses"
+    if params[:include] == "comments"
 
-      @question = Question.includes(:responses).where(id: params[:id]).first
+      @question = Question.includes(:comments).where(id: params[:id]).first
 
-      render json: @question, include: [:responses]
+      render json: @question, include: [:comments]
 
     else
 

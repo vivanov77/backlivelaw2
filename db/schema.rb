@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215122831) do
+ActiveRecord::Schema.define(version: 20170214141425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,10 +31,11 @@ ActiveRecord::Schema.define(version: 20170215122831) do
   create_table "comments", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
-    t.integer  "response_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["response_id"], name: "index_comments_on_response_id", using: :btree
+    t.string   "commentable_type"
+    t.integer  "commentable_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
@@ -45,16 +46,6 @@ ActiveRecord::Schema.define(version: 20170215122831) do
     t.datetime "updated_at",                null: false
     t.boolean  "delta",      default: true, null: false
     t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
-  end
-
-  create_table "responses", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "user_id"
-    t.integer  "question_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["question_id"], name: "index_responses_on_question_id", using: :btree
-    t.index ["user_id"], name: "index_responses_on_user_id", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|

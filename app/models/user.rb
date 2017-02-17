@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :questions, :inverse_of => :user
-  has_many :responses, :inverse_of => :user
+  has_many :comments, :inverse_of => :user
 
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат"}
