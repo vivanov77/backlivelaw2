@@ -49,6 +49,25 @@ question_ids = []
 
 end
 
+subarray1 = question_ids.slice(0..question_ids.size/2)
+subarray2 = question_ids.slice(question_ids.size/2+1..-1)
+
+subarray1.each do |elem|
+
+	q = Question.find(elem)
+	q.categories << Category.first
+	q.save!
+
+end
+
+subarray2.each do |elem|
+
+	q = Question.find(elem)
+	q.categories << Category.second
+	q.save!
+
+end
+
 Comment.delete_all
 
 comment1 = Comment.find_or_create_by title: "Comment1", commentable_type: "Question", commentable_id: question_ids[0].id, user_id: user1.id
