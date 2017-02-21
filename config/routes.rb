@@ -29,9 +29,16 @@ Rails.application.routes.draw do
 
 	namespace :api do
 
-		resources :questions
+		# resources :questions
 
-		resources :comments
+		# resources :comments
+		resources :questions do
+			resources :comments
+		end
+
+		resources :comments do
+			resources :comments
+		end		
 
 	    resources :categories  
 

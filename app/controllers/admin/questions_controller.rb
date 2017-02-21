@@ -4,17 +4,18 @@ class Admin::QuestionsController < Admin::ApplicationController
   # GET /questions
   # GET /questions.json
   def index
+
+    @questions = Question.order(:id);
+
     @page = params[:offset]
     
     if params[:offset]
-      @questions = Question.all.page(params[:offset]);
+      @questions = @questions.page(params[:offset]);
 
       if params[:limit]
         @questions = @questions.per(params[:limit]).order(:id);        
       end
 
-    else
-      @questions = Question.order(:id);
     end
   end
 

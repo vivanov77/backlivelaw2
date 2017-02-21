@@ -38,7 +38,10 @@ class Api::UsersController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:first_name)
+      # params.require(:user).permit(:first_name)
+# https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
+# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
     end
 
     def check_for_questions

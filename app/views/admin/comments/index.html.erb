@@ -11,23 +11,66 @@
   <tbody>
     <% @comments.each do |comment| %>
       <tr>
+        <td><%= comment.id %></td>      
         <td><%= comment.title %></td>
         <td><%= link_to 'Показать', [:admin, comment] %></td>
         <td><%= link_to 'Редактировать', edit_admin_comment_path(comment) %></td>
         <td><%= link_to 'Удалить', [:admin, comment], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
         <td><%= link_to 'Комментировать', new_admin_comment_comment_path(comment.id) %></td>
+<!--         <%# if comment.comments.size > 0 %>
+          <td><%#= link_to 'Показать детей', Rails.application.routes.url_helpers.send("admin_#{comment.class.to_s.underscore}_comments_path", comment.id) %>            
+          </td>
+        <%# end %>  -->   
       </tr>
 
       <% if comment.comments.size > 0 %>
 
         <% comment.comments.each do |subcomment| %>
-          <tr>
-            <td>&nbsp;`--------&gt;</td>          
+          <tr style="background-color:#e5f2d9;">
+            <td>&nbsp;`--------&gt;</td>
+            <td><%= subcomment.id %></td>
             <td><%= subcomment.title %></td>
             <td><%= link_to 'Показать', admin_comment_comment_path(comment.id, subcomment.id) %></td>
             <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(comment.id, subcomment.id) %></td>
-            <td><%= link_to 'Удалить', admin_comment_comment_path(comment.id, subcomment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+            <td><%= link_to 'Удалить', admin_comment_comment_path(comment.id, subcomment.id), method: :delete, data: { confirm: 'Вы уверены?' } %>              
+            </td>
+            <% unless subcomment.parent_comment? %>
+              <td><%= link_to 'Комментировать', new_admin_comment_comment_path(subcomment.id) %></td>
+            <% end %>
+            <% if subcomment.comments.size > 0 %>
+              <td><%= link_to 'Показать детей', Rails.application.routes.url_helpers.send("admin_#{subcomment.class.to_s.underscore}_comments_path", subcomment.id) %>            
+              </td>
+            <% end %>
           </tr>
+
+
+
+          <% if subcomment.comments.size > 0 %>
+
+            <% subcomment.comments.each do |sub2comment| %>
+              <tr style="background-color:#e5f2d9;">
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;`--------&gt;</td>
+                <td><%= sub2comment.id %></td>
+                <td><%= sub2comment.title %></td>
+                <td><%= link_to 'Показать', admin_comment_comment_path(subcomment.id, sub2comment.id) %></td>
+                <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(subcomment.id, sub2comment.id) %></td>
+                <td><%= link_to 'Удалить', admin_comment_comment_path(subcomment.id, sub2comment.id), method: :delete, data: { confirm: 'Вы уверены?' } %>              
+                </td>
+<!--                 <td><%#= link_to 'Комментировать', new_admin_comment_comment_path(sub2comment.id) %></td> -->
+<!--                 <%# if sub2comment.comments.size > 0 %>
+                  <td><%#= link_to 'Показать детей', Rails.application.routes.url_helpers.send("admin_#{subcomment.class.to_s.underscore}_comments_path", sub2comment.id) %>            
+                  </td>
+                <%# end %> -->
+              </tr>
+
+            <% end %>
+
+          <% end %>
+
+
+
+
 
         <% end %>
 
@@ -39,4 +82,4 @@
 
 <br>
 
-<%= link_to 'Новый комментарий', new_admin_comment_path %>
+<%#= link_to 'Новый комментарий', new_admin_comment_path %>

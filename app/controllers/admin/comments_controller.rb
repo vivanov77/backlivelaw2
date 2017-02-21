@@ -1,11 +1,19 @@
 class Admin::CommentsController < Admin::ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
-  before_action :set_commentable, only: [:new, :create]
+  before_action :set_commentable, only: [:new, :create, :edit]
 
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.questions.order(:title)
+
+    if params[:comment_id]
+      @comments = Comment.where(id: params[:comment_id])
+    elsif params[:question_id]
+      @comments = Question.where(id: params[:question_id])
+    else
+      @comments = Comment.order(:title)
+    end
+
   end
 
   # GET /comments/1
@@ -26,11 +34,7 @@ class Admin::CommentsController < Admin::ApplicationController
   # POST /comments.json
   def create
 
-    # if @commentable
-
-      @comment = @commentable.comments.new comment_params
-
-    # end
+    @comment = @commentable.comments.new comment_params
 
     respond_to do |format|
       if @comment.save
@@ -62,7 +66,8 @@ class Admin::CommentsController < Admin::ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to admin_comments_url, notice: 'Комментарий был успешно удалён.' }
+      # format.html { redirect_to admin_comments_url, notice: 'Комментарий был успешно удалён.' }
+      format.html { redirect_to admin_questions_url, notice: 'Комментарий был успешно удалён.' }      
       format.json { head :no_content }
     end
   end
@@ -71,6 +76,7 @@ class Admin::CommentsController < Admin::ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+      @commentable = @comment.commentable
     end
 
     def set_commentable

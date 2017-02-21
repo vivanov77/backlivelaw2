@@ -41,21 +41,23 @@ end
 
 Question.delete_all
 
+question_ids = []
+
 ["First", "Second", "Third", "Четвёртый", "Пятый", "Шестой", "Седьмой", "Восьмой", "Девятый", "Десятый"].each do |elem|
 
-	Question.find_or_create_by title: elem
+	question_ids << (Question.find_or_create_by title: elem)
 
 end
 
 Comment.delete_all
 
-comment1 = Comment.find_or_create_by title: "Comment1", commentable_type: "Question"
-comment1.comments.create title: "Subcomment1_1", commentable_type: "Question"
-comment1.comments.create title: "Subcomment1_2", commentable_type: "Question"
+comment1 = Comment.find_or_create_by title: "Comment1", commentable_type: "Question", commentable_id: question_ids[0].id, user_id: user1.id
+comment1.comments.create title: "Subcomment1_1", commentable_type: "Comment", commentable_id: comment1.id, user_id: user1.id
+comment1.comments.create title: "Subcomment1_2", commentable_type: "Comment", commentable_id: comment1.id, user_id: user1.id
 
 
-comment2 = Comment.find_or_create_by title: "Comment2", commentable_type: "Question"
-comment2.comments.create title: "Subcomment2_1", commentable_type: "Question"
-comment2.comments.create title: "Subcomment2_2", commentable_type: "Question"
+comment2 = Comment.find_or_create_by title: "Comment2", commentable_type: "Question", commentable_id: question_ids[1].id, user_id: user1.id
+comment2.comments.create title: "Subcomment2_1", commentable_type: "Comment", commentable_id: comment2.id, user_id: user1.id
+comment2.comments.create title: "Subcomment2_2", commentable_type: "Comment", commentable_id: comment2.id, user_id: user1.id
 
-comment3 = Comment.find_or_create_by title: "Comment3", commentable_type: "Question"
+comment3 = Comment.find_or_create_by title: "Comment3", commentable_type: "Question", commentable_id: question_ids[2].id, user_id: user1.id

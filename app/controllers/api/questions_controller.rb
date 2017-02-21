@@ -25,17 +25,17 @@ class Api::QuestionsController < Api::ApplicationController
   def show
     # Получение одного вопроса с комментариями.
 
-    if params[:include] == "comments"
+    # if params[:include] == "comments"
 
-      @question = Question.includes(:comments).where(id: params[:id]).first
+    #   @question = Question.includes(:comments).where(id: params[:id]).first
 
-      render json: @question, include: [:comments]
+    #   render json: @question, include: [:comments]
 
-    else
+    # else
 
       render json: @question
 
-    end
+    # end
 
   end
 
@@ -45,7 +45,6 @@ class Api::QuestionsController < Api::ApplicationController
 
     if @question.save
       render json: @question, status: :created, location: [:api, @question]
-      # render json: @question, status: :created
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -74,7 +73,12 @@ class Api::QuestionsController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:title, :user_ids)
+      # params.require(:question).permit(:title, :user_ids)
+
+# https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
+# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
     end
  
 end

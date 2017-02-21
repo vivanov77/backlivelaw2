@@ -17,5 +17,11 @@ module ApplicationHelper
 	    }
 	  }, {result: collection}]
 	end
+
+  def class_by_name name
+    # http://stackoverflow.com/questions/14070369/how-to-instantiate-class-from-name-string-in-rails
+    Object.const_get name.to_s.capitalize
+
+  end	
 	
 end

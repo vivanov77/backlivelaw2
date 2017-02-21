@@ -13,5 +13,14 @@
   <%= @comment.commentable_type %>
 </p>
 
+<% if @comment.user %>
+
+	<p>
+	  <strong>Пользователь:</strong>
+	  <%= @comment.user.email %>
+	</p>
+
+<% end %>
+
 <%= link_to 'Редактировать', edit_admin_comment_path(@comment) %> |
-<%= link_to 'Назад', admin_comments_path %>
+<%= link_to 'Назад', admin_questions_path %>

@@ -2,7 +2,6 @@ class Api::CategoriesController < Api::ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /categories
-  # GET /categories.json
   def index
     @categories = Category.all
 
@@ -10,13 +9,11 @@ class Api::CategoriesController < Api::ApplicationController
   end
 
   # GET /categories/1
-  # GET /categories/1.json
   def show
     render json: @category
   end
 
   # POST /categories
-  # POST /categories.json
   def create
     @category = Category.new(category_params)
 
@@ -28,7 +25,6 @@ class Api::CategoriesController < Api::ApplicationController
   end
 
   # PATCH/PUT /categories/1
-  # PATCH/PUT /categories/1.json
   def update
     if @category.update(category_params)
       render json: [:api, @category]
@@ -38,7 +34,6 @@ class Api::CategoriesController < Api::ApplicationController
   end
 
   # DELETE /categories/1
-  # DELETE /categories/1.json
   def destroy
     @category.destroy
     render json: "Категория с id=\"#{@question.id}\" успешно удалена".to_json, status: :ok 
@@ -52,6 +47,9 @@ class Api::CategoriesController < Api::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.require(:category).permit(:name, :question_id)
+      # params.require(:category).permit(:name, :question_id)
+# https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
+# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
     end
 end

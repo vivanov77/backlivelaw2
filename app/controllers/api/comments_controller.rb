@@ -4,9 +4,18 @@ class Api::CommentsController < Api::ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
 
-    render json: @comments
+    if params[:comment_id]
+      @comments = Comment.where(id: params[:comment_id])
+      render json: @comments, include: [:comments], show_children: true
+    elsif params[:question_id]
+      @comments = Question.where(id: params[:question_id])
+      render json: @comments, include: [:comments], show_children: true
+    else
+      @comments = Comment.order(:title)
+      render json: @comments
+    end
+
   end
 
   # GET /comments/1
@@ -20,24 +29,20 @@ class Api::CommentsController < Api::ApplicationController
   def create
     @comment = Comment.new(comment_params)
 
-    respond_to do |format|
-      if @comment.save
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.save
+      render json: @comment, status: :created, location: [:api, @comment]
+    else
+      render json: @comment.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.update(comment_params)
+      render json: [:api, @comment]
+    else
+      render json: @comment.errors, status: :unprocessable_entity
     end
   end
 
@@ -45,9 +50,7 @@ class Api::CommentsController < Api::ApplicationController
   # DELETE /comments/1.json
   def destroy
     @comment.destroy
-    respond_to do |format|
-      format.json { head :no_content }
-    end
+    render json: "Комментарий с id=\"#{@comment.id}\" успешно удалён".to_json, status: :ok    
   end
 
   private
@@ -58,6 +61,9 @@ class Api::CommentsController < Api::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:title)
+      # params.require(:comment).permit(:title)
+# https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
+# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
     end
 end

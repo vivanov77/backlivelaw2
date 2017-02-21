@@ -1,4 +1,9 @@
-<h1>Вопросы</h1>
+<h1>Вопросы (с комментариями)</h1>
+
+<span style="background-color:#9cce6e;">Вопросы</span><br>
+<span style="background-color:#e5f2d9;">Комментарии</span><br>
+<span>Субкомментарии</span>
+<br><br><br>
 
 <table>
   <thead>
@@ -11,13 +16,62 @@
 
   <tbody>
     <% @questions.each do |question| %>
-      <tr>
+      <tr style="background-color:#9cce6e;">
         <td><%= question.id %></td>
         <td><%= question.title %></td>        
         <td><%= link_to 'Показать', [:admin, question] %></td>
         <td><%= link_to 'Редактировать', edit_admin_question_path(question) %></td>
         <td><%= link_to 'Удалить', [:admin, question], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+        <td><%= link_to 'Комментировать', new_admin_question_comment_path(question.id) %></td>
+        <% if question.comments.size > 0 %>
+          <td><%= link_to 'Показать детей', admin_question_comments_path(question.id) %></td>
+        <% end %>          
       </tr>
+
+
+      <% if question.comments.size > 0 %>
+
+        <% question.comments.each do |comment| %>
+          <tr style="background-color:#e5f2d9;">
+            <td>&nbsp;`--------&gt;</td>
+            <td><%= comment.id %></td>
+            <td><%= comment.title %></td>
+            <td><%= link_to 'Показать', admin_question_comment_path(question.id, comment.id) %></td>
+            <td><%= link_to 'Редактировать', edit_admin_question_comment_path(question.id, comment.id) %></td>
+            <td><%= link_to 'Удалить', admin_question_comment_path(question.id, comment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>       
+
+            <td><%= link_to 'Комментировать', new_admin_comment_comment_path(comment.id) %></td>
+            <% if comment.comments.size > 0 %>
+              <td><%= link_to 'Показать детей', admin_comment_comments_path(comment.id) %></td>
+            <% end %>
+
+          </tr>
+
+
+          <% if comment.comments.size > 0 %>
+
+            <% comment.comments.each do |subcomment| %>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;`--------&gt;</td>
+                <td><%= subcomment.id %></td>
+                <td><%= subcomment.title %></td>
+                <td><%= link_to 'Показать', admin_comment_comment_path(comment.id, subcomment.id) %></td>
+                <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(comment.id, subcomment.id) %></td>
+                <td><%= link_to 'Удалить', admin_comment_comment_path(comment.id, subcomment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+              </tr>
+
+            <% end %>
+
+          <% end %>
+
+
+
+
+        <% end %>
+
+      <% end %>
+
     <% end %>
   </tbody>
 </table>

@@ -1,4 +1,4 @@
-class QuestionSerializer < ActiveModel::Serializer
+class CommentSerializer < ActiveModel::Serializer
   attributes :id, :title, :created_at, :updated_at
   has_many :comments, if: -> { should_render_association }
 
