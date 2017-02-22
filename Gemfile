@@ -67,3 +67,5 @@ gem 'active_model_serializers'
 
 gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 gem 'thinking-sphinx', '~> 3.2.0'
+gem 'devise_token_auth'
+gem 'omniauth'

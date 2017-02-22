@@ -19,16 +19,19 @@ User.destroy_all
 admin = User.find_or_create_by(email: "admin@example.com") { |u| u.password = "12345678"}
 admin.add_role :admin
 admin.first_name = "Admin"
+# admin.confirm
 admin.save!
 
 user1 = User.find_or_create_by(email: "user1@example.com") { |u| u.password = "12345678"}
 user1.add_role :client
 user1.first_name = "John"
+# admin.confirm
 user1.save!
 
 user2 = User.find_or_create_by(email: "user2@example.com") { |u| u.password = "12345678" }
 user2.add_role :lawyer
 user2.first_name = "Jack"
+# admin.confirm
 user2.save!
 
 Category.delete_all
