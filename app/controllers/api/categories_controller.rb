@@ -36,7 +36,7 @@ class Api::CategoriesController < Api::ApplicationController
   # DELETE /categories/1
   def destroy
     @category.destroy
-    render json: "Категория с id=\"#{@question.id}\" успешно удалена".to_json, status: :ok 
+    render json: "Категория с id=\"#{@category.id}\" успешно удалена".to_json, status: :ok 
   end
 
   private
