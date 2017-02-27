@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214141425) do
+ActiveRecord::Schema.define(version: 20170214141428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20170214141425) do
     t.integer  "commentable_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.text     "text"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170214141425) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.boolean  "delta",      default: true, null: false
+    t.text     "text"
     t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
   end
 
@@ -80,6 +82,21 @@ ActiveRecord::Schema.define(version: 20170214141425) do
     t.string   "uid",                    default: "",      null: false
     t.json     "tokens"
     t.string   "first_name"
+    t.boolean  "active"
+    t.string   "last_name"
+    t.string   "middle_name"
+    t.boolean  "email_public"
+    t.string   "phone"
+    t.integer  "experience"
+    t.boolean  "qualification"
+    t.float    "price"
+    t.string   "university"
+    t.string   "faculty"
+    t.date     "dob_issue"
+    t.string   "work"
+    t.string   "staff"
+    t.date     "dob"
+    t.float    "balance"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
