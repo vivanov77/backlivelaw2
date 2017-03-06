@@ -1,0 +1,37 @@
+<h1>IP-диапазоны</h1>
+
+<span style="color:green">ПРИМЕЧАНИЕ: Список IP-диапазонов загружается через rake kladr:seed и не редактируется.</span><br><br>
+
+<span style="color:green"><начало блока> - число, полученное из первого ip адреса блока (диапазона) ip-адресов вида a.b.c.d по формуле a*256*256*256+b*256*256+c*256+d</span><br>
+<span style="color:green"><конец блока> - число, полученное из второго ip адреса блока (диапазона) ip-адресов вида e.f.g.h по формуле e*256*256*256+f*256*256+g*256+h</span><br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Начало блока IP</th>
+      <th>Конец блока IP</th>
+      <th>Диапазон IP</th>
+      <th>Город</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ipranges.each do |iprange| %>
+      <tr>
+        <td><%= iprange.ip_block_start %></td>
+        <td><%= iprange.ip_block_end %></td>
+        <td><%= iprange.ip_range %></td>
+        <td><%= iprange.city.name %></td>
+        <td><%= link_to 'Показать', [:admin, iprange] %></td>
+        <td><%= link_to 'Показать город', [:admin, iprange.city] %></td>        
+<!--         <td><%#= link_to 'Edit', edit_iprange_path(iprange) %></td>
+        <td><%#= link_to 'Destroy', iprange, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<!-- <%#= link_to 'New Iprange', new_iprange_path %> -->

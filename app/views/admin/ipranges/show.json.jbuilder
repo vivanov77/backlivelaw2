@@ -1,0 +1,1 @@
+json.partial! "ipranges/iprange", iprange: @iprange

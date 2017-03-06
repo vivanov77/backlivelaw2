@@ -1,0 +1,22 @@
+<p>
+  <strong>Код КЛАДР:</strong>
+  <%= @region.kladr_code %>
+</p>
+
+<p>
+  <strong>Имя:</strong>
+  <%= @region.name %>
+</p>
+
+<p>
+  <strong>Тип (сокр.):</strong>
+  <%= @region.kladr_type_short %>
+</p>
+
+<p>
+  <strong>Тип:</strong>
+  <%= @region.kladr_type %>
+</p>
+
+<!-- <%#= link_to 'Edit', edit_admin_region_path(@region) %> | -->
+<%= link_to 'Назад', admin_regions_path %>

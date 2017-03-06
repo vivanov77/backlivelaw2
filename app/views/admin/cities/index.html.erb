@@ -1,0 +1,42 @@
+<h1>Города</h1>
+
+<span style="color:green">ПРИМЕЧАНИЕ: Список городов загружается через rake kladr:seed и не редактируется.</span><br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Id региона</th>         
+      <th>Код КЛАДР</th>
+      <th>Имя</th>
+      <th>Тип (сокр.)</th>
+      <th>Тип</th>
+      <th>Широта</th>
+      <th>Долгота</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cities.each do |city| %>
+      <tr>
+        <td><%= city.id %></td>
+        <td><%= city.region_id %></td>
+        <td><%= city.kladr_code %></td>
+        <td><%= city.name %></td>
+        <td><%= city.kladr_type_short %></td>
+        <td><%= city.kladr_type %></td>
+        <td><%= city.latitude %></td>
+        <td><%= city.longitude %></td>
+        <td><%= link_to 'Показать', [:admin, city] %></td>
+        <td><%= link_to 'Показать регион', [:admin, city.region] %></td>
+<!--         <td><%#= link_to 'Edit', edit_city_path(city) %></td>
+        <td><%#= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<!-- <%#= link_to 'New City', new_city_path %> -->

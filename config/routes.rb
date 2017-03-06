@@ -12,13 +12,21 @@ Rails.application.routes.draw do
 		# resources :questions do
 		#   get 'page/:page', action: :index, on: :collection
 		# end
-		  resources :questions do
-		    resources :comments
-		  end
+		resources :questions do
+			resources :comments
+		end
 
-		  resources :comments do
-		    resources :comments
-		  end
+		resources :comments do
+			resources :comments
+		end
+
+		resources :regions, only: [:index, :show] do
+			resources :cities, only: [:index, :show]
+		end
+
+		resources :cities, only: [:index, :show]
+
+		resources :ipranges, only: [:index, :show]	
 
 	    resources :categories
 
@@ -37,7 +45,13 @@ Rails.application.routes.draw do
 
 		resources :comments do
 			resources :comments
-		end		
+		end
+
+		resources :regions, only: [:index, :show] do
+			resources :cities, only: [:index, :show]
+		end
+
+		resources :cities, only: [:index, :show]		
 
 	    resources :categories
 

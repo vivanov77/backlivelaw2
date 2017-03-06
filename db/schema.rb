@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214141428) do
+ActiveRecord::Schema.define(version: 20170303145313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,19 @@ ActiveRecord::Schema.define(version: 20170214141428) do
     t.index ["question_id"], name: "index_categories_questions_on_question_id", using: :btree
   end
 
+  create_table "cities", force: :cascade do |t|
+    t.string   "kladr_code"
+    t.string   "name"
+    t.string   "kladr_type_short"
+    t.string   "kladr_type"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "region_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["region_id"], name: "index_cities_on_region_id", using: :btree
+  end
+
   create_table "comments", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
@@ -40,6 +53,16 @@ ActiveRecord::Schema.define(version: 20170214141428) do
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
+  create_table "ipranges", force: :cascade do |t|
+    t.bigint   "ip_block_start"
+    t.bigint   "ip_block_end"
+    t.string   "ip_range"
+    t.integer  "city_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["city_id"], name: "index_ipranges_on_city_id", using: :btree
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
@@ -48,6 +71,15 @@ ActiveRecord::Schema.define(version: 20170214141428) do
     t.boolean  "delta",      default: true, null: false
     t.text     "text"
     t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string   "kladr_code"
+    t.string   "name"
+    t.string   "kladr_type_short"
+    t.string   "kladr_type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "roles", force: :cascade do |t|

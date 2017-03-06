@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kladr_code: MyString
+  name: MyString
+  kladr_type_short: MyString
+  kladr_type: MyString
+
+two:
+  kladr_code: MyString
+  name: MyString
+  kladr_type_short: MyString
+  kladr_type: MyString

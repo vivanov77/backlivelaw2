@@ -1,0 +1,24 @@
+<p>
+  <strong>Id города:</strong>
+  <%= @iprange.city.name %>
+</p>
+
+<p>
+  <strong>Начало блока IP:</strong>
+  <%= @iprange.ip_block_start %>
+</p>
+
+<p>
+  <strong>Конец блока IP:</strong>
+  <%= @iprange.ip_block_end %>
+</p>
+
+<p>
+  <strong>Диапазон IP:</strong>
+  <%= @iprange.ip_range %>
+</p>
+
+<%= link_to 'Показать город', [:admin, @iprange.city] %> | 
+
+<!-- <%#= link_to 'Edit', edit_iprange_path(@iprange) %> | -->
+<%= link_to 'Назад', admin_ipranges_path %>

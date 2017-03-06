@@ -1,0 +1,1 @@
+json.array! @ipranges, partial: 'ipranges/iprange', as: :iprange

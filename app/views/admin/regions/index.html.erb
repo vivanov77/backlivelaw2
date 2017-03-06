@@ -1,0 +1,35 @@
+<h1>Регионы</h1>
+
+<span style="color:green">ПРИМЕЧАНИЕ: Список регионов загружается через rake kladr:seed и не редактируется.</span><br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>    
+      <th>Код КЛАДР</th>
+      <th>Имя</th>
+      <th>Тип (сокр.)</th>
+      <th>Тип</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @regions.each do |region| %>
+      <tr>
+        <td><%= region.id %></td>      
+        <td><%= region.kladr_code %></td>
+        <td><%= region.name %></td>
+        <td><%= region.kladr_type_short %></td>
+        <td><%= region.kladr_type %></td>
+        <td><%= link_to 'Показать', [:admin, region] %></td>
+<!--         <td><%#= link_to 'Edit', edit_region_path(region) %></td>
+        <td><%#= link_to 'Destroy', region, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<!-- <br> -->
+
+<!-- <%#= link_to 'New Region', new_region_path %> -->

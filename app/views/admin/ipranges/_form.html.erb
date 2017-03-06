@@ -1,0 +1,42 @@
+<%= form_for(iprange) do |f| %>
+  <% if iprange.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(iprange.errors.count, "error") %> prohibited this iprange from being saved:</h2>
+
+      <ul>
+      <% iprange.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ip_block_start %>
+    <%= f.number_field :ip_block_start %>
+  </div>
+
+  <div class="field">
+    <%= f.label :ip_block_end %>
+    <%= f.number_field :ip_block_end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :ip_range %>
+    <%= f.text_field :ip_range %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kladr_city_code %>
+    <%= f.text_field :kladr_city_code %>
+  </div>
+
+  <div class="field">
+    <%= f.label :city_id %>
+    <%= f.text_field :city_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

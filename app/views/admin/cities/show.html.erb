@@ -1,0 +1,39 @@
+<p>
+  <strong>Id региона:</strong>
+  <%= @city.region_id %>
+</p>
+
+<p>
+  <strong>Код КЛАДР:</strong>
+  <%= @city.kladr_code %>
+</p>
+
+<p>
+  <strong>Имя:</strong>
+  <%= @city.name %>
+</p>
+
+<p>
+  <strong>Тип (сокр.):</strong>
+  <%= @city.kladr_type_short %>
+</p>
+
+<p>
+  <strong>Тип:</strong>
+  <%= @city.kladr_type %>
+</p>
+
+<p>
+  <strong>Широта:</strong>
+  <%= @city.latitude %>
+</p>
+
+<p>
+  <strong>Долгота:</strong>
+  <%= @city.longitude %>
+</p>
+
+<%= link_to 'Показать регион', [:admin, @city.region] %> | 
+
+<!-- <%#= link_to 'Edit', edit_city_path(@city) %> | -->
+<%= link_to 'Назад', admin_cities_path %>
