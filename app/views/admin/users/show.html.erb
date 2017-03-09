@@ -9,6 +9,81 @@
 </p>
 
 <p>
+  <strong>Отчество:</strong>
+  <%= @user.middle_name %>
+</p>
+
+<p>
+  <strong>Фамилия:</strong>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Дата рождения:</strong>
+  <%= @user.dob %>
+</p>
+
+<p>
+  <strong>Активен:</strong>
+  <%= @user.active %>
+</p>
+
+<p>
+  <strong>Другой email, отличающийся от email-логина (????? по-моему, чушь):</strong>
+  <%= @user.email_public %>
+</p>
+
+<p>
+  <strong>Телефон:</strong>
+  <%= @user.phone %>
+</p>
+
+<p>
+  <strong>Опыт:</strong>
+  <%= @user.experience %>
+</p>
+
+<p>
+  <strong>Квалификация (а почему boolean?):</strong>
+  <%= @user.qualification %>
+</p>
+
+<p>
+  <strong>Цена:</strong>
+  <%= @user.price %>
+</p>
+
+<p>
+  <strong>Баланс:</strong>
+  <%= @user.balance %>
+</p>
+
+<p>
+  <strong>Университет:</strong>
+  <%= @user.university %>
+</p>
+
+<p>
+  <strong>Факультет:</strong>
+  <%= @user.faculty %>
+</p>
+
+<p>
+  <strong>Год выпуска:</strong>
+  <%= @user.dob_issue %>
+</p>
+
+<p>
+  <strong>Место работы:</strong>
+  <%= @user.work %>
+</p>
+
+<p>
+  <strong>Должность:</strong>
+  <%= @user.staff %>
+</p>
+
+<p>
   <strong>Роль:</strong>
   <%= @user.roles.first.try(:title) %>
 </p>

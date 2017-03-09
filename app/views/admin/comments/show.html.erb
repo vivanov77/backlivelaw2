@@ -4,6 +4,11 @@
 </p>
 
 <p>
+  <strong>Содержимое комментария:</strong>
+  <%= @comment.text %>
+</p>
+
+<p>
   <strong>Родитель:</strong>
   <%= @comment.commentable.try(:title) %>
 </p>

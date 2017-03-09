@@ -23,6 +23,81 @@
     <%= f.text_field :first_name %>
   </div>
 
+  <div class="field">
+    <%= f.label "Отчество" %>
+    <%= f.text_field :middle_name %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Фамилия" %>
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Дата рождения" %>
+    <%= f.date_select :dob, :order => [:day, :month, :year] %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Активен" %>
+    <%= f.check_box :active %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Другой email, отличающийся от email-логина (????? по-моему, чушь)" %>
+    <%= f.email_field :email_public %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Телефон" %>
+    <%= f.text_field :phone %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Опыт (Integer)" %>
+    <%= f.text_field :experience %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Квалификация (а почему boolean?)" %>
+    <%= f.check_box :qualification %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Цена (Float)" %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Баланс (Float)" %>
+    <%= f.text_field :balance %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Университет" %>
+    <%= f.text_field :university %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Факультет" %>
+    <%= f.text_field :faculty %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Год выпуска" %>
+    <%= f.date_select :dob_issue, :order => [:day, :month, :year] %>
+  </div>
+  
+  <div class="field">
+    <%= f.label "Место работы" %>
+    <%= f.text_field :work %>    
+  </div>
+
+  <div class="field">
+    <%= f.label "Должность" %>
+    <%= f.text_field :staff %>
+  </div>
+
    <div class="field">
     <%= f.label "Роль" %>
     <%= f.collection_select :role_ids, Role.order(:title), :id, :title,

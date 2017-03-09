@@ -37,6 +37,11 @@
   <div class="field">
     <%= f.label "Заголовок" %>
     <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Содержимое комментария" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
   </div>  
 
   <div class="field">

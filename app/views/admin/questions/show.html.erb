@@ -4,6 +4,11 @@
 </p>
 
 <p>
+  <strong>Содержимое вопроса:</strong>
+  <%= @question.text %>
+</p>
+
+<p>
   <strong>Пользователь:</strong>
   <%= @question.user ? @question.user.email : "Не указано" %>
 </p>

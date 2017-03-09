@@ -16,5 +16,9 @@ class User < ApplicationRecord
 # http://stackoverflow.com/questions/26159533/rails-includes-with-scope
 
   scope :roled, -> (role){ includes(:roles).where(roles: { name: role}) }
+
+  validates :experience, numericality: { only_integer: true }, allow_nil: true
+  validates :price, numericality: true, allow_nil: true
+  validates :balance, numericality: true, allow_nil: true
            
 end

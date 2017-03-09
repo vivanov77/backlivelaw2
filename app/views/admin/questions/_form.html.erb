@@ -17,6 +17,11 @@
   </div>
 
   <div class="field">
+    <%= f.label "Содержимое вопроса" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+  <div class="field">
     <%= f.label "Пользователь" %><br />
     <%= f.collection_select :user_id, User.roled(:client), :id, :email, :include_blank => "Ничего не выбрано"
   # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
