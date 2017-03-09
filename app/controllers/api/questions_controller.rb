@@ -23,20 +23,7 @@ class Api::QuestionsController < Api::ApplicationController
 
   # GET /questions/1
   def show
-    # Получение одного вопроса с комментариями.
-
-    # if params[:include] == "comments"
-
-    #   @question = Question.includes(:comments).where(id: params[:id]).first
-
-    #   render json: @question, include: [:comments]
-
-    # else
-
       render json: @question
-
-    # end
-
   end
 
   # POST /questions
@@ -60,10 +47,10 @@ class Api::QuestionsController < Api::ApplicationController
   end
 
   # DELETE /questions/1
-  def destroy
-    @question.destroy
-    render json: "Вопрос с id=\"#{@question.id}\" успешно удалён".to_json, status: :ok    
-  end
+  # def destroy
+  #   @question.destroy
+  #   render json: "Вопрос с id=\"#{@question.id}\" успешно удалён".to_json, status: :ok    
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

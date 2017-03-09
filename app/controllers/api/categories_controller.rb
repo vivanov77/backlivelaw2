@@ -13,31 +13,31 @@ class Api::CategoriesController < Api::ApplicationController
     render json: @category
   end
 
-  # POST /categories
-  def create
-    @category = Category.new(category_params)
+  # # POST /categories
+  # def create
+  #   @category = Category.new(category_params)
 
-    if @category.save
-      render json: @category, status: :created, location: [:api, @category]
-    else
-      render json: @category.errors, status: :unprocessable_entity
-    end
-  end
+  #   if @category.save
+  #     render json: @category, status: :created, location: [:api, @category]
+  #   else
+  #     render json: @category.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  # PATCH/PUT /categories/1
-  def update
-    if @category.update(category_params)
-      render json: [:api, @category]
-    else
-      render json: @category.errors, status: :unprocessable_entity
-    end
-  end
+  # # PATCH/PUT /categories/1
+  # def update
+  #   if @category.update(category_params)
+  #     render json: [:api, @category]
+  #   else
+  #     render json: @category.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  # DELETE /categories/1
-  def destroy
-    @category.destroy
-    render json: "Категория с id=\"#{@category.id}\" успешно удалена".to_json, status: :ok 
-  end
+  # # DELETE /categories/1
+  # def destroy
+  #   @category.destroy
+  #   render json: "Категория с id=\"#{@category.id}\" успешно удалена".to_json, status: :ok 
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

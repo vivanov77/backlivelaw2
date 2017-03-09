@@ -48,10 +48,10 @@ class Api::CommentsController < Api::ApplicationController
 
   # DELETE /comments/1
   # DELETE /comments/1.json
-  def destroy
-    @comment.destroy
-    render json: "Комментарий с id=\"#{@comment.id}\" успешно удалён".to_json, status: :ok    
-  end
+  # def destroy
+  #   @comment.destroy
+  #   render json: "Комментарий с id=\"#{@comment.id}\" успешно удалён".to_json, status: :ok    
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
