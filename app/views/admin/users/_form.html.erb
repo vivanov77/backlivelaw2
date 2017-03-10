@@ -35,7 +35,7 @@
 
   <div class="field">
     <%= f.label "Дата рождения" %>
-    <%= f.date_select :dob, :order => [:day, :month, :year] %>
+    <%= f.date_select :dob, :order => [:day, :month, :year], include_blank: true %>
   </div>  
 
   <div class="field">
@@ -85,7 +85,7 @@
 
   <div class="field">
     <%= f.label "Год выпуска" %>
-    <%= f.date_select :dob_issue, :order => [:day, :month, :year] %>
+    <%= f.date_select :dob_issue, :order => [:day, :month, :year], include_blank: true %>
   </div>
   
   <div class="field">
@@ -105,7 +105,15 @@
   # http://guides.rubyonrails.org/form_helpers.html#using-form-helpers
                   :prompt => 'Выберите роль' %>
 
-  </div>    
+  </div>
+
+  <div class="field">
+  <!-- http://stackoverflow.com/questions/5319400/want-to-find-records-with-no-associated-records-in-rails-3 -->
+  <!-- http://apidock.com/rails/ActionView/Helpers/FormOptionsHelper/grouped_collection_select -->
+    <%= f.label "Город" %>
+      <%= f.grouped_collection_select(:city_ids, Region.includes(:cities).where.not(:cities => { :region_id => nil } ).order(:name), :cities, :name, :id, :name, {:include_blank => "Ничего не выбрано"})
+      %>
+  </div> 
 
   <div class="actions">
     <%= f.submit %>

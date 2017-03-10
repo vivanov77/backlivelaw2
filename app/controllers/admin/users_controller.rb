@@ -61,7 +61,7 @@ class Admin::UsersController < Admin::ApplicationController
       params.require(:user).permit(:first_name, :middle_name, :last_name, "dob(3i)", "dob(2i)",
        "dob(1i)", :active, :email_public, :phone, :experience, :qualification, :price, :balance,
        :university, :faculty, "dob_issue(3i)", "dob_issue(2i)", "dob_issue(1i)", :work, :staff,
-       :role_ids)
+       :role_ids, :city_ids)
     end
 
     def check_for_questions

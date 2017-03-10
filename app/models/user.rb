@@ -8,9 +8,10 @@ class User < ApplicationRecord
   rolify
   has_many :questions, :inverse_of => :user
   has_many :comments, :inverse_of => :user
+  has_and_belongs_to_many :cities
 
 # see config/application.rb
-# config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат"}
+# config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
 
 # http://guides.rubyonrails.org/active_record_querying.html#scopes
 # http://stackoverflow.com/questions/26159533/rails-includes-with-scope
@@ -20,5 +21,5 @@ class User < ApplicationRecord
   validates :experience, numericality: { only_integer: true }, allow_nil: true
   validates :price, numericality: true, allow_nil: true
   validates :balance, numericality: true, allow_nil: true
-           
+
 end

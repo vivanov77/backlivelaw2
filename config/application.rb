@@ -19,10 +19,12 @@ module Backlivelaw2
         # resource '*', :headers => :any, :methods => [:get, :post, :options]
         resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :options]
       end
-    end    
+    end
+
+    config.i18n.default_locale = :ru
 
 # http://stackoverflow.com/questions/4110866/ruby-on-rails-where-to-define-global-constants
-    config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат"}
+    config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
 
   end
 end

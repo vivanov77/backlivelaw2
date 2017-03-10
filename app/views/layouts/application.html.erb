@@ -12,13 +12,17 @@
 
   <body>
 
-  <% unless flash[:notice].blank? %>
-    <p class="notice"><%= notice %></p>
-  <% end %>
+    <% unless flash[:notice].blank? %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
 
     <%= render :partial => "layouts/user_panel" %>
 
-    <%= render :partial => "layouts/admin_nav"%>
+    <% if user_signed_in? && (current_user.has_role? :admin) %>
+
+      <%= render :partial => "layouts/admin_nav"%>
+
+    <% end %>
     
     <%= yield %>
   </body>

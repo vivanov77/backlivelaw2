@@ -88,5 +88,15 @@
   <%= @user.roles.first.try(:title) %>
 </p>
 
+<p>
+  <strong>Регион:</strong>
+  <%= @user.cities.first.try(:region).try(:name) %>
+</p>
+
+<p>
+  <strong>Город:</strong>
+  <%= @user.cities.first.try(:name) %>
+</p>
+
 <%= link_to 'Редактировать', edit_admin_user_path(@user) %> |
 <%= link_to 'Назад', admin_users_path %>
