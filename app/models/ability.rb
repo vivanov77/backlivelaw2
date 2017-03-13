@@ -18,10 +18,16 @@ class Ability
         can :create, Question if user.has_role? :client
         can :update, Question, user_id: user.id # if user.has_role? :client
         can :create, Comment if ((user.has_role? :lawyer) || (user.has_role? :advocate))
-        can :update, Comment, user_id: user.id # if ((user.has_role? :lawyer) || (user.has_role? :advocate))        
         can :create, Comment do |comment|
-           (user.has_role? :client) && (comment.try(:commentable).try(:user_id) == user.id)
+           (user.has_role? :client) &&
+
+           (
+            (comment.try(:commentable).try(:user_id) == user.id) ||
+            (comment.try(:commentable).comment.try(:commentable).try(:user_id) == user.id)
+           )
+
         end
+        can :update, Comment, user_id: user.id # if ((user.has_role? :lawyer) || (user.has_role? :advocate))
       end
 
     # The first argument to `can` is the action you are giving the user
