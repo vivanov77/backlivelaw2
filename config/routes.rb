@@ -67,7 +67,7 @@ Rails.application.routes.draw do
 		# end
 
 	    # resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!
-	    resources :users, only: [:show, :update] # after devise_for :users!!!!
+	    resources :users, only: [:index, :show, :update] # after devise_for :users!!!!
 
 	    resources :search, only: [:index]
 

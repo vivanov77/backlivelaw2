@@ -10,11 +10,11 @@ class Api::UsersController < Api::ApplicationController
   before_action :verify_owner
     
   # GET /users
-  # def index
-  #   @users = User.all
+  def index
+    @users = User.all
 
-  #   render json: @users
-  # end
+    render json: @users
+  end
 
   # GET /users/1
   def show
