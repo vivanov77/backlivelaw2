@@ -1,4 +1,8 @@
 class Api::QuestionsController < Api::ApplicationController
+
+  before_action :authenticate_user!
+  load_and_authorize_resource
+    
   before_action :set_question, only: [:show, :update, :destroy]
   # GET /questions
   def index

@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+  include ApplicationHelper
+  
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
@@ -9,6 +12,8 @@ class User < ApplicationRecord
   has_many :questions, :inverse_of => :user
   has_many :comments, :inverse_of => :user
   has_and_belongs_to_many :cities
+
+  # resourcify
 
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
@@ -21,5 +26,9 @@ class User < ApplicationRecord
   validates :experience, numericality: { only_integer: true }, allow_nil: true
   validates :price, numericality: true, allow_nil: true
   validates :balance, numericality: true, allow_nil: true
+
+# http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
+  include ActiveModel::Validations
+  validates_with SingleCityValidator
 
 end

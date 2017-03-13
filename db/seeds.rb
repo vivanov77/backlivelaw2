@@ -29,10 +29,16 @@ user1.first_name = "John"
 user1.save!
 
 user2 = User.find_or_create_by(email: "user2@example.com") { |u| u.password = "12345678" }
-user2.add_role :lawyer
+user2.add_role :client
 user2.first_name = "Jack"
 # admin.confirm
 user2.save!
+
+user3 = User.find_or_create_by(email: "user3@example.com") { |u| u.password = "12345678" }
+user3.add_role :lawyer
+user3.first_name = "Jim"
+# admin.confirm
+user3.save!
 
 Category.delete_all
 

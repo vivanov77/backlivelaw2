@@ -4,7 +4,6 @@ class Question < ApplicationRecord
 	paginates_per 20
 # https://www.codementor.io/ruby-on-rails/tutorial/threaded-comments-polymorphic-associations	
 	has_many :comments, as: :commentable, dependent: :destroy
-	# accepts_nested_attributes_for :comments
 
 	def parent_question?
 		false

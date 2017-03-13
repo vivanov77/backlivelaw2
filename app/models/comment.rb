@@ -3,12 +3,8 @@ class Comment < ApplicationRecord
 # https://www.codementor.io/ruby-on-rails/tutorial/threaded-comments-polymorphic-associations	
 	belongs_to :commentable, polymorphic: true
 	has_many :comments, as: :commentable, dependent: :destroy
-	# accepts_nested_attributes_for :comments
 
 	before_save :check_for_too_nested
-
-	# scope :question_kids, -> { where(commentable_type: "Question") }
-	# scope :comment_kids, -> { where(commentable_type: "Comment") }	
 
 	def parent_question?
 		commentable_type.to_s.downcase == "question"

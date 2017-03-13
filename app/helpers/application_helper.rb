@@ -188,5 +188,31 @@ module ApplicationHelper
 
 #################################
 
+# http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
+  class SingleCityValidator < ActiveModel::Validator
+    def validate(record)
+      if record.cities.size > 1
+
+        record.errors["errors"] << "У пользователя может быть только один город."
+
+      end
+    end
+  end
+
+  def ru_action name
+
+    case name.to_s
+    when "edit"
+    "редактирование"
+    when "new"
+    "создание"
+    when "destroy"
+    "удаление"
+    when "show"
+    "просмотр"      
+    else
+    "внесение измений"
+    end
+  end  
 	
 end

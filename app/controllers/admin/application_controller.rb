@@ -4,20 +4,6 @@ class Admin::ApplicationController < ApplicationController
 	before_action :authenticate_user!
 	load_and_authorize_resource
 
-	def ru_action name
-
-		case name.to_s
-		when "edit"
-		"редактирование"
-		when "new"
-		"создание"
-		when "destroy"
-		"удаление"	  
-		else
-		"внесение измений"
-		end
-	end
-
 	rescue_from CanCan::AccessDenied do |exception|
 		if current_user.has_role? :blocked
 			sign_out
@@ -26,7 +12,7 @@ class Admin::ApplicationController < ApplicationController
 			redirect_to :back, notice:    
 			#"You don't have the right to #{exception.action} #{exception.subject.class.to_s.downcase.pluralize}"
 			# "You don't have the right to #{exception.action} #{exception.subject.class.to_s.downcase == 'class' ? exception.subject.to_s.pluralize : exception.subject.class.to_s}"
-			"У Вас нет прав на #{ru_action exception.action}."
+			"У Вас нет роли на #{ru_action exception.action}."
 			#"You don't have the right to #{exception.action} #{exception.subject.class}"
 		end
 	end

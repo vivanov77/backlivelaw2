@@ -1,14 +1,20 @@
 class Api::UsersController < Api::ApplicationController
+
+  before_action :authenticate_user!
+  load_and_authorize_resource
+    
   before_action :set_user, only: [:show, :update, :destroy]
 
   before_action :check_for_questions, only: [:destroy]
+
+  before_action :verify_owner
     
   # GET /users
-  def index
-    @users = User.all
+  # def index
+  #   @users = User.all
 
-    render json: @users
-  end
+  #   render json: @users
+  # end
 
   # GET /users/1
   def show
@@ -52,5 +58,17 @@ class Api::UsersController < Api::ApplicationController
         render json: { errors: error_message }, status: :unprocessable_entity
 
       end
-    end 
+    end
+
+    def verify_owner
+
+      # if params[:id].to_s != current_user.id.to_s
+
+      #   error_message = "Пользователь не может менять данные чужого пользовательского профиля."
+        
+      #   render json: { errors: error_message }, status: :unprocessable_entity
+
+      # end
+
+    end
 end
