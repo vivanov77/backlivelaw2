@@ -11,10 +11,10 @@ class Api::CommentsController < Api::ApplicationController
 
     if params[:comment_id]
       @comments = Comment.where(id: params[:comment_id])
-      render json: @comments, include: [:comments], show_children: true
+      render json: @comments, include: [:comments], show_comments: true
     elsif params[:question_id]
       @comments = Question.where(id: params[:question_id])
-      render json: @comments, include: [:comments], show_children: true
+      render json: @comments, include: [:comments], show_comments: true
     else
       @comments = Comment.order(:title)
       render json: @comments

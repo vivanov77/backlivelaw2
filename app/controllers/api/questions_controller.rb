@@ -14,7 +14,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       @questions = @questions.includes(:categories).where(:categories => {name: params[:category]});
 
-    end    
+    end
 
     if params[:offset]
 
@@ -28,7 +28,17 @@ class Api::QuestionsController < Api::ApplicationController
 
   # GET /questions/1
   def show
-    render json: @question
+
+    if params[:full]
+
+      render json: @question, include: [:file_containers], show_file_containers: true      
+
+    else
+
+      render json: @question
+
+    end
+
   end
 
   # POST /questions
@@ -44,6 +54,7 @@ class Api::QuestionsController < Api::ApplicationController
 
   # PATCH/PUT /questions/1
   def update
+    # p question_params
     if @question.update(question_params)
       render json: [:api, @question]
     else

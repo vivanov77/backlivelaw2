@@ -99,7 +99,7 @@
       <% f.file_containers.each_with_index do |ff, index| %>
 
         <% url = request.base_url.to_s + ff.file.to_s %>
-        <a href="<%= url %>" target="blank"><%= url %></a><br><br>
+        id: <%= ff.id %> &nbsp;<a href="<%= url %>" target="blank"><%= url %></a><br><br>
 
       <% end %>
     </p>
