@@ -65,8 +65,9 @@ gem 'cancancan'
 gem 'kaminari'
 gem 'active_model_serializers'
 
-gem 'mysql2',          '~> 0.3.18', :platform => :ruby
-gem 'thinking-sphinx', '~> 3.2.0'
+gem 'mysql2', :platform => :ruby
+gem 'thinking-sphinx'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'dbf'
+gem 'carrierwave', '~> 1.0'

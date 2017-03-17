@@ -1,5 +1,5 @@
 class Api::CategoriesController < Api::ApplicationController
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_category, only: [:show, :update, :destroy]
 
   # GET /categories
   def index

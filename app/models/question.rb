@@ -5,6 +5,12 @@ class Question < ApplicationRecord
 # https://www.codementor.io/ruby-on-rails/tutorial/threaded-comments-polymorphic-associations	
 	has_many :comments, as: :commentable, dependent: :destroy
 
+	has_many :file_containers, as: :fileable, dependent: :destroy
+	accepts_nested_attributes_for :file_containers, allow_destroy: true
+
+	# has_one :file_container, as: :fileable, dependent: :destroy
+	# accepts_nested_attributes_for :file_container
+
 	def parent_question?
 		false
 	end

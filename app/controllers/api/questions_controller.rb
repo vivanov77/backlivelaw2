@@ -4,6 +4,7 @@ class Api::QuestionsController < Api::ApplicationController
   load_and_authorize_resource
     
   before_action :set_question, only: [:show, :update, :destroy]
+
   # GET /questions
   def index
 
@@ -27,7 +28,7 @@ class Api::QuestionsController < Api::ApplicationController
 
   # GET /questions/1
   def show
-      render json: @question
+    render json: @question
   end
 
   # POST /questions
@@ -68,7 +69,16 @@ class Api::QuestionsController < Api::ApplicationController
 
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
 # https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      if params[:data] # JSON queries - default
+
+            ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      else # multipart form data - file upload
+        
+            params.require(:question).permit(:title, :text, :user_id, :category_ids, 
+              file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+      end
 
     end
  

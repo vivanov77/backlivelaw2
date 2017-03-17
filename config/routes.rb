@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 		# resources :questions
 
 		# resources :comments
-		resources :questions, only: [:index, :show, :create, :update]do
+		resources :questions, only: [:index, :show, :create, :update] do
 			resources :comments
 		end
 
@@ -54,6 +54,8 @@ Rails.application.routes.draw do
 		resources :cities, only: [:index, :show]		
 
 	    resources :categories, only: [:index, :show]
+
+        # resources :file_containers, except: [:update]
 
 		mount_devise_token_auth_for 'User', at: 'auth'
 

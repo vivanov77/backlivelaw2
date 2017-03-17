@@ -1,5 +1,5 @@
 class Api::IprangesController < Api::ApplicationController
-  before_action :set_iprange, only: [:show, :edit, :update, :destroy]
+  before_action :set_iprange, only: [:show, :update, :destroy]
 
   # GET /ipranges
   # GET /ipranges.json

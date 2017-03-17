@@ -18,5 +18,7 @@
   <%= @question.categories.size > 0 ? @question.categories.first.name : "Не указано" %>
 </p>
 
+<%= render 'layouts/uploaded_files', param: @question %>
+
 <%= link_to 'Редактировать', edit_admin_question_path(@question) %> |
 <%= link_to 'Назад', admin_questions_path %>

@@ -1,0 +1,111 @@
+<% f = param %>
+
+<% if f.class.to_s == "ActionView::Helpers::FormBuilder" %>
+
+  <% if f.object.respond_to? :file_container %>
+
+    <div class="field">
+      <%= f.label "Загруженный файл" %><br />  
+      <% if f.object.file_container && f.object.file_container.id %>
+
+        <% url = request.base_url.to_s + f.object.file_container.file.to_s %>
+        <a href="<%= url %>" target="blank"><%= url %></a>
+
+          <%
+
+          file_delete_params =
+          {
+          question:
+            {              
+              file_containers_attributes: { id: f.object.file_container.id, _destroy: true }
+            }
+          }
+
+          %>
+
+          <%= link_to "Удалить", admin_question_path(f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
+
+          <br><br>
+        
+      <% end %>
+    </div>
+
+    <%= f.fields_for :file_container, FileContainer.new do |ff| %>
+      <div class="field">
+        <%= ff.label "Файл" %><br>
+        <%= ff.file_field :file %>
+      </div>
+    <% end %>
+
+  <% else %>
+
+    <div class="field">
+      <%= f.label "Загруженный файл" %><br />
+
+      <% f.object.file_containers.each_with_index do |file_container, index| %>
+        <% if file_container.id %>
+
+          <% url = request.base_url.to_s + file_container.file.to_s %>
+          <a href="<%= url %>" target="blank"><%= url %></a>
+
+          <%
+
+          file_delete_params =
+          {
+          question:
+            {              
+              file_containers_attributes: { id: file_container.id, _destroy: true }
+            }
+          }
+
+          %>
+
+          <%= link_to "Удалить", admin_question_path(f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
+
+          <br><br>
+        <% end %>
+      <% end %>
+    </div>
+
+
+    <%= f.fields_for :file_containers, FileContainer.new do |ff| %>
+    <div class="field">
+      <%= ff.label "Файл" %><br>
+      <%= ff.file_field :file, :multiple => true, name: "#{f.object.class.to_s.downcase}[file_containers_attributes][][file]" %>      
+
+    </div>
+    <% end %>
+
+  <% end %>
+
+<% else %>
+
+  <% if f.respond_to? :file_container %>
+
+    <strong>Загруженный файл:</strong>
+    <p>
+      <% if f.file_container && f.file_container.id %>
+
+        <% url = request.base_url.to_s + f.file_contaner.file.to_s %>
+        <a href="<%= url %>" target="blank"><%= url %></a><br><br>        
+
+      <% end %>    
+    </p>
+
+  <% else %>  
+
+    <strong>Загруженные файлы:</strong>
+    <p>  
+      <% f.file_containers.each_with_index do |ff, index| %>
+
+        <% url = request.base_url.to_s + ff.file.to_s %>
+        <a href="<%= url %>" target="blank"><%= url %></a><br><br>
+
+      <% end %>
+    </p>
+
+  <% end %>
+
+<% end %>
+
+ <%# console %>
