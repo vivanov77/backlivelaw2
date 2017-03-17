@@ -21,3 +21,8 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+/config/secrets.yml
+/public/uploads
+/config/database.yml
+/config/deploy.rb
