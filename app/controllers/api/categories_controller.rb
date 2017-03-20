@@ -18,7 +18,7 @@ class Api::CategoriesController < Api::ApplicationController
   #   @category = Category.new(category_params)
 
   #   if @category.save
-  #     render json: @category, status: :created, location: [:api, @category]
+  #     render json: @category, status: :created, location: @category
   #   else
   #     render json: @category.errors, status: :unprocessable_entity
   #   end
@@ -27,7 +27,7 @@ class Api::CategoriesController < Api::ApplicationController
   # # PATCH/PUT /categories/1
   # def update
   #   if @category.update(category_params)
-  #     render json: [:api, @category]
+  #     render json: @category
   #   else
   #     render json: @category.errors, status: :unprocessable_entity
   #   end

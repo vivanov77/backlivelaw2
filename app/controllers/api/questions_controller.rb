@@ -1,7 +1,7 @@
 class Api::QuestionsController < Api::ApplicationController
 
-  before_action :authenticate_user!
-  load_and_authorize_resource
+  # before_action :authenticate_user!
+  # load_and_authorize_resource
     
   before_action :set_question, only: [:show, :update, :destroy]
 
@@ -29,15 +29,22 @@ class Api::QuestionsController < Api::ApplicationController
   # GET /questions/1
   def show
 
-    if params[:full]
+    # if params[:files]
 
-      render json: @question, include: [:file_containers], show_file_containers: true      
+    #   render json: @question, show_file_containers: true
 
-    else
+    # else
 
-      render json: @question
+    #   render json: @question
 
-    end
+    # end
+
+    render json: @question,
+    show_categories: (!(params[:categories] == "false") && params[:categories]),
+    show_comments: (!(params[:comments] == "false") && params[:comments]),
+    show_file_containers: (!(params[:files] == "false") && params[:files]),
+
+    include: [:categories, :comments, :files]
 
   end
 
@@ -46,7 +53,7 @@ class Api::QuestionsController < Api::ApplicationController
     @question = Question.new(question_params)
 
     if @question.save
-      render json: @question, status: :created, location: [:api, @question]
+      render json: @question, status: :created, location: @question
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -56,7 +63,7 @@ class Api::QuestionsController < Api::ApplicationController
   def update
     # p question_params
     if @question.update(question_params)
-      render json: [:api, @question]
+      render json: @question
     else
       render json: @question.errors, status: :unprocessable_entity
     end

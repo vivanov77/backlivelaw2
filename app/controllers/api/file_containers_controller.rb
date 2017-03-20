@@ -28,7 +28,7 @@ class Api::FileContainersController < Api::ApplicationController
     @file_container.fileable_id = params[:id]
 
     if @file_container.save
-      render json: @file_container, status: :created, location: [:api, @file_container]
+      render json: @file_container, status: :created, location: @file_container
     else
       render json: @file_container.errors, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class Api::FileContainersController < Api::ApplicationController
   # # PATCH/PUT /file_containers/1
   # def update
   #   if @file_container.update(file_container_params)
-  #     render json: [:api, @file_container]
+  #     render json: @file_container
   #   else
   #     render json: @file_container.errors, status: :unprocessable_entity
   #   end
