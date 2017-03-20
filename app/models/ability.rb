@@ -8,12 +8,8 @@ class Ability
       if user.has_role? :admin
         can :manage, :all
       else
-        # can :manage, User
         can :read, [Question, Comment]
         can [:show, :update], User, id: user.id
-        # can :read, User do |other_user|
-        #    (user.has_role? :client) && ((other_user.has_role? :lawyer) || (other_user.has_role? :advocate))
-        # end
         can :read, User if user.has_role? :client
         can :create, Question if user.has_role? :client
         can :update, Question, user_id: user.id # if user.has_role? :client
@@ -23,7 +19,7 @@ class Ability
 
            (
             (comment.try(:commentable).try(:user_id) == user.id) ||
-            (comment.try(:commentable).comment.try(:commentable).try(:user_id) == user.id)
+            (comment.try(:commentable).try(:commentable).try(:user_id) == user.id)
            )
 
         end

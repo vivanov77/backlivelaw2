@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
 		resources :cities, only: [:index, :show]
 
-		resources :ipranges, only: [:index, :show]	
+		resources :ipranges, only: [:index, :show]
 
 	    resources :categories
 
@@ -36,9 +36,6 @@ Rails.application.routes.draw do
 
 	namespace :api do
 
-		# resources :questions
-
-		# resources :comments
 		resources :questions, only: [:index, :show, :create, :update] do
 			resources :comments
 		end
@@ -55,20 +52,10 @@ Rails.application.routes.draw do
 
 	    resources :categories, only: [:index, :show]
 
-        # resources :file_containers, except: [:update]
+		mount_devise_token_auth_for 'User', at: 'auth', controllers: { sessions: 'api/users/sessions' }
 
-		mount_devise_token_auth_for 'User', at: 'auth'
+		# devise_for :users, controllers: { sessions: 'api/users/sessions' }
 
-		# , controllers: {
-  #       registrations: 'api/registrations'
-  #       }
-		# , skip: [:omniauth_callbacks]
-
-		# resources :questions do
-		#   get 'page/:page', action: :index, on: :collection
-		# end
-
-	    # resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!
 	    resources :users, only: [:index, :show, :update] # after devise_for :users!!!!
 
 	    resources :search, only: [:index]

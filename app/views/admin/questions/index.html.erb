@@ -15,7 +15,7 @@
   </thead>
 
   <tbody>
-    <% @questions.each do |question| %>
+    <% @questions.order(:id).each do |question| %>
       <tr style="background-color:#9cce6e;">
         <td><%= question.id %></td>
         <td><%= question.title %></td>        
@@ -31,7 +31,7 @@
 
       <% if question.comments.size > 0 %>
 
-        <% question.comments.each do |comment| %>
+        <% question.comments.order(:id).each do |comment| %>
           <tr style="background-color:#e5f2d9;">
             <td>&nbsp;`--------&gt;</td>
             <td><%= comment.id %></td>
@@ -50,7 +50,7 @@
 
           <% if comment.comments.size > 0 %>
 
-            <% comment.comments.each do |subcomment| %>
+            <% comment.comments.order(:id).each do |subcomment| %>
               <tr>
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>&nbsp;`--------&gt;</td>

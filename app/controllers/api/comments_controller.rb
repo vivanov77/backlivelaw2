@@ -34,7 +34,7 @@ class Api::CommentsController < Api::ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      render json: @comment, status: :created, location: @comment
+      render json: @comment, status: :created, location: [:api, @comment]
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -68,6 +68,15 @@ class Api::CommentsController < Api::ApplicationController
       # params.require(:comment).permit(:title)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
 # https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
+      res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      if user_signed_in?
+
+        res[:user_id] = current_user.id
+
+      end
+
+      res
+
     end
 end

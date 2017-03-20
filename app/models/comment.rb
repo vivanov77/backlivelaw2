@@ -5,6 +5,7 @@ class Comment < ApplicationRecord
 	has_many :comments, as: :commentable, dependent: :destroy
 
 	before_save :check_for_too_nested
+	before_save :check_for_orphaned	
 
 	def parent_question?
 		commentable_type.to_s.downcase == "question"
@@ -19,6 +20,13 @@ class Comment < ApplicationRecord
 	def check_for_too_nested
 		if commentable && commentable.parent_comment?
 			errors.add(:base, "Нельзя создать комментарий с уровнем вложенности больше 1.")
+			throw :abort
+		end
+	end
+
+	def check_for_orphaned
+		unless commentable
+			errors.add(:errors, "Нельзя создать комментарий, не подчинённый ни одному вопросу.")
 			throw :abort
 		end
 	end

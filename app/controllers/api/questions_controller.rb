@@ -29,16 +29,6 @@ class Api::QuestionsController < Api::ApplicationController
   # GET /questions/1
   def show
 
-    # if params[:files]
-
-    #   render json: @question, show_file_containers: true
-
-    # else
-
-    #   render json: @question
-
-    # end
-
     render json: @question,
     show_categories: (!(params[:categories] == "false") && !(params[:categories] == "nil") && params[:categories]),
     show_comments: (!(params[:comments] == "false") && !(params[:comments] == "nil") && params[:comments]),
@@ -53,7 +43,7 @@ class Api::QuestionsController < Api::ApplicationController
     @question = Question.new(question_params)
 
     if @question.save
-      render json: @question, status: :created, location: @question
+      render json: @question, status: :created, location: [:api, @question]
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -90,14 +80,21 @@ class Api::QuestionsController < Api::ApplicationController
 
       if params[:data] # JSON queries - default
 
-            ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+        res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
 
       else # multipart form data - file upload
         
-            params.require(:question).permit(:title, :text, :user_id, :category_ids, 
-              file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+        res = params.require(:question).permit(:title, :text, :user_id, :category_ids, 
+          file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
       end
 
-    end
- 
+      if user_signed_in?
+
+        res[:user_id] = current_user.id
+
+      end
+
+      res      
+
+    end 
 end

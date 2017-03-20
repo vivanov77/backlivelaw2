@@ -202,6 +202,8 @@ module ApplicationHelper
   def ru_action name
 
     case name.to_s
+    when "create"
+    "создание"      
     when "edit"
     "редактирование"
     when "new"
