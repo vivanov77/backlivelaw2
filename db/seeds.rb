@@ -88,8 +88,8 @@ subarray1.each_with_index do |elem, index|
 	q = Question.find(elem)
 	q.categories << Category.first
 	aindex = (index+1) % client_emails_array.size 
-	user = User.find client_emails_array[aindex]
-	q.user << user if user
+	user = User.find_by email: client_emails_array[aindex]
+	q.user = user if user
 	q.save!
 
 end
@@ -99,8 +99,8 @@ subarray2.each_with_index do |elem, index|
 	q = Question.find(elem)
 	q.categories << Category.second
 	aindex = (index+1) % client_emails_array.size 
-	user = User.find client_emails_array[aindex]
-	q.user << user if user	
+	user = User.find_by email: client_emails_array[aindex]
+	q.user = user if user	
 	q.save!
 
 end
