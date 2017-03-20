@@ -10,7 +10,7 @@ class Ability
       else
         # can :manage, User
         can :read, [Question, Comment]
-        can [:read, :update], User, id: user.id
+        can [:show, :update], User, id: user.id
         # can :read, User do |other_user|
         #    (user.has_role? :client) && ((other_user.has_role? :lawyer) || (other_user.has_role? :advocate))
         # end

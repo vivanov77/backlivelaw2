@@ -209,7 +209,9 @@ module ApplicationHelper
     when "destroy"
     "удаление"
     when "show"
-    "просмотр"      
+    "просмотр"
+    when "index"
+    "просмотр списка"    
     else
     "внесение измений"
     end
