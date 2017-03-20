@@ -40,9 +40,9 @@ class Api::QuestionsController < Api::ApplicationController
     # end
 
     render json: @question,
-    show_categories: (!(params[:categories] == "false") && params[:categories]),
-    show_comments: (!(params[:comments] == "false") && params[:comments]),
-    show_file_containers: (!(params[:files] == "false") && params[:files]),
+    show_categories: (!(params[:categories] == "false") && !(params[:categories] == "nil") && params[:categories]),
+    show_comments: (!(params[:comments] == "false") && !(params[:comments] == "nil") && params[:comments]),
+    show_file_containers: (!(params[:files] == "false") && !(params[:files] == "nil") && params[:files]),
 
     include: [:categories, :comments, :files]
 
