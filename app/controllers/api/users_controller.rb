@@ -11,9 +11,32 @@ class Api::UsersController < Api::ApplicationController
     
   # GET /users
   def index
-    @users = User.all
 
-    render json: @users
+    params_array = []
+
+    if param? params[:lawyer]
+
+      params_array << :lawyer
+
+    end
+
+    if param? params[:advocate]
+      
+      params_array << :advocate
+
+    end
+
+    if params_array.size > 0
+
+      @users = User.includes(:roles).where(:roles => {name: params_array }).order(:email)
+
+    else
+
+      @users = []
+
+    end
+
+    render json: @users, show_roles: true
   end
 
   # GET /users/1

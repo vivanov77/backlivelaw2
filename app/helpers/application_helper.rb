@@ -213,6 +213,12 @@ module ApplicationHelper
     else
     "внесение измений"
     end
-  end  
+  end
+
+  def param? param
+
+    (!(param == "false") && !(param == "nil") && param)
+
+  end
 	
 end

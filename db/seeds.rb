@@ -40,6 +40,24 @@ user3.first_name = "Jim"
 # admin.confirm
 user3.save!
 
+user4 = User.find_or_create_by(email: "user4@example.com") { |u| u.password = "12345678" }
+user4.add_role :lawyer
+user4.first_name = "Ted"
+# admin.confirm
+user4.save!
+
+user5 = User.find_or_create_by(email: "user5@example.com") { |u| u.password = "12345678" }
+user5.add_role :advocate
+user5.first_name = "Max"
+# admin.confirm
+user5.save!
+
+user6 = User.find_or_create_by(email: "user6@example.com") { |u| u.password = "12345678" }
+user6.add_role :advocate
+user6.first_name = "Larry"
+# admin.confirm
+user6.save!
+
 Category.delete_all
 
 ["Category1", "Category2", "Category3", "Category4", "Category5"].each do |elem|
