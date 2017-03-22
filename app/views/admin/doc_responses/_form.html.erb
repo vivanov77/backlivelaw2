@@ -1,0 +1,48 @@
+<%= form_for([:admin, doc_response]) do |f| %>
+  <% if doc_response.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(doc_response.errors.count, "error") %> prohibited this doc_response from being saved:</h2>
+
+      <ul>
+      <% doc_response.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Выбрано клиентом" %>
+    <%= f.check_box :chosen %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Содержимое" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Цена" %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Создатель" %><br />
+    <%= f.collection_select :user_id, User.roled([:lawyer, :advocate]).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите клиента' %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Запрос на документ" %><br />
+    <%= f.collection_select :doc_request_id, DocRequest.order(:title), :id, :title, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите запрос на документ' %>          
+  </div> 
+
+  <%= render 'layouts/uploaded_files', param: f %>  
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

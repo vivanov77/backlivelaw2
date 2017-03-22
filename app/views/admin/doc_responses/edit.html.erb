@@ -1,0 +1,6 @@
+<h1>Редактирование ответа на запрос документа</h1>
+
+<%= render 'form', doc_response: @doc_response %>
+
+<%= link_to 'Показать', [:admin, @doc_response] %> |
+<%= link_to 'Назад', admin_doc_responses_path %>

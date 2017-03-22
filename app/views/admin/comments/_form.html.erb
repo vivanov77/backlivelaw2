@@ -49,9 +49,7 @@
     <%= f.collection_select :user_id, User.roled([:client, :lawyer, :advocate]).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
   # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
     prompt: 'Выберите клиента' %>          
-  </div> 
-
-
+  </div>
 
   <div class="actions">
     <%= f.submit %>

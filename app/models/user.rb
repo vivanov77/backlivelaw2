@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :questions, :inverse_of => :user
   has_many :comments, :inverse_of => :user
   has_and_belongs_to_many :cities
+  has_many :doc_requests, :inverse_of => :user
+  has_many :doc_responses, :inverse_of => :user  
 
   # resourcify
 

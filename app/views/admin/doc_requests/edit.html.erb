@@ -1,0 +1,6 @@
+<h1>Редактирование запроса на документ</h1>
+
+<%= render 'form', doc_request: @doc_request %>
+
+<%= link_to 'Показать', [:admin, @doc_request] %> |
+<%= link_to 'Назад', admin_doc_requests_path %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  chosen: false
+  text: MyText
+  price: 1.5
+  user: one
+  doc_request: one
+
+two:
+  chosen: false
+  text: MyText
+  price: 1.5
+  user: two
+  doc_request: two

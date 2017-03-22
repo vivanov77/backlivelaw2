@@ -67,7 +67,7 @@ class Admin::CommentsController < Admin::ApplicationController
     @comment.destroy
     respond_to do |format|
       # format.html { redirect_to admin_comments_url, notice: 'Комментарий был успешно удалён.' }
-      format.html { redirect_to admin_questions_url, notice: 'Комментарий был успешно удалён.' }      
+      format.html { redirect_to admin_questions_url, notice: 'Комментарий был успешно удалён.' }
       format.json { head :no_content }
     end
   end

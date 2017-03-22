@@ -19,4 +19,7 @@ class Question < ApplicationRecord
 		false
 	end
 
+	# validates :user, presence: true
+	# validates :category, presence: true		
+
 end

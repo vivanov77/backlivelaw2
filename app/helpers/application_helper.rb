@@ -224,5 +224,17 @@ module ApplicationHelper
     (!(param == "false") && !(param == "nil") && param)
 
   end
+
+  def class_by_name name
+    # http://stackoverflow.com/questions/14070369/how-to-instantiate-class-from-name-string-in-rails
+    Object.const_get name.to_s
+
+  end
+
+  def helper_by_name2 path, id, params
+
+    Rails.application.routes.url_helpers.send path, id, params
+
+  end  
 	
 end

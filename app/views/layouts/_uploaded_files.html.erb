@@ -13,17 +13,18 @@
 
           <%
 
-          file_delete_params =
-          {
-          question:
+          file_delete_params = {}
+
+          file_delete_params[f.object.class.to_s.downcase.to_sym] = 
             {              
               file_containers_attributes: { id: f.object.file_container.id, _destroy: true }
             }
-          }
 
           %>
 
-          <%= link_to "Удалить", admin_question_path(f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
+          <%= link_to "Удалить", helper_by_name2("admin_#{f.object.class.to_s.underscore}_path", f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
+
+          <!-- admin_question_path(f.object.id, file_delete_params) -->        
 
           <br><br>
         
@@ -50,17 +51,16 @@
 
           <%
 
-          file_delete_params =
-          {
-          question:
+          file_delete_params = {}
+
+          file_delete_params[f.object.class.to_s.underscore.to_sym] = 
             {              
               file_containers_attributes: { id: file_container.id, _destroy: true }
             }
-          }
 
           %>
 
-          <%= link_to "Удалить", admin_question_path(f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
+          <%= link_to "Удалить", helper_by_name2("admin_#{f.object.class.to_s.underscore}_path", f.object.id, file_delete_params), method: :patch, data: { confirm: 'Вы уверены?' } %>
 
           <br><br>
         <% end %>
@@ -71,7 +71,7 @@
     <%= f.fields_for :file_containers, FileContainer.new do |ff| %>
     <div class="field">
       <%= ff.label "Файл" %><br>
-      <%= ff.file_field :file, :multiple => true, name: "#{f.object.class.to_s.downcase}[file_containers_attributes][][file]" %>      
+      <%= ff.file_field :file, :multiple => true, name: "#{f.object.class.to_s.underscore}[file_containers_attributes][][file]" %>      
 
     </div>
     <% end %>

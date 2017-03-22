@@ -1,0 +1,31 @@
+<h1>Запросы на документ</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Заголовок</th>
+      <th>Содержимое</th>
+      <th>Оплачено</th>
+      <th>Создатель</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @doc_requests.each do |doc_request| %>
+      <tr>
+        <td><%= doc_request.title %></td>
+        <td><%= doc_request.text %></td>
+        <td><%= doc_request.paid %></td>
+        <td><%= doc_request.user.try(:email) %></td>
+        <td><%= link_to 'Показать', [:admin, doc_request] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_doc_request_path(doc_request) %></td>
+        <td><%= link_to 'Удалить', [:admin, doc_request], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новый запрос на документ', new_admin_doc_request_path %>

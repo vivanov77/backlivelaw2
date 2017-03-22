@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303145316) do
+ActiveRecord::Schema.define(version: 20170322075745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 20170303145316) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categories_doc_requests", id: false, force: :cascade do |t|
+    t.integer "doc_request_id", null: false
+    t.integer "category_id",    null: false
+    t.index ["category_id"], name: "index_categories_doc_requests_on_category_id", using: :btree
+    t.index ["doc_request_id"], name: "index_categories_doc_requests_on_doc_request_id", using: :btree
   end
 
   create_table "categories_questions", id: false, force: :cascade do |t|
@@ -59,6 +66,28 @@ ActiveRecord::Schema.define(version: 20170303145316) do
     t.boolean  "delta",            default: true, null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "doc_requests", force: :cascade do |t|
+    t.string   "title"
+    t.text     "text"
+    t.boolean  "paid"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_doc_requests_on_user_id", using: :btree
+  end
+
+  create_table "doc_responses", force: :cascade do |t|
+    t.boolean  "chosen"
+    t.text     "text"
+    t.float    "price"
+    t.integer  "user_id"
+    t.integer  "doc_request_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["doc_request_id"], name: "index_doc_responses_on_doc_request_id", using: :btree
+    t.index ["user_id"], name: "index_doc_responses_on_user_id", using: :btree
   end
 
   create_table "file_containers", force: :cascade do |t|

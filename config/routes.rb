@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
 	    resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!	
 
+		resources :doc_responses
+		resources :doc_requests
 	end
 
 	namespace :api do
@@ -59,6 +61,13 @@ Rails.application.routes.draw do
 	    resources :users, only: [:index, :show, :update] # after devise_for :users!!!!
 
 	    resources :search, only: [:index]
+
+		resources :doc_responses, only: [:index, :show, :create, :update]
+		resources :doc_requests, only: [:index, :show, :create, :update]
+
+		resources :doc_requests, only: [:index, :show, :create, :update] do
+			resources :doc_responses
+		end		
 
 	end	
 

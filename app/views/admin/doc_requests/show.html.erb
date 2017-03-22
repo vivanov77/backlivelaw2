@@ -1,0 +1,27 @@
+<p>
+  <strong>Заголовок:</strong>
+  <%= @doc_request.title %>
+</p>
+
+<p>
+  <strong>Содержимое:</strong>
+  <%= @doc_request.text %>
+</p>
+
+<p>
+  <strong>Оплачено:</strong>
+  <%= @doc_request.paid %>
+</p>
+
+<p>
+  <strong>Создатель:</strong>
+  <%= @doc_request.user ? @doc_request.user.email : "Не указано" %>
+</p>
+
+<p>
+  <strong>Категория:</strong>
+  <%= @doc_request.categories.size > 0 ? @doc_request.categories.first.name : "Не указано" %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_doc_request_path(@doc_request) %> |
+<%= link_to 'Назад', admin_doc_requests_path %>
