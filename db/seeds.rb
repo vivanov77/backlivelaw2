@@ -123,3 +123,16 @@ comment3.comments.create title: "Subcomment3_2", commentable_type: "Comment", co
 comment4 = Comment.find_or_create_by title: "Comment4", commentable_type: "Question", commentable_id: question_ids[2].id, user_id: user6.id
 comment4.comments.create title: "Subcomment4_1", commentable_type: "Comment", commentable_id: comment4.id, user_id: user6.id
 comment4.comments.create title: "Subcomment4_2", commentable_type: "Comment", commentable_id: comment4.id, user_id: user6.id
+
+LibEntry.delete_all
+
+lib_entry11 = LibEntry.find_or_create_by title: "Статья 1.1"
+lib_entry12 = LibEntry.find_or_create_by title: "Статья 1.2"
+lib_entry13 = LibEntry.find_or_create_by title: "Статья 1.3"
+
+lib_entry21 = LibEntry.find_or_create_by title: "Статья 2.1", lib_entry_id: lib_entry11.id
+lib_entry22 = LibEntry.find_or_create_by title: "Статья 2.2", lib_entry_id: lib_entry11.id
+
+lib_entry23 = LibEntry.find_or_create_by title: "Статья 2.3", lib_entry_id: lib_entry12.id
+
+lib_entry31 = LibEntry.find_or_create_by title: "Статья 3.1", lib_entry_id: lib_entry21.id

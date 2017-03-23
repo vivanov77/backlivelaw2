@@ -1,0 +1,1 @@
+json.array! @lib_entries, partial: 'lib_entries/lib_entry', as: :lib_entry

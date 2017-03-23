@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :lib_entries
 	devise_for :users, controllers: { sessions: 'users/sessions' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
@@ -34,6 +35,12 @@ Rails.application.routes.draw do
 
 		resources :doc_responses
 		resources :doc_requests
+
+		resources :lib_entries do
+			resources :lib_entries do
+				resources :lib_entries
+			end
+		end		
 	end
 
 	namespace :api do

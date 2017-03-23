@@ -1,0 +1,17 @@
+<p>
+  <strong>Заголовок:</strong>
+  <%= @lib_entry.title %>
+</p>
+
+<p>
+  <strong>Содержимое:</strong>
+  <%= @lib_entry.text %>
+</p>
+
+<p>
+  <strong>Родитель:</strong>
+  <%= @lib_entry.try(:lib_entry).try(:title) %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_lib_entry_path(@lib_entry) %> |
+<%= link_to 'Назад', admin_lib_entries_path %>

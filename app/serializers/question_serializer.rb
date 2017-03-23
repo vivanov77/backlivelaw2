@@ -2,7 +2,7 @@ class QuestionSerializer < ActiveModel::Serializer
   attributes :id, :title, :created_at, :updated_at
   has_many :comments, if: -> { should_render_comments }
   has_many :file_containers, if: -> { should_render_file_containers }
-  has_many :categories, if: -> { should_render_categories }  
+  has_many :categories, if: -> { should_render_categories }
 
 # http://stackoverflow.com/questions/42244237/activemodel-serializers-has-many-with-condition-at-run-time
   def should_render_comments

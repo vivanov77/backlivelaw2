@@ -19,7 +19,7 @@ class Comment < ApplicationRecord
 # http://stackoverflow.com/questions/23837573/rails-4-how-to-cancel-save-on-a-before-save-callback
 	def check_for_too_nested
 		if commentable && commentable.parent_comment?
-			errors.add(:base, "Нельзя создать комментарий с уровнем вложенности больше 1.")
+			errors.add(:base, "Нельзя создать комментарий с уровнем вложенности больше 1 (считая с 0).")
 			throw :abort
 		end
 	end

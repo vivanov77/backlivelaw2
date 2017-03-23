@@ -17,7 +17,7 @@
         <td><%= doc_request.title %></td>
         <td><%= doc_request.text %></td>
         <td><%= doc_request.paid %></td>
-        <td><%= doc_request.user.try(:email) %></td>
+        <td><%= doc_request.try(:user).try(:email) %></td>
         <td><%= link_to 'Показать', [:admin, doc_request] %></td>
         <td><%= link_to 'Редактировать', edit_admin_doc_request_path(doc_request) %></td>
         <td><%= link_to 'Удалить', [:admin, doc_request], method: :delete, data: { confirm: 'Вы уверены?' } %></td>

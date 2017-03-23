@@ -1,0 +1,37 @@
+<%= form_for([:admin, lib_entry]) do |f| %>
+  <% if lib_entry.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(lib_entry.errors.count, "error") %> prohibited this lib_entry from being saved:</h2>
+
+      <ul>
+      <% lib_entry.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Заголовок" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Содержимое" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+   <div class="field">
+    <%= f.label "Родитель" %>
+    <%= f.collection_select :lib_entry_id, LibEntry.where.not(id: lib_entry.id).order(:title), :id, :title,
+# f.collection_select :lib_entry_id, LibEntry.order(:title), :id, :title,  
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+  # http://guides.rubyonrails.org/form_helpers.html#using-form-helpers
+    { :include_blank => "Ничего не выбрано", :prompt => true, :selected => @selected } %>
+
+  </div>  
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Правовую статью" %>
+  </div>
+<% end %>

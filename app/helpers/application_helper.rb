@@ -235,6 +235,20 @@ module ApplicationHelper
 
     Rails.application.routes.url_helpers.send path, id, params
 
+  end
+
+  def submit_russian_text rus_model_name
+
+    if action_name == "new"
+
+      "Создать " + rus_model_name
+
+    elsif action_name == "edit"
+
+      "Сохранить " + rus_model_name      
+
+    end
+
   end  
 	
 end
