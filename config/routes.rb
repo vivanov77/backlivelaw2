@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 			resources :lib_entries do
 				resources :lib_entries
 			end
-		end		
+		end
 	end
 
 	namespace :api do
@@ -74,6 +74,12 @@ Rails.application.routes.draw do
 
 		resources :doc_requests, only: [:index, :show, :create, :update] do
 			resources :doc_responses
+		end
+
+		resources :lib_entries, except: [:destroy] do
+			resources :lib_entries, except: [:destroy] do
+				resources :lib_entries, except: [:destroy]
+			end
 		end		
 
 	end	
