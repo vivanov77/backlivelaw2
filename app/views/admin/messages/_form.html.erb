@@ -1,0 +1,36 @@
+<%= form_for([:admin, message]) do |f| %>
+  <% if message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
+
+      <ul>
+      <% message.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Отправитель" %><br />
+    <%= f.collection_select :sender_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Получатель" %><br />
+    <%= f.collection_select :recipient_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>  
+
+  <div class="field">
+    <%= f.label "Содержимое сообщения" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Сообщение" %>
+  </div>
+<% end %>

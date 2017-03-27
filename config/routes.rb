@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :lib_entries
 	devise_for :users, controllers: { sessions: 'users/sessions' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
@@ -41,6 +40,8 @@ Rails.application.routes.draw do
 				resources :lib_entries
 			end
 		end
+
+		resources :messages
 	end
 
 	namespace :api do
@@ -80,7 +81,9 @@ Rails.application.routes.draw do
 			resources :lib_entries, except: [:destroy] do
 				resources :lib_entries, except: [:destroy]
 			end
-		end		
+		end
+
+		resources :messages, only: [:index, :show, :create, :update]
 
 	end	
 

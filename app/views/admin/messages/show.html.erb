@@ -1,0 +1,17 @@
+<p>
+  <strong>Отправитель:</strong>
+  <%= @message.try(:sender).try(:email) %>
+</p>
+
+<p>
+  <strong>Получатель:</strong>
+  <%= @message.try(:recipient).try(:email) %>
+</p>
+
+<p>
+  <strong>Содержимое сообщения:</strong>
+  <%= @message.text %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_message_path(@message) %> |
+<%= link_to 'Назад', admin_messages_path %>

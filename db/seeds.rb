@@ -136,3 +136,19 @@ lib_entry22 = LibEntry.find_or_create_by title: "Статья 2.2", lib_entry_id
 lib_entry23 = LibEntry.find_or_create_by title: "Статья 2.3", lib_entry_id: lib_entry12.id
 
 lib_entry31 = LibEntry.find_or_create_by title: "Статья 3.1", lib_entry_id: lib_entry21.id
+
+Message.delete_all
+
+message = Message.create sender_id: user1.id, recipient_id: user2.id
+sleep 1
+message = Message.create sender_id: user3.id, recipient_id: user1.id
+sleep 1
+message = Message.create sender_id: user2.id, recipient_id: user4.id
+sleep 1
+message = Message.create sender_id: user1.id, recipient_id: user4.id
+sleep 1
+message = Message.create sender_id: user1.id, recipient_id: user2.id
+sleep 1
+message = Message.create sender_id: user3.id, recipient_id: user1.id
+sleep 1
+message = Message.create sender_id: user1.id, recipient_id: user3.id

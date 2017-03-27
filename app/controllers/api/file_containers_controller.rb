@@ -17,7 +17,6 @@ class Api::FileContainersController < Api::ApplicationController
   # POST /file_containers
   # POST /file_containers.json
   def create
-    p params
 
     @file_container = FileContainer.new(file_container_params)
 
