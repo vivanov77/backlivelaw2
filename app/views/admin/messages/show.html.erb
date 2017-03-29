@@ -13,5 +13,10 @@
   <%= @message.text %>
 </p>
 
+<p>
+  <strong>Прочтено пользователем:</strong>
+  <%= @message.read ? "Да" : "Нет" %>
+</p>
+
 <%= link_to 'Редактировать', edit_admin_message_path(@message) %> |
 <%= link_to 'Назад', admin_messages_path %>

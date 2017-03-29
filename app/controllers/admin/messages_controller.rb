@@ -69,6 +69,6 @@ class Admin::MessagesController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:sender_id, :recipient_id, :text)
+      params.require(:message).permit(:sender_id, :recipient_id, :text, :read)
     end
 end

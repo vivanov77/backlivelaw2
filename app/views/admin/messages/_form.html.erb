@@ -30,6 +30,11 @@
     <%= f.text_area :text, :cols => 40, :rows => 10 %>
   </div>
 
+  <div class="field">
+    <%= f.label "Прочтено пользователем" %>
+    <%= f.check_box :read %>
+  </div>  
+
   <div class="actions">
     <%= f.submit submit_russian_text "Сообщение" %>
   </div>
