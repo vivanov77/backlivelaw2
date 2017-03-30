@@ -33,10 +33,16 @@ class Message < ApplicationRecord
 
 	end
 
-	def self.messages userid, correspondent_id
+	def self.dialog_messages userid, correspondent_id
 
 		Message.where('(sender_id = ? and recipient_id = ?) or (sender_id = ? and recipient_id = ?)', userid, correspondent_id, correspondent_id, userid).order("created_at")
 
 	end
+
+	def self.unread_count userid
+
+         Message.where('sender_id = ? or recipient_id = ?', userid, userid).where(read: false).count
+
+	end	
 
 end

@@ -21,7 +21,7 @@ class Api::MessagesController < Api::ApplicationController
 
             if correspondent
 
-              @messages = Message.messages user.id, correspondent.id
+              @messages = Message.dialog_messages user.id, correspondent.id
 
               render json: @messages
 
@@ -58,6 +58,31 @@ class Api::MessagesController < Api::ApplicationController
         error_message = "Пользователь #{params[:user]} не существует."
 
         render json: { errors: error_message }, status: :unprocessable_entity
+
+      end
+
+    elsif params[:unread]
+
+      user = User.find_by email: params[:unread]
+
+      if user
+
+        unread = Message.unread_count user.id
+
+mes_unread = {
+  "messages": {
+    "user_id": user.id,
+    "messages_unread": unread
+  }
+}
+
+        render json: mes_unread
+
+      else
+
+        error_message = "Пользователь #{params[:unread]} не существует."
+
+        render json: { errors: error_message }, status: :unprocessable_entity        
 
       end
 
