@@ -83,8 +83,11 @@ Rails.application.routes.draw do
 			end
 		end
 
-		resources :messages, only: [:index, :show, :create, :update]
+		resources :messages, only: [:index, :create, :update]
 
 	end	
+
+	# Serve websocket cable requests in-process
+	mount ActionCable.server => '/cable'
 
 end

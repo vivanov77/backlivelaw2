@@ -30,4 +30,6 @@ use Rack::Cors do
   end
 end
 
+ActionCable.server.config.disable_request_forgery_protection = true
+
 run Rails.application

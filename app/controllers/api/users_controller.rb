@@ -1,42 +1,57 @@
 class Api::UsersController < Api::ApplicationController
 
-  before_action :authenticate_user!
-  load_and_authorize_resource
+  # before_action :authenticate_user!
+  # load_and_authorize_resource
     
   before_action :set_user, only: [:show, :update, :destroy]
 
   before_action :check_for_questions, only: [:destroy]
 
-  before_action :verify_owner
+  # before_action :verify_owner
+
+  before_action :mark_messages_read, only: [:update]
+
+  before_action :unread_messages_count, only: [:show]
     
   # GET /users
   def index
 
-    params_array = []
+    if params[:online]
 
-    if param? params[:lawyer]
+      @users = User.where(online: true).order(:email)
 
-      params_array << :lawyer
-
-    end
-
-    if param? params[:advocate]
-      
-      params_array << :advocate
-
-    end
-
-    if params_array.size > 0
-
-      @users = User.includes(:roles).where(:roles => {name: params_array }).order(:email)
+      render json: @users
 
     else
 
-      @users = []
+      params_array = []
+
+      if param? params[:lawyer]
+
+        params_array << :lawyer
+
+      end
+
+      if param? params[:advocate]
+        
+        params_array << :advocate
+
+      end
+
+      if params_array.size > 0
+
+        @users = User.includes(:roles).where(:roles => {name: params_array }).order(:email)
+
+      else
+
+        @users = []
+
+      end
+
+      render json: @users, show_roles: true
 
     end
 
-    render json: @users, show_roles: true
   end
 
   # GET /users/1
@@ -94,4 +109,51 @@ class Api::UsersController < Api::ApplicationController
       # end
 
     end
+
+    def mark_messages_read
+
+      if params[:mark_read] && (correspondent = User.find_by email: params[:mark_read])
+
+        if Message.mark_messages_read @user.id, correspondent.id
+
+          render json: @user
+
+        else
+
+          error_message = "Не удалось пометить прочитанными непрочитанные сообщения пользователя: \"#{@user.email}\"."
+          
+          render json: { errors: error_message }, status: :unprocessable_entity          
+
+        end
+
+      end
+
+    end
+
+    def unread_messages_count
+
+      if params[:unread] && (correspondent = User.find_by email: params[:unread])
+
+        unread = Message.unread_count @user.id, correspondent.id
+
+        if unread
+
+          mes_unread = {
+            "messages": {
+              "user_id": @user.id,
+              "messages_unread": unread
+            }
+          }
+
+          render json: mes_unread
+
+        else
+
+          error_message = "Не удалось подсчитать непрочитанные сообщения пользователя: \"#{@user.email}\"."
+          
+          render json: { errors: error_message }, status: :unprocessable_entity
+
+        end
+      end
+    end  
 end

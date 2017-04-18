@@ -21,9 +21,13 @@ class Api::MessagesController < Api::ApplicationController
 
             if correspondent
 
-              @messages = Message.dialog_messages user.id, correspondent.id
+              # ActiveRecord::Base.transaction do
+# http://www.codeatmorning.com/rails-transactions-complete-guide/
+                @messages = Message.dialog_messages user.id, correspondent.id
 
-              render json: @messages
+                render json: @messages
+
+              # end
 
             else
 
@@ -61,31 +65,6 @@ class Api::MessagesController < Api::ApplicationController
 
       end
 
-    elsif params[:unread]
-
-      user = User.find_by email: params[:unread]
-
-      if user
-
-        unread = Message.unread_count user.id
-
-mes_unread = {
-  "messages": {
-    "user_id": user.id,
-    "messages_unread": unread
-  }
-}
-
-        render json: mes_unread
-
-      else
-
-        error_message = "Пользователь #{params[:unread]} не существует."
-
-        render json: { errors: error_message }, status: :unprocessable_entity        
-
-      end
-
     else
 
       @messages = []
@@ -98,9 +77,9 @@ mes_unread = {
 
   # GET /messages/1
   # GET /messages/1.json
-  def show
-    render json: @message
-  end
+  # def show
+  #   render json: @message
+  # end
 
   # POST /messages
   # POST /messages.json

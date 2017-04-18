@@ -14,7 +14,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :cities
   has_many :doc_requests, :inverse_of => :user
   has_many :doc_responses, :inverse_of => :user
-  has_many :messages, :inverse_of => :user   
+  # has_many :messages, foreign_key: 'sender_id', :inverse_of => :user
+  has_many :messages, foreign_key: 'sender_id'
 
   # resourcify
 

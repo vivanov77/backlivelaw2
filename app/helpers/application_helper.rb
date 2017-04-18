@@ -249,6 +249,32 @@ module ApplicationHelper
 
     end
 
+  end
+
+  def doubled_signed_token string1, string2
+
+    token = (string1 >= string2) ? (string1 + string2) : (string2 + string1)
+
+    signed_token token
+
+  end
+
+  def signed_token string1
+
+    token = string1
+
+# http://vesavanska.com/2013/signing-and-encrypting-data-with-tools-built-in-to-rails
+
+    secret_key_base = Rails.application.secrets.secret_key_base
+
+    verifier = ActiveSupport::MessageVerifier.new secret_key_base
+
+    signed_token1 = verifier.generate token
+
+    pos = signed_token1.index('--') + 2
+
+    signed_token1.slice pos..-1
+
   end  
 	
 end

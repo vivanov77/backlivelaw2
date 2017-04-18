@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 # Find out who sent messages to this user and to whom he sent messages (e.g. correspondents)
         correspondents = []
 
-         Message.where('sender_id = ? or recipient_id = ?', userid, userid).each do |t| 
+         Message.where('sender_id = ? or recipient_id = ?', userid, userid).each do |t|
 
 			correspondents << t.recipient_id unless (t.recipient_id == userid || correspondents.include?(t.recipient_id))
 
@@ -35,13 +35,30 @@ class Message < ApplicationRecord
 
 	def self.dialog_messages userid, correspondent_id
 
-		Message.where('(sender_id = ? and recipient_id = ?) or (sender_id = ? and recipient_id = ?)', userid, correspondent_id, correspondent_id, userid).order("created_at")
+		messages = Message.where('(sender_id = ? and recipient_id = ?) or (sender_id = ? and recipient_id = ?)', userid, correspondent_id, correspondent_id, userid).order("created_at")
+
+		# messages.where(sender_id: correspondent_id).where(read: false).each do |message|
+
+		# 	message.read = true
+		# 	message.save!
+
+		# end
+
+		# messages.reload
+		
+		# messages
 
 	end
 
-	def self.unread_count userid
+	def self.mark_messages_read userid, correspondent_id
 
-         Message.where('sender_id = ? or recipient_id = ?', userid, userid).where(read: false).count
+		Message.where(recipient_id: userid, sender_id: correspondent_id).where(read: false).update_all read: true
+
+	end
+
+	def self.unread_count userid, correspondent_id
+
+		Message.where(recipient_id: userid, sender_id: correspondent_id).where(read: false).count
 
 	end	
 
