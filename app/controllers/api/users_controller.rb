@@ -141,6 +141,7 @@ class Api::UsersController < Api::ApplicationController
           mes_unread = {
             "messages": {
               "user_id": @user.id,
+              "correspondent_id": correspondent.id,
               "messages_unread": unread
             }
           }
