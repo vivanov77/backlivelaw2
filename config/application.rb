@@ -26,5 +26,7 @@ module Backlivelaw2
 # http://stackoverflow.com/questions/4110866/ruby-on-rails-where-to-define-global-constants
     config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
 
+    config.middleware.use ActionDispatch::Cookies
+
   end
 end

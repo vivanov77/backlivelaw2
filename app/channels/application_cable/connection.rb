@@ -1,10 +1,23 @@
 # Be sure to restart your server when you modify this file. Action Cable runs in an EventMachine loop that does not support auto reloading.
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+  	
+  	include ApplicationHelper
+
 	identified_by :current_user
 
 	def connect
 # ws://localhost:3000/cable/?access-token=zZ12GuNyGYR5HM7yhYwPpg&client=Fgp76lGbk3xmqCzhBy1DbQ&uid=client1@example.com		
+
+		# connection_token = generate_unique_secure_token
+
+		# cookies.signed[:connection_token] = connection_token
+
+		# self.connection_token = connection_token
+
+		# p self.connection_token
+
+		# byebug
 
 		params = request.query_parameters()
 

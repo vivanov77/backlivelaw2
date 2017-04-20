@@ -2,15 +2,9 @@
 class UnreadChannel < ApplicationCable::Channel
   def subscribed
 
-    access_token = params["access-token"]
-    uid = params["uid"]
-    client = params["client"]
+    if current_user
 
-    unread_chanel_token = signed_token uid
-
-    user = User.find_by email: uid
-
-    if user && user.valid_token?(access_token, client)
+      unread_chanel_token = signed_token current_user.email
 
       stream_from "unread_#{unread_chanel_token}_channel"
 

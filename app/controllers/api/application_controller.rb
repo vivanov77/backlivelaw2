@@ -1,8 +1,12 @@
 class Api::ApplicationController < ActionController::API
 	# include DeviseTokenAuth::Concerns::User
+	before_action :set_cookie_token
+
 	include DeviseTokenAuth::Concerns::SetUserByToken
 
 	include ApplicationHelper
+
+	include ActionController::Cookies
 
 	rescue_from ActiveRecord::RecordNotFound, with: :invalid_record
 
@@ -23,6 +27,23 @@ class Api::ApplicationController < ActionController::API
 
 	def invalid_record error    	
 	  render json: { errors: error }, status: 404
+	end
+
+	def set_cookie_token
+
+		# p "set_cookie_token"
+
+		# unless cookies.signed[:visitor_token]
+		unless cookies[:visitor_token]
+
+			# cookies.signed[:visitor_token] = generate_unique_secure_token
+			cookies[:visitor_token] = generate_unique_secure_token			
+			
+		end	
+
+		# p cookies.signed[:visitor_token]
+		# p cookies[:visitor_token]
+		
 	end
 
 end

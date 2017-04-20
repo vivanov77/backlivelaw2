@@ -2,16 +2,13 @@
 class MessageChannel < ApplicationCable::Channel
   def subscribed
 
-    access_token = params["access-token"]
-    uid = params["uid"]
-    client = params["client"]
     correspondent = params["correspondent"]
 
-    message_chanel_token = doubled_signed_token uid, correspondent
+    correspondent_user = User.find_by email: correspondent
 
-    user = User.find_by email: uid
+    if correspondent_user
 
-    if user && user.valid_token?(access_token, client)
+      message_chanel_token = doubled_signed_token current_user.email, correspondent
 
       stream_from "message_#{message_chanel_token}_channel"  
 
@@ -29,13 +26,13 @@ class MessageChannel < ApplicationCable::Channel
  
   def process_message_on_server param_message
 
-    uid = params["uid"]
-
     correspondent = params["correspondent"]
 
-    message_chanel_token = doubled_signed_token uid, correspondent
+    correspondent_user = User.find_by email: correspondent
 
-    if correspondent && (correspondent_user = User.find_by email: correspondent)
+    if correspondent_user
+
+      message_chanel_token = doubled_signed_token current_user.email, correspondent
 
       message = current_user.messages.create!(text: param_message['text'], recipient_id: correspondent_user.id)
 
@@ -47,28 +44,15 @@ class MessageChannel < ApplicationCable::Channel
       ActionCable.server.broadcast "message_#{message_chanel_token}_channel",
                                    sent_message: message
 
-
-      # correspondent_user = User.find_by email: correspondent
-
-      # if correspondent_user
-
-      #   unread_chanel_token = signed_token correspondent
-
-      #   ActionCable.server.broadcast "unread_#{unread_chanel_token}_channel",
-      #                                sender_id: current_user.id
-      # end
-
     end
 
   end
 
   def writing_progress
 
-      uid = params["uid"]
-
       correspondent = params["correspondent"]
 
-      message_chanel_token = doubled_signed_token uid, correspondent    
+      message_chanel_token = doubled_signed_token current_user.email, correspondent
 
       ActionCable.server.broadcast "message_#{message_chanel_token}_channel",
                              "__writing" => :true

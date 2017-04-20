@@ -275,6 +275,10 @@ module ApplicationHelper
 
     signed_token1.slice pos..-1
 
+  end
+
+  def generate_unique_secure_token
+    SecureRandom.base58(24)
   end  
 	
 end
