@@ -20,7 +20,7 @@ class Api::ApplicationController < ActionController::API
 			error_message = "У Вас нет роли на #{ru_action exception.action}."
 		end
 
-        render json: { errors: error_message }, status: :unprocessable_entity		
+        render json: { errors: error_message }, status: :unprocessable_entity	
 	end
 
 	private
@@ -31,18 +31,11 @@ class Api::ApplicationController < ActionController::API
 
 	def set_cookie_token
 
-		# p "set_cookie_token"
-
-		# unless cookies.signed[:visitor_token]
 		unless cookies[:visitor_token]
 
-			# cookies.signed[:visitor_token] = generate_unique_secure_token
 			cookies[:visitor_token] = generate_unique_secure_token			
 			
-		end	
-
-		# p cookies.signed[:visitor_token]
-		# p cookies[:visitor_token]
+		end
 		
 	end
 

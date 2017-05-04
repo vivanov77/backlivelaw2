@@ -1,0 +1,6 @@
+<h1>Редактирование чат-токена</h1>
+
+<%= render 'form', chat_token: @chat_token %>
+
+<%= link_to 'Показать', [:admin, @chat_token] %> |
+<%= link_to 'Назад', admin_chat_tokens_path %>

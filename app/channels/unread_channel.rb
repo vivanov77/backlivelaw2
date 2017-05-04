@@ -2,7 +2,7 @@
 class UnreadChannel < ApplicationCable::Channel
   def subscribed
 
-    if current_user
+    if current_user.class.to_s = "User"
 
       unread_chanel_token = signed_token current_user.email
 
@@ -26,7 +26,7 @@ class UnreadChannel < ApplicationCable::Channel
 
     correspondent_user = User.find_by email: correspondent
 
-    if correspondent_user
+    if correspondent_user && (current_user.class.to_s == "User")
 
       unread_chanel_token = signed_token correspondent
 

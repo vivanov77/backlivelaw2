@@ -1,0 +1,1 @@
+json.partial! "chat_tokens/chat_token", chat_token: @chat_token

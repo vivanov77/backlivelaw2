@@ -1,0 +1,23 @@
+<p>
+  <strong>Id:</strong>
+  <%= @chat_token.id %>
+</p>
+
+<p>
+  <strong>Пользователь:</strong>
+  <%= @chat_token.user ? @chat_token.user.email : "Не указано" %>
+</p>
+
+
+<p>
+  <strong>Чат-логин:</strong>
+  <%= @chat_token.chat_login %>
+</p>
+
+<p>
+  <strong>Чат-пароль:</strong>
+  <%= @chat_token.chat_password %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_chat_token_path(@chat_token) %> |
+<%= link_to 'Назад', admin_chat_tokens_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324141015) do
+ActiveRecord::Schema.define(version: 20170421143255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,18 @@ ActiveRecord::Schema.define(version: 20170324141015) do
     t.integer "category_id", null: false
     t.index ["category_id"], name: "index_categories_questions_on_category_id", using: :btree
     t.index ["question_id"], name: "index_categories_questions_on_question_id", using: :btree
+  end
+
+  create_table "chat_messages", force: :cascade do |t|
+    t.string   "sendable_type"
+    t.integer  "sendable_id"
+    t.string   "receivable_type"
+    t.integer  "receivable_id"
+    t.text     "text"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["receivable_type", "receivable_id"], name: "index_chat_messages_on_receivable_type_and_receivable_id", using: :btree
+    t.index ["sendable_type", "sendable_id"], name: "index_chat_messages_on_sendable_type_and_sendable_id", using: :btree
   end
 
   create_table "cities", force: :cascade do |t|
@@ -97,6 +109,13 @@ ActiveRecord::Schema.define(version: 20170324141015) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["fileable_type", "fileable_id"], name: "index_file_containers_on_fileable_type_and_fileable_id", using: :btree
+  end
+
+  create_table "guest_chat_tokens", force: :cascade do |t|
+    t.string   "guest_chat_login"
+    t.string   "guest_chat_password"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "ipranges", force: :cascade do |t|

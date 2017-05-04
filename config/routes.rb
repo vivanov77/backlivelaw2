@@ -42,6 +42,8 @@ Rails.application.routes.draw do
 		end
 
 		resources :messages
+
+		resources :guest_chat_tokens		
 	end
 
 	namespace :api do
@@ -84,6 +86,12 @@ Rails.application.routes.draw do
 		end
 
 		resources :messages, only: [:index, :create, :update]
+
+		resources :guest_chat_tokens, only: [:create, :show]
+
+		resources :secret_chat_tokens, only: [:create, :show]
+
+		resources :chat_messages, only: [:index]		
 
 	end	
 

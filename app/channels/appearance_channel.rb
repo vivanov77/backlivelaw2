@@ -4,7 +4,7 @@ class AppearanceChannel < ApplicationCable::Channel
 
     stream_from "appearance_channel"
 
-    if current_user
+    if current_user.class.to_s == "User"
 
       ActionCable.server.broadcast "appearance_channel", { user: current_user.id, online: :on }
 
@@ -19,7 +19,7 @@ class AppearanceChannel < ApplicationCable::Channel
  
   def unsubscribed
 
-    if current_user
+    if current_user.class.to_s == "User"
 
       # Any cleanup needed when channel is unsubscribed
       ActionCable.server.broadcast "appearance_channel", { user: current_user.id, online: :off }

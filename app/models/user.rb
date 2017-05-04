@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :doc_responses, :inverse_of => :user
   # has_many :messages, foreign_key: 'sender_id', :inverse_of => :user
   has_many :messages, foreign_key: 'sender_id'
+  # has_one :chat_token, :inverse_of => :user
+  has_many :chat_messages, as: :sendable, dependent: :destroy  
 
   # resourcify
 

@@ -6,7 +6,7 @@ class MessageChannel < ApplicationCable::Channel
 
     correspondent_user = User.find_by email: correspondent
 
-    if correspondent_user
+    if correspondent_user && (current_user.class.to_s == "User")
 
       message_chanel_token = doubled_signed_token current_user.email, correspondent
 
@@ -30,7 +30,7 @@ class MessageChannel < ApplicationCable::Channel
 
     correspondent_user = User.find_by email: correspondent
 
-    if correspondent_user
+    if correspondent_user && (current_user.class.to_s == "User")
 
       message_chanel_token = doubled_signed_token current_user.email, correspondent
 

@@ -1,0 +1,1 @@
+json.array! @chat_tokens, partial: 'chat_tokens/chat_token', as: :chat_token
