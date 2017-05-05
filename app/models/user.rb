@@ -9,13 +9,13 @@ class User < ApplicationRecord
           :omniauthable
   include DeviseTokenAuth::Concerns::User
   rolify
-  has_many :questions, :inverse_of => :user
-  has_many :comments, :inverse_of => :user
+  has_many :questions, :inverse_of => :user, dependent: :destroy
+  has_many :comments, :inverse_of => :user, dependent: :destroy
   has_and_belongs_to_many :cities
-  has_many :doc_requests, :inverse_of => :user
-  has_many :doc_responses, :inverse_of => :user
+  has_many :doc_requests, :inverse_of => :user, dependent: :destroy
+  has_many :doc_responses, :inverse_of => :user, dependent: :destroy
   # has_many :messages, foreign_key: 'sender_id', :inverse_of => :user
-  has_many :messages, foreign_key: 'sender_id'
+  has_many :messages, foreign_key: 'sender_id', dependent: :destroy
   # has_one :chat_token, :inverse_of => :user
   has_many :chat_messages, as: :sendable, dependent: :destroy  
 

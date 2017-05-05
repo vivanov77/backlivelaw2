@@ -1,0 +1,33 @@
+<h1>Чат-сообщения</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id&nbsp;&nbsp;&nbsp;</th>
+      <th>Отправитель</th>
+      <th>Получатель</th>
+      <th>Содержимое</th>
+      <th>Создано</th>      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chat_messages.each do |chat_message| %>
+      <tr>
+        <td><%= chat_message.id %></td>      
+        <td><%= chat_message.sendable.try(:email) %><%= chat_message.sendable.try(:guest_chat_login) %></td>
+        <td><%= chat_message.receivable.try(:email) %><%= chat_message.receivable.try(:guest_chat_login) %></td>
+        <td><%= chat_message.text %></td>
+        <td><%= chat_message.created_at %></td>        
+        <td><%= link_to 'Показать', [:admin, chat_message] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_chat_message_path(chat_message) %></td>
+        <td><%= link_to 'Удалить', [:admin, chat_message], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новое чат-сообщение', new_admin_chat_message_path %>

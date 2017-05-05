@@ -1,0 +1,31 @@
+
+<p>
+  <strong>Отправитель (тип):</strong>
+  <%= @chat_message.sendable_type == "User" ? "Пользователь" : (@chat_message.sendable_type == "GuestChatToken" ? "Гостевой токен" : "") %>
+</p>
+
+<p>
+  <strong>Отправитель (значение):</strong>
+  <%= @chat_message.sendable.try(:email) %>
+  <%= @chat_message.sendable.try(:guest_chat_login) %>
+</p>
+
+<p>
+  <strong>Получатель (тип):</strong>
+  <%= @chat_message.receivable_type == "User" ? "Пользователь" : (@chat_message.receivable_type == "GuestChatToken" ? "Гостевой токен" : "") %>
+</p>
+
+<p>
+  <strong>Получатель (значение):</strong>
+  <%= @chat_message.receivable.try(:email) %>
+  <%= @chat_message.receivable.try(:guest_chat_login) %>
+</p>
+
+<p>
+  <strong>Содержимое сообщения:</strong>
+  <%= @chat_message.text %>
+</p>
+
+
+<%= link_to 'Редактировать', edit_admin_chat_message_path(@chat_message) %> |
+<%= link_to 'Назад', admin_chat_messages_path %>

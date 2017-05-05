@@ -115,8 +115,8 @@ class ChatChannel < ApplicationCable::Channel
         correspondent_user = chat_parties_array[correspondent_index]
    
 
-        message = { sendable_type: current_user.class.to_s.underscore, sendable_id: current_user.id,
-          receivable_type: correspondent_user.class.to_s.underscore, receivable_id: correspondent_user.id,
+        message = { sendable_type: current_user.class, sendable_id: current_user.id,
+          receivable_type: correspondent_user.class, receivable_id: correspondent_user.id,
           text: param_message["text"] }
 
         chat_message = ChatMessage.new(message)

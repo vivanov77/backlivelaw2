@@ -1,6 +1,6 @@
 class LibEntry < ApplicationRecord
 	belongs_to :lib_entry, :inverse_of => :lib_entries
-	has_many :lib_entries, :inverse_of => :lib_entry
+	has_many :lib_entries, :inverse_of => :lib_entry, dependent: :destroy
 
 	before_save :check_for_too_nested
 

@@ -30,11 +30,17 @@ module ApplicationHelper
 	  }	  
 	end
 
+  # def class_by_name name
+  #   # http://stackoverflow.com/questions/14070369/how-to-instantiate-class-from-name-string-in-rails
+  #   Object.const_get name.to_s.capitalize
+
+  # end
+
   def class_by_name name
     # http://stackoverflow.com/questions/14070369/how-to-instantiate-class-from-name-string-in-rails
-    Object.const_get name.to_s.capitalize
+    Object.const_get name.to_s
 
-  end
+  end  
 
 ########################
   def seed_regions
@@ -225,11 +231,6 @@ module ApplicationHelper
 
   end
 
-  def class_by_name name
-    # http://stackoverflow.com/questions/14070369/how-to-instantiate-class-from-name-string-in-rails
-    Object.const_get name.to_s
-
-  end
 
   def helper_by_name2 path, id, params
 

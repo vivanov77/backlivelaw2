@@ -1,0 +1,6 @@
+<h1>Редактирование сообщения</h1>
+
+<%= render 'form', chat_message: @chat_message %>
+
+<%= link_to 'Показать', [:admin, @chat_message] %> |
+<%= link_to 'Назад', admin_chat_messages_path %>

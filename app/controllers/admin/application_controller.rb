@@ -16,4 +16,9 @@ class Admin::ApplicationController < ApplicationController
 			#"You don't have the right to #{exception.action} #{exception.subject.class}"
 		end
 	end
+
+	rescue_from ActiveRecord::DeleteRestrictionError do |exception|
+			redirect_to :back, notice:
+			"#{exception.message}."
+	end
 end

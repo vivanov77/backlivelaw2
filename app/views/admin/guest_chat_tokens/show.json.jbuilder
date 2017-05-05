@@ -1,1 +1,1 @@
-json.partial! "chat_tokens/chat_token", chat_token: @chat_token
+json.partial! "guest_chat_tokens/guest_chat_token", guest_chat_token: @guest_chat_token

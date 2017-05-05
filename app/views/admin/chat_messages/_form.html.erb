@@ -1,0 +1,46 @@
+<%= form_for([:admin, chat_message]) do |f| %>
+  <% if chat_message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(chat_message.errors.count, "error") %> prohibited this chat_message from being saved:</h2>
+
+      <ul>
+      <% chat_message.errors.full_chat_messages.each do |chat_message| %>
+        <li><%= chat_message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    Отправитель (тип):
+    <%= @chat_message.sendable_type == "User" ? "Пользователь" : (@chat_message.sendable_type == "GuestChatToken" ? "Гостевой токен" : "") %>
+  </div>
+
+  <div class="field">
+    Отправитель (значение):
+    <%= @chat_message.sendable.try(:email) %>
+    <%= @chat_message.sendable.try(:guest_chat_login) %>
+  </div>
+
+  <div class="field">
+    Получатель (тип):
+    <%= @chat_message.receivable_type == "User" ? "Пользователь" : (@chat_message.receivable_type == "GuestChatToken" ? "Гостевой токен" : "") %>
+  </div>
+
+  <div class="field">
+    Получатель (значение):
+    <%= @chat_message.receivable.try(:email) %>
+    <%= @chat_message.receivable.try(:guest_chat_login) %>
+  </div>   
+
+  <div class="field">
+    <%= f.label "Содержимое чат-сообщения" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Чат-сообщение" %>
+  </div>
+  Примечание: поля отправитель и получатель - сделаны тут нередактируемыми. Можно сделать их редактируемыми, но это либо потребовало бы времени, либо было бы не очень удобно в использовании.
+  <br><br>
+<% end %>
