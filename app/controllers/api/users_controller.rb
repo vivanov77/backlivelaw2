@@ -14,9 +14,23 @@ class Api::UsersController < Api::ApplicationController
 
     if params[:online]
 
-      @users = User.where(online: true).order(:email)
+      @users = User
 
-      render json: @users
+      @users = @users.where(online: true)
+
+      if params[:role] == "lawyer"
+
+        @users = @users.includes(:roles).where(:roles => {name: :lawyer})
+
+      elsif params[:role] == "advocate"
+
+        @users = @users.includes(:roles).where(:roles => {name: :advocate})
+
+      end
+
+      @users = @users.order(:email)
+
+      render json: @users, show_roles: true
 
     else
 
