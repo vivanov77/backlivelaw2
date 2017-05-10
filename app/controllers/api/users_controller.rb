@@ -8,10 +8,6 @@ class Api::UsersController < Api::ApplicationController
   before_action :check_for_questions, only: [:destroy]
 
   # before_action :verify_owner
-
-  before_action :mark_messages_read, only: [:update]
-
-  before_action :unread_messages_count, only: [:show]
     
   # GET /users
   def index
@@ -110,51 +106,5 @@ class Api::UsersController < Api::ApplicationController
 
     end
 
-    def mark_messages_read
 
-      if params[:mark_read] && (correspondent = User.find_by email: params[:mark_read])
-
-        if Message.mark_messages_read @user.id, correspondent.id
-
-          render json: @user
-
-        else
-
-          error_message = "Не удалось пометить прочитанными непрочитанные сообщения пользователя: \"#{@user.email}\"."
-          
-          render json: { errors: error_message }, status: :unprocessable_entity          
-
-        end
-
-      end
-
-    end
-
-    def unread_messages_count
-
-      if params[:unread] && (correspondent = User.find_by email: params[:unread])
-
-        unread = Message.unread_count @user.id, correspondent.id
-
-        if unread
-
-          mes_unread = {
-            "messages": {
-              "user_id": @user.id,
-              "correspondent_id": correspondent.id,
-              "messages_unread": unread
-            }
-          }
-
-          render json: mes_unread
-
-        else
-
-          error_message = "Не удалось подсчитать непрочитанные сообщения пользователя: \"#{@user.email}\"."
-          
-          render json: { errors: error_message }, status: :unprocessable_entity
-
-        end
-      end
-    end  
 end

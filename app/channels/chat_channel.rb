@@ -106,9 +106,9 @@ class ChatChannel < ApplicationCable::Channel
       chat_chanel_token = secret_chat_token
 
 
-      chat_parties_array = secret_token_users secret_chat_token
+      chat_parties_array = secret_token_users secret_chat_token, "secret_chat_token"
 
-      if chat_parties_array.size == 2
+      unless chat_parties_array.size > 2
 
         correspondent_index = 1 - chat_parties_array.index(current_user)
 
@@ -131,11 +131,11 @@ class ChatChannel < ApplicationCable::Channel
 
         message = { message_error: "More than 2 parties in the chat. Secret_chat_token = " + secret_chat_token }
 
-      end            
+      end
 
       ActionCable.server.broadcast "chat_#{chat_chanel_token}_channel", message
       
-    end    
+    end
 
   end
 
@@ -163,18 +163,44 @@ class ChatChannel < ApplicationCable::Channel
     
   end
 
-  def secret_token_users token
-    # Get an array of 2 chatting parties by secret_chat_token
+  def writing_progress
 
-# http://stackoverflow.com/questions/2244915/how-do-i-search-within-an-array-of-hashes-by-hash-values-in-ruby
+    # byebug
+    # binding.pry
 
-    connections_info.select do |elem| 
+    if params["secret_chat_token"]
 
-      elem[:subscriptions_identifiers].select{|elem2| elem2["secret_chat_token"]==token}.size > 0
+      secret_chat_token = params["secret_chat_token"]
 
-    end.map{|elem| elem[:current_user]}
+      chat_chanel_token = secret_chat_token
+
+
+      chat_parties_array = secret_token_users secret_chat_token, "secret_chat_token"
+
+      unless chat_parties_array.size > 2
+
+        correspondent_index = 1 - chat_parties_array.index(current_user)
+
+        correspondent_user = chat_parties_array[correspondent_index]
+   
+
+        message = { sendable_type: current_user.class, sendable_id: current_user.id,
+          receivable_type: correspondent_user.class, receivable_id: correspondent_user.id,
+          writing_progress: true }
+
+      else
+
+        message = { message_error: "More than 2 parties in the chat. Secret_chat_token = " + secret_chat_token }
+
+      end
+
+      ActionCable.server.broadcast "chat_#{chat_chanel_token}_channel", message
+      
+    end
 
   end
+
+
 
 end
 

@@ -93,7 +93,9 @@ Rails.application.routes.draw do
 
 		resources :secret_chat_tokens, only: [:create, :show]
 
-		resources :chat_messages, only: [:index]		
+		resources :chat_messages, only: [:index]
+
+		resources :secret_message_tokens, only: [:create, :show]
 
 	end	
 

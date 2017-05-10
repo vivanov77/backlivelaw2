@@ -52,13 +52,25 @@ class Message < ApplicationRecord
 
 	def self.mark_messages_read userid, correspondent_id
 
-		Message.where(recipient_id: userid, sender_id: correspondent_id).where(read: false).update_all read: true
+		messages = Message.where(recipient_id: userid, sender_id: correspondent_id).where(read: false)
+
+		ids = messages.collect {|el| el.id}
+
+		messages.update_all read: true
+
+		Message.where id: ids
 
 	end
 
 	def self.unread_count userid, correspondent_id
 
 		Message.where(recipient_id: userid, sender_id: correspondent_id).where(read: false).count
+
+	end
+
+	def self.unread_count_all userid
+
+		Message.where(recipient_id: userid).where(read: false).count
 
 	end	
 

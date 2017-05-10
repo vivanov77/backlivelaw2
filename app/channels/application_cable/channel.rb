@@ -52,6 +52,19 @@ module ApplicationCable
 	#      "secret_chat_token"=>"f5a6722dfe04fc883b59922bc99aef4b5ac266af"}]}]		
 
 	end
+
+	def secret_token_users token, token_name
+	# Get an array of 2 chatting parties by secret_chat_token
+
+	# http://stackoverflow.com/questions/2244915/how-do-i-search-within-an-array-of-hashes-by-hash-values-in-ruby
+
+		connections_info.select do |elem| 
+
+		  elem[:subscriptions_identifiers].select{|elem2| elem2[token_name]==token}.size > 0
+
+		end.map{|elem| elem[:current_user]}
+
+	end	
 	  
 	# http://stackoverflow.com/questions/13485468/map-and-remove-nil-values-in-ruby
     # secret_tokens_array = streams_array.select {|p| p if p["channel"]=="ChatChannel"}.map{|p| p["secret_token"]}

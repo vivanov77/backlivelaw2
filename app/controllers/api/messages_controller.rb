@@ -1,75 +1,57 @@
 class Api::MessagesController < Api::ApplicationController
 
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   # load_and_authorize_resource
     
   before_action :set_message, only: [:show, :update, :destroy]
+
+  before_action :mark_messages_read, only: [:create]
+
+  before_action :unread_messages_count, only: [:index]  
 
   # GET /messages
   # GET /messages.json
   def index
 
-    if params[:user]
+    if params[:correspondent_id]
 
-      user = User.find_by email: params[:user]
+        correspondent = User.find params[:correspondent_id]
 
-      if user
+        if correspondent
 
-        if params[:correspondent]
-
-            correspondent = User.find_by email: params[:correspondent]
-
-            if correspondent
-
-              # ActiveRecord::Base.transaction do
+          # ActiveRecord::Base.transaction do
 # http://www.codeatmorning.com/rails-transactions-complete-guide/
-                @messages = Message.dialog_messages user.id, correspondent.id
-
-                render json: @messages
-
-              # end
-
-            else
-
-              error_message = "Пользователь #{params[:correspondent]} не существует."
-
-              render json: { errors: error_message }, status: :unprocessable_entity
-
-            end
-
-        else
-  
-          correspondents = Message.correspondents user.id
-
-          if correspondents.size > 0
-
-            @messages = Message.last_messages user.id, correspondents
+            @messages = Message.dialog_messages current_user.id, correspondent.id
 
             render json: @messages
 
-          else
+          # end
 
-            error_message = "Пользователь #{params[:user]} ещё не посылал и не получал сообщений."
+        else
 
-            render json: { errors: error_message }, status: :unprocessable_entity          
+          error_message = "Пользователь #{params[:correspondent_id]} не существует."
 
-          end
+          render json: { errors: error_message }, status: :unprocessable_entity
 
         end
 
-      else
-
-        error_message = "Пользователь #{params[:user]} не существует."
-
-        render json: { errors: error_message }, status: :unprocessable_entity
-
-      end
-
     else
 
-      @messages = []
+      correspondents = Message.correspondents current_user.id
 
-      render json: @messages
+      if correspondents.size > 0
+
+        @messages = Message.last_messages current_user.id, correspondents
+
+        render json: @messages
+
+      else
+
+        error_message = "Пользователь #{current_user.email} ещё не посылал и не получал сообщений."
+
+        render json: { errors: error_message }, status: :unprocessable_entity          
+
+      end
 
     end
 
@@ -132,4 +114,78 @@ class Api::MessagesController < Api::ApplicationController
       res
 
     end
+
+
+    def unread_messages_count
+
+      if params[:unread_all]
+
+        unread = Message.unread_count_all current_user.id
+
+        if unread
+
+          mes_unread = {
+            "messages": {
+              "user_id": current_user.id,
+              "messages_unread_all": unread
+            }
+          }
+
+          render json: mes_unread
+
+        else
+
+          error_message = "Не удалось подсчитать непрочитанные сообщения для текущего пользователя."
+          
+          render json: { errors: error_message }, status: :unprocessable_entity
+
+        end        
+
+
+      elsif params[:unread_id] && (correspondent = User.find params[:unread_id])
+
+        unread = Message.unread_count current_user.id, correspondent.id
+
+        if unread
+
+          mes_unread = {
+            "messages": {
+              "user_id": current_user.id,
+              "correspondent_id": correspondent.id,
+              "messages_unread": unread
+            }
+          }
+
+          render json: mes_unread
+
+        else
+
+          error_message = "Не удалось подсчитать непрочитанные сообщения пользователя: \"#{@user.email}\"."
+          
+          render json: { errors: error_message }, status: :unprocessable_entity
+
+        end
+      end
+    end
+
+    def mark_messages_read
+
+      if params[:mark_read_id] && (correspondent = User.find params[:mark_read_id])
+
+        if (messages = Message.mark_messages_read current_user.id, correspondent.id)
+
+          render json: messages
+
+        else
+
+          error_message = "Не удалось пометить прочитанными непрочитанные сообщения пользователя: \"#{@user.email}\"."
+          
+          render json: { errors: error_message }, status: :unprocessable_entity
+
+        end
+
+      end
+
+    end    
+
 end
