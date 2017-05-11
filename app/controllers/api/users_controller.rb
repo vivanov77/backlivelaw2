@@ -1,6 +1,6 @@
 class Api::UsersController < Api::ApplicationController
 
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   # load_and_authorize_resource
     
   before_action :set_user, only: [:show, :update, :destroy]
@@ -12,55 +12,47 @@ class Api::UsersController < Api::ApplicationController
   # GET /users
   def index
 
-    if params[:online]
+    # http://localhost:3000/api/users?online=false&advocate=false&lawyer=true
 
-      @users = User
+    exception_roles = [:admin, :blocked]
+
+    @users = User.includes(:roles).where.not(roles: {name: exception_roles })
+
+    if param? params[:online]
 
       @users = @users.where(online: true)
 
-      if params[:role] == "lawyer"
+    end
 
-        @users = @users.includes(:roles).where(:roles => {name: :lawyer})
+    params_array = []
 
-      elsif params[:role] == "advocate"
+    if param? params[:lawyer]
 
-        @users = @users.includes(:roles).where(:roles => {name: :advocate})
-
-      end
-
-      @users = @users.order(:email)
-
-      render json: @users, show_roles: true
-
-    else
-
-      params_array = []
-
-      if param? params[:lawyer]
-
-        params_array << :lawyer
-
-      end
-
-      if param? params[:advocate]
-        
-        params_array << :advocate
-
-      end
-
-      if params_array.size > 0
-
-        @users = User.includes(:roles).where(:roles => {name: params_array }).order(:email)
-
-      else
-
-        @users = []
-
-      end
-
-      render json: @users, show_roles: true
+      params_array << :lawyer
 
     end
+
+    if param? params[:advocate]
+      
+      params_array << :advocate
+
+    end
+
+    if param? params[:client]
+      
+      params_array << :client
+
+    end    
+
+    if params_array.size > 0
+
+      @users = @users.includes(:roles).where(roles: {name: params_array })
+
+    end
+
+    @users = @users.order(:email)
+
+    render json: @users, show_roles: true
 
   end
 

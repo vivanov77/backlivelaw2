@@ -227,7 +227,7 @@ module ApplicationHelper
 
   def param? param
 
-    (!(param == "false") && !(param == "nil") && param)
+    param && param != "false" && param != "nil"
 
   end
 
