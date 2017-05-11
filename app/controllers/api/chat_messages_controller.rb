@@ -13,17 +13,17 @@ class Api::ChatMessagesController < Api::ApplicationController
 
       chat_messages = ChatMessage
 
-      chat_messages = chat_messages.where(sendable_type: "user").where(sendable_id: current_user.id)
+      chat_messages = chat_messages.where(sendable_type: "User").where(sendable_id: current_user.id)
 
       if params[:correspondent_type] && params[:correspondent_id]
 
         if params[:correspondent_type] == "guest"
 
-          correspondent_type = "guest_chat_token"
+          correspondent_type = "GuestChatToken"
 
         elsif params[:correspondent_type] == "user"
 
-          correspondent_type = "user"
+          correspondent_type = "User"
 
         end          
 
@@ -69,11 +69,11 @@ class Api::ChatMessagesController < Api::ApplicationController
 
       chat_messages = ChatMessage
 
-      chat_messages = ChatMessage.where(sendable_type: "guest_chat_token").where(sendable_id: guest_chat_token.id)
+      chat_messages = ChatMessage.where(sendable_type: "GuestChatToken").where(sendable_id: guest_chat_token.id)
 
       if params[:correspondent_id]
 
-        chat_messages = chat_messages.where(receivable_type: "user").where(receivable_id: params[:correspondent_id])
+        chat_messages = chat_messages.where(receivable_type: "User").where(receivable_id: params[:correspondent_id])
 
       end      
 

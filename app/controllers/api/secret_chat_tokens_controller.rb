@@ -48,9 +48,9 @@ class Api::SecretChatTokensController < Api::ApplicationController
       if params[:guest_chat_password] && !current_user
         # Ситуация 1.1
 
-        unless params[:answerer]
+        unless params[:answerer_id]
 
-          error_message = "No answerer param specified."
+          error_message = "No answerer_id param specified."
 
           render json: { errors: error_message }, status: :unprocessable_entity and return  
 
@@ -68,11 +68,13 @@ class Api::SecretChatTokensController < Api::ApplicationController
 
         # Результат 1.1
 
-        answerer_user = User.find_by email: params[:answerer]
+        answerer_user = User.find params[:answerer_id]
 
         asker_type = :guest_chat_login
 
         asker_value = guest_chat_token.guest_chat_login
+
+        asker_value2 = guest_chat_token.guest_chat_login
 
       elsif params[:guest_chat_login] && current_user &&
         (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
@@ -94,34 +96,37 @@ class Api::SecretChatTokensController < Api::ApplicationController
 
         asker_type = :guest_chat_login
 
-        asker_value = guest_chat_token.guest_chat_login      
+        asker_value = guest_chat_token.guest_chat_login
+
+        asker_value2 = guest_chat_token.guest_chat_login        
 
       end
 
-    elsif (params[:answerer] && current_user) || params[:client_user]
+    elsif (params[:answerer_id] && current_user) || params[:client_user_id]
       # Ситуация 2
 
-      if params[:answerer] && current_user && 
+      if params[:answerer_id] && current_user && 
         (!(current_user.has_role?(:lawyer) || current_user.has_role?(:advocate)))
         # Ситуация 2.1
 
         # Результат 2.1
 
-        answerer_user = User.find_by email: params[:answerer]
+        answerer_user = User.find params[:answerer_id]
 
-        asker_type = :client_user
+        asker_type = :client_user_id
 
-        asker_value = current_user.email
+        asker_value = current_user.id
+        asker_value2 = current_user.email        
 
-      elsif params[:client_user] && current_user && 
+      elsif params[:client_user_id] && current_user && 
         (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
         # Ситуация 2.2
 
-        client_user = User.find_by email: params[:client_user]
+        client_user = User.find params[:client_user_id]
 
         unless client_user
 
-          error_message = "The user #{params[:client_user]} is not found."
+          error_message = "The user #{params[:client_user_id]} is not found."
 
           render json: { errors: error_message }, status: :unprocessable_entity and return
 
@@ -131,9 +136,10 @@ class Api::SecretChatTokensController < Api::ApplicationController
 
         answerer_user = current_user
 
-        asker_type = :client_user
+        asker_type = :client_user_id
 
-        asker_value = client_user.email
+        asker_value = client_user.id
+        asker_value2 = client_user.email        
 
       end
 
@@ -147,7 +153,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
 
     end
 
-    secret_chat_token = doubled_signed_token asker_value, answerer_user.email
+    secret_chat_token = doubled_signed_token asker_value2, answerer_user.email
 
     token_hash = {}
 
@@ -155,7 +161,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
 
     token_hash[:asker_value] = asker_value
 
-    token_hash[:answerer] = answerer_user.email
+    token_hash[:answerer_id] = answerer_user.id
 
     token_hash[:secret_chat_token] = secret_chat_token
 

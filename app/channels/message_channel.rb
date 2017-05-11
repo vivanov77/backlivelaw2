@@ -111,14 +111,14 @@ class MessageChannel < ApplicationCable::Channel
 
       ActionCable.server.broadcast "message_#{token}_channel", message and return   
 
-    end    
+    end
 
     message_hash = { sender_id: current_user.id, recipient_id: correspondent_user.id,
       text: param_message["text"] }
 
     message = { sender_id: current_user.id,
       recipient_id: correspondent_user.id,
-      text: param_message["text"] }      
+      text: param_message["text"] }
 
     message_db = Message.new(message_hash)
 
