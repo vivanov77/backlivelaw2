@@ -46,21 +46,21 @@ user4.first_name = "Ted"
 # admin.confirm
 user4.save!
 
-user5 = User.find_or_create_by(email: "advocate1@example.com") { |u| u.password = "12345678" }
-user5.add_role :advocate
+user5 = User.find_or_create_by(email: "jurist1@example.com") { |u| u.password = "12345678" }
+user5.add_role :jurist
 user5.first_name = "Max"
 # admin.confirm
 user5.save!
 
-user6 = User.find_or_create_by(email: "advocate2@example.com") { |u| u.password = "12345678" }
-user6.add_role :advocate
+user6 = User.find_or_create_by(email: "jurist2@example.com") { |u| u.password = "12345678" }
+user6.add_role :jurist
 user6.first_name = "Larry"
 # admin.confirm
 user6.save!
 
 client_emails_array = User.includes(:roles).where(:roles => {name: :client}).map(&:email)
-lawyers_emails_array = User.includes(:roles).where(:roles => {name: :lawyer}).map(&:email)
-advocate_emails_array = User.includes(:roles).where(:roles => {name: :advocate}).map(&:email)
+# lawyer_emails_array = User.includes(:roles).where(:roles => {name: :lawyer}).map(&:email)
+# jurist_emails_array = User.includes(:roles).where(:roles => {name: :jurist}).map(&:email)
 
 Category.delete_all
 

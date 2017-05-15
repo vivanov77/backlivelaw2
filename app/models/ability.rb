@@ -13,7 +13,7 @@ class Ability
         can :read, User if user.has_role? :client
         can :create, Question if user.has_role? :client
         can :update, Question, user_id: user.id # if user.has_role? :client
-        can :create, Comment if ((user.has_role? :lawyer) || (user.has_role? :advocate))
+        can :create, Comment if ((user.has_role? :lawyer) || (user.has_role? :jurist))
         can :create, Comment do |comment|
            (user.has_role? :client) &&
 
@@ -23,7 +23,7 @@ class Ability
            )
 
         end
-        can :update, Comment, user_id: user.id # if ((user.has_role? :lawyer) || (user.has_role? :advocate))
+        can :update, Comment, user_id: user.id # if ((user.has_role? :lawyer) || (user.has_role? :jurist))
       end
 
     # The first argument to `can` is the action you are giving the user

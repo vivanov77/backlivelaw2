@@ -28,7 +28,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
   # POST /secret_chat_tokens.json
   def create
 
-     # && (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
+     # && (current_user.has_role?(:lawyer) || current_user.has_role?(:lawyer))
 
   # Ситуации:
 
@@ -77,7 +77,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
         asker_value2 = guest_chat_token.guest_chat_login
 
       elsif params[:guest_chat_login] && current_user &&
-        (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
+        (current_user.has_role?(:lawyer) || current_user.has_role?(:lawyer))
         # Ситуация 1.2
 
         guest_chat_token = GuestChatToken.find_by guest_chat_login: params[:guest_chat_login]
@@ -106,7 +106,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
       # Ситуация 2
 
       if params[:answerer_id] && current_user && 
-        (!(current_user.has_role?(:lawyer) || current_user.has_role?(:advocate)))
+        (!(current_user.has_role?(:lawyer) || current_user.has_role?(:jurist)))
         # Ситуация 2.1
 
         # Результат 2.1
@@ -119,7 +119,7 @@ class Api::SecretChatTokensController < Api::ApplicationController
         asker_value2 = current_user.email        
 
       elsif params[:client_user_id] && current_user && 
-        (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
+        (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
         # Ситуация 2.2
 
         client_user = User.find params[:client_user_id]

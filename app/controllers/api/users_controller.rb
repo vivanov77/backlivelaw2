@@ -12,7 +12,7 @@ class Api::UsersController < Api::ApplicationController
   # GET /users
   def index
 
-    # http://localhost:3000/api/users?online=false&advocate=false&lawyer=true
+    # http://localhost:3000/api/users?online=false&jurist=false&lawyer=true
 
     exception_roles = [:admin, :blocked]
 
@@ -32,9 +32,9 @@ class Api::UsersController < Api::ApplicationController
 
     end
 
-    if param? params[:advocate]
+    if param? params[:jurist]
       
-      params_array << :advocate
+      params_array << :jurist
 
     end
 

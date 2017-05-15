@@ -22,7 +22,7 @@ class ChatChannel < ApplicationCable::Channel
           asker_value = current_user.guest_chat_login
 
         elsif current_user.class.to_s == "User" && 
-          (!(current_user.has_role?(:lawyer) || current_user.has_role?(:advocate)))
+          (!(current_user.has_role?(:lawyer) || current_user.has_role?(:jurist)))
 
           asker_type = :client_user_id
           asker_value = current_user.id
@@ -76,7 +76,7 @@ class ChatChannel < ApplicationCable::Channel
 
       elsif current_user.class.to_s == "User"
 
-        if (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
+        if (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
           asker_type = :answerer_id
         else
           asker_type = :client_user_id 
@@ -110,7 +110,7 @@ class ChatChannel < ApplicationCable::Channel
         
       end
 
-      if (current_user.has_role?(:lawyer) || current_user.has_role?(:advocate))
+      if (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
 
         message = { answerer_id: current_user.id, chat_request_accept: param_message["chat_request_accept"] }
 

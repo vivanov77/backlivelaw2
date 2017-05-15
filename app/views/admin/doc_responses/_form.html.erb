@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= f.label "Создатель" %><br />
-    <%= f.collection_select :user_id, User.roled([:lawyer, :advocate]).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
+    <%= f.collection_select :user_id, User.roled([:lawyer, :jurist]).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
   # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
     prompt: 'Выберите клиента' %>          
   </div>

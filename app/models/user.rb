@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # resourcify
 
 # see config/application.rb
-# config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
+# config.roles = {client:"Клиент", admin:"Администратор", jurist:"Юрист", lawyer:"Адвокат", blocked: "Заблокирован"}
 
 # http://guides.rubyonrails.org/active_record_querying.html#scopes
 # http://stackoverflow.com/questions/26159533/rails-includes-with-scope
