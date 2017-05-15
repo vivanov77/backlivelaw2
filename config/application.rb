@@ -24,7 +24,8 @@ module Backlivelaw2
     config.i18n.default_locale = :ru
 
 # http://stackoverflow.com/questions/4110866/ruby-on-rails-where-to-define-global-constants
-    config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
+    # config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Юрист", advocate:"Адвокат", blocked: "Заблокирован"}
+    config.roles = {client:"Клиент", admin:"Администратор", lawyer:"Адвокат", jurist:"Юрист", blocked: "Заблокирован"}
 
     config.middleware.use ActionDispatch::Cookies
 
