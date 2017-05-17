@@ -16,7 +16,7 @@ class Api::UsersController < Api::ApplicationController
 
     exception_roles = [:admin, :blocked]
 
-    @users = User.includes(:roles).where.not(roles: {name: exception_roles })
+    @users = User.includes(:roles).where.not(roles: {name: exception_roles }).includes(:cities)
 
     if param? params[:online]
 
@@ -25,6 +25,8 @@ class Api::UsersController < Api::ApplicationController
     end
 
     params_array = []
+
+    city = nil
 
     if param? params[:lawyer]
 
@@ -42,7 +44,7 @@ class Api::UsersController < Api::ApplicationController
       
       params_array << :client
 
-    end    
+    end
 
     if params_array.size > 0
 
@@ -50,9 +52,53 @@ class Api::UsersController < Api::ApplicationController
 
     end
 
-    @users = @users.order(:email)
+    if (param? params[:same_region]) || (param? params[:other_regions])
 
-    render json: @users, show_roles: true
+      if current_user
+
+        city = current_user.cities.first
+
+      else
+
+        if (param? params[:city_id])
+
+          city = City.find params[:city_id]
+
+          unless city
+
+            error_message = "Город с #{city_id} не найден."       
+
+            render json: { errors: error_message }, status: :unprocessable_entity
+
+            return
+
+          end
+
+        else
+
+          error_message = "Для гостей в случае указания параметра same_region или other_regions нужно ещё и указать параметр city_id"       
+
+          render json: { errors: error_message }, status: :unprocessable_entity
+
+          return
+
+        end
+
+      end
+
+    end
+
+    @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
+
+    render json: @users
+
+    # render json: @users, show_roles: true
+
+    # else
+
+    #   @users = @users.order(:email)        
+
+    # , show_cities: true, include: [:cities]
 
   end
 

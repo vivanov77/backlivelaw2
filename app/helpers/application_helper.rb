@@ -231,7 +231,6 @@ module ApplicationHelper
 
   end
 
-
   def helper_by_name2 path, id, params
 
     Rails.application.routes.url_helpers.send path, id, params

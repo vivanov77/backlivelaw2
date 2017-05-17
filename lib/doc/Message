@@ -1,0 +1,276 @@
+h2. *Случай 2. Клиент-пользователь (зарегистрированный) (далее - "клиент"), хочет початиться с юристом.*
+
+Во многом аналогично:
+
+1. Юрист заходит на сайт и залогинивается на сайте под собой (вручную или автоматически через куки).
+
+2. (Опционально) юрист получает список своих старых чат-сообщений:
+
+Варианты:
+
+<pre><code class="ruby">
+GET http://localhost:3000/api/chat_messages
+
+GET http://localhost:3000/api/chat_messages?correspondent_type=guest&correspondent_id=3
+
+GET http://localhost:3000/api/chat_messages?correspondent_type=user&correspondent_id=2
+</code></pre>
+
+Заголовки (в любом случае):
+<pre><code class="ruby">
+access-token: vgEiTjHgSVRyrxSot-P8tQ
+client: XQW5Rqisvsn7S1yphgVSjw
+uid: lawyer1@example.com
+</code></pre>
+
+Ответ (на 3 вариант):
+
+<pre><code class="ruby">
+[
+  {
+    "id": 9,
+    "sendable_type": "user",
+    "sendable_id": 4,
+    "receivable_type": "user",
+    "receivable_id": 2,
+    "text": "hi from jurist",
+    "created_at": "2017-05-04T11:37:37.793Z",
+    "updated_at": "2017-05-04T11:37:37.793Z"
+  }
+]
+</code></pre>
+
+3. Юрист подключается к сокету:
+
+<pre><code>ws://localhost:3000/cable/?access-token=vgEiTjHgSVRyrxSot-P8tQ&client=XQW5Rqisvsn7S1yphgVSjw&uid=lawyer1@example.com
+</code></pre>
+
+4. Юрист подписывается (фронтэнд) на "публичный" (т.е. видимый всем) канал чат-запросов, параметризованный по емейлу юриста (ChatChannel#Jurist), с которым гость хочет поговорить:
+
+<pre><code class="ruby">
+{"command":"subscribe","identifier":"{\"channel\":\"ChatChannel\",\"answerer_id\":\"4\"}"}
+</code></pre>
+
+5. Клиент заходит на сайт. Если он хочет пообщаться в чате (с юристом; это имеет смысл делать, только если нужный юрист находится онлайн - что проверяется либо соответствующим HTTP-запросом, либо через AppearanceChannel), то он выполняет следующие действия и именно в такой последовательности:
+
+7. (Опционально) Клиент получает список своих старых чат-сообщений:
+
+<pre><code class="ruby">
+GET http://localhost:3000/api/chat_messages?
+
+GET http://localhost:3000/api/chat_messages?correspondent_id=4
+</code></pre>
+
+Заголовки (в любом случае):
+<pre><code class="ruby">
+access-token: u6_ov3QERACHrTzMtZFr1g
+client: qpHS_Wl4S8wlW5zDOIZEJw
+uid: client1@example.com
+</code></pre>
+
+Ответ:
+
+<pre><code class="ruby">
+[
+  {
+    "id": 8,
+    "sendable_type": "user",
+    "sendable_id": 2,
+    "receivable_type": "user",
+    "receivable_id": 4,
+    "text": "hi from client",
+    "created_at": "2017-05-04T11:36:39.114Z",
+    "updated_at": "2017-05-04T11:36:39.114Z"
+  }
+]
+</code></pre>
+
+8. Клиент получает секретный (параметризованный) чат-токен (через HTTP-запрос серверу), обязательно указывая желаемого чат-собеседника:
+
+<pre><code class="ruby">
+POST http://localhost:3000/api/secret_chat_tokens?answerer_id=4
+</code></pre>
+
+Заголовки:
+<pre><code class="ruby">
+access-token: u6_ov3QERACHrTzMtZFr1g
+client: qpHS_Wl4S8wlW5zDOIZEJw
+uid: client1@example.com
+</code></pre>
+
+Ответ:
+
+<pre><code class="ruby">
+{
+  "asker_type": "client_user",
+  "asker_value": "client1@example.com",
+  "answerer_id": "4",
+  "secret_chat_token": "19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3"
+}
+</code></pre>
+
+Возвращаемый секретный чат-токен является параметризованным, т.е. он "завязан" на пару "емейл клиента + емейл юриста". Таким образом, клиент может получить секретные чат-токены, завязанные только на пару "СВОЙ емейл + емейл любого юриста" - но он не может получить ни один секретный чат-токен, завязанный на произвольную пару "ЧУЖОЙ емейл + емейл любого юриста" (потому что его емейл сервер берёт из его профиля, а не принимает как параметр запроса) - и, как следствие, не сможет подслушать чужую чат-беседу. 
+
+На сервере пара "емейл клиента + емейл юриста" подписывается базовым серверным секретным ключом (secret_key_base из файла config/secrets.yml - аналогично механизму подписанных куков). Поэтому, чтобы сгенерировать желаемый секретный чат-токен, серверу нужно обязательно знать ОБЕ части пары "емейл клиента + емейл юриста" - на этом и построена конфиденциальность (т.е. любой клиент с точки зрения сервера не знает чужие емейлы).
+
+Секретный токен в БД не записывается (нет необходимости, он всегда без проблем и однозначно генерируется "на лету").
+
+9. Клиент подключается к сокету:
+
+<pre><code class="ruby">
+ws://localhost:3000/cable/?access-token=u6_ov3QERACHrTzMtZFr1g&client=qpHS_Wl4S8wlW5zDOIZEJw&uid=client1@example.com
+</code></pre>
+
+10. Клиент извещает юриста о том, что он хочет с ним початиться. Для этого он подписывается (фронтэнд) на "приватный" (т.е. видимый лишь двоим) чат-канал, параметризованный секретным токеном ChatChannel#SecretToken:
+
+<pre><code class="ruby">
+{"command":"subscribe","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}"}
+</code></pre>
+
+11. Клиент подписывается (фронтэнд) на "публичный" (т.е. видимый всем) канал чат-запросов, параметризованный по емейлу юриста (ChatChannel#Jurist), с которым гость хочет поговорить:
+
+<pre><code class="ruby">
+{"command":"subscribe","identifier":"{\"channel\":\"ChatChannel\",\"answerer_id\":\"4\"}"}
+</code></pre>
+
+При этом (в момент акта подписки) клиент автоматически посылает сообщение @{chat_request: { asker_type: "client_user_id", asker_value: "2", chat_subscribed: :on }}@ на канал ChatChannel#Jurist:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"answerer_id\":\"4\"}","message":{"chat_request":{"asker_type":"client_user_id","asker_value":"2","chat_subscribed":"on"}}}
+</code></pre>
+
+Когда юрист получает (фронтэнд) на канале ChatChannel#Jurist сообщение @{chat_request: { asker_type: "client_user_id", asker_value: "2", chat_subscribed: :on }}@, то:
+
+12. Юрист получает секретный токен чат-беседы (через HTTP-запрос серверу), обязательно указывая желаемого чат-собеседника:
+
+<pre><code class="ruby">
+POST http://localhost:3000/api/secret_chat_tokens?client_user_id=2
+</code></pre>
+
+Заголовки:
+<pre><code class="ruby">
+access-token: vgEiTjHgSVRyrxSot-P8tQ
+client: XQW5Rqisvsn7S1yphgVSjw
+uid: lawyer1@example.com
+</code></pre>
+
+На сервере генерируется секретный токен (по паре "емейл юриста (из профиля) + емейл клиента") и возвращается юристу:
+
+Ответ:
+
+<pre><code class="ruby">
+{
+  "asker_type": "client_user_id",
+  "asker_value": "2",
+  "answerer_id": "4",
+  "secret_chat_token": "19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3"
+}
+</code></pre>
+
+Возвращаемый секретный чат-токен является параметризованным, т.е. он "завязан" на пару "емейл клиента + емейл юриста" (емейл, вытаскиваемый из профиля юриста). Таким образом, юрист может получить секретные чат-токены, завязанные только на пару "емейл клиента + собственный емейл юриста" - но он не может получить ни один секретный чат-токен, завязанный на пару "емейл клиента + емейл ДРУГОГО юриста" - и, как следствие, не сможет подслушать чужую чат-беседу. 
+
+На сервере пара "емейл клиента + емейл юриста" подписывается базовым серверным секретным ключом (secret_key_base из файла config/secrets.yml - аналогично механизму подписанных куков). Поэтому, чтобы сгенерировать желаемый секретный чат-токен, серверу нужно обязательно знать ОБЕ части пары "емейл клиента + емейл юриста" - на этом и построена конфиденциальность (т.е. любой юрист с точки зрения сервера не знает емейл другого юриста и не может его подделать, т.к. регистрационные емейлы не меняются).
+
+13. Юрист подписывается (фронтэнд) на "приватный" (т.е. видимый лишь двоим) чат-канал, параметризованный секретным токеном ChatChannel#SecretToken:
+
+<pre><code class="ruby">
+{"command":"subscribe","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}"}
+</code></pre>
+
+14. Юрист решает, согласен он початиться, или нет и посылает ответное сообщение ("да" или "нет") на канал ChatChannel#SecretToken:
+
+<pre><code class="ruby">
+{"command":"message","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","data":"{\"answerer_id\":\"4\",\"chat_request_accept\":\"true\",\"action\":\"process_accept_on_server\"}"}
+</code></pre>
+
+или (если не согласен)
+
+<pre><code class="ruby">
+{"command":"message","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","data":"{\"answerer_id\":\"4\",\"chat_request_accept\":\"false\",\"action\":\"process_accept_on_server\"}"}
+</code></pre>
+
+Почему юрист отвечает на ChatChannel#SecretToken, а не на ChatChannel#Jurist (что, казалось бы, логичней)? Потому что ChatChannel#Jurist - это публичный канал, а значит кто угодно может сфальсифицировать согласие или отказ юриста початиться с клиентом.
+
+15. Клиент, получив (на фронтэнде) согласие юриста початиться:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"answerer_id":"4","chat_request_accept":"true"}}
+</code></pre>
+
+может после этого слать чат-сообщения юристу и наоборот:
+
+клиент-юристу:
+
+<pre><code class="ruby">
+{"command":"message","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","data":"{\"text\":\"hi from client\",\"action\":\"process_message_on_server\"}"}
+</code></pre>
+
+юрист-клиенту:
+
+<pre><code class="ruby">
+{"command":"message","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","data":"{\"text\":\"hi from jurist\",\"action\":\"process_message_on_server\"}"}
+</code></pre>
+
+На стороне сервера автоматически распознаётся отправитель и получатель чат-сообщения, далее это чат-сообщение записывается в БД (в таблицу СhatMessage) одновременно по идентификатору отправителя (id юриста или id клиента) и по идентификатору получателя (id юриста или id клиента) и ретранслирует это сообщение (уже с автоматически корректно вставленными отправителем и получателем) обратно в канал ChatChannel#SecretToken - чтобы там это чат-сообщение смог прочесть адресат.
+
+И никто посторонний не сможет подключиться к каналу ChatChannel#SecretToken (не зная SecretToken).
+
+Получаемые сообщения (видны обеим сторонам, просто отправитель игнорирует свои же отправленные сообщения):
+
+для юриста:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"sendable_type":"User","sendable_id":2,"receivable_type":"User","receivable_id":4,"text":"hi from client"}}
+</code></pre>
+
+для клиента:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"sendable_type":"User","sendable_id":4,"receivable_type":"User","receivable_id":2,"text":"hi from jurist"}}
+</code></pre>
+
+16. Если клиент уходит с сайта, то в момент его отключения он автоматически отправит через ChatChannel#SecretToken сообщение @{chat_cancel: { asker_type: "client_user_id", asker_value: "2", chat_subscribed: :off }}@:
+
+юрист увидит:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"chat_cancel":{"asker_type":"client_user_id", asker_value: "2", "chat_subscribed":"off"}}}
+</code></pre>
+
+Опять-таки, для этого не используется ChatRequestChannel#Jurist, чтобы никто не смог сфальсифицировать сообщение пользователя об отключении.
+
+Юрист-собеседник получит это сообщение и отпишется от канала ChatChannel#SecretToken (потому что эта подписка утрачивает смысл - пользователь ушёл):
+
+<pre><code class="ruby">
+{"command":"unsubscribe","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}"}
+</code></pre>
+
+юрист увидит ответ эхо-ответ сервера:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"chat_cancel":{"asker_type":"answerer_id","asker_value":4,"chat_subscribed":"off"}}}
+</code></pre>
+
+Клиент же, в момент отключения, автоматически отпишется от всех каналов.
+
+Клиент может в другой раз прийти на сайт и получить свои старые чат-сообщения по HTTP-запросу к серверу - в этом запросе нужно указать емейл юриста и свой емейл.
+
+Если же клиент в момент ухода в оффлайн был подписан на несколько разных ChatChannel#SecretToken (с разными SecretToken - т.е. на разных юристов-корреспондентов) - то тогда клиент (в момент ухода в оффлайн) автоматически отправит соответствующее сообщение на каждый соответствующий канал ChatChannel#SecretToken правильным образом.
+
+17. Если же юрист уходит из онлайна - то он также в момент своего отключения автоматически отправит через ChatChannel#SecretToken сообщение @{chat_cancel: { "asker_type":"answerer_id","asker_value":"4", chat_subscribed: :off }}@:
+
+клиент увидит:
+
+<pre><code class="ruby">
+{"identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}","message":{"chat_cancel":{"asker_type":"answerer_id","asker_value":"4","chat_subscribed":"off"}}}
+</code></pre>
+
+Это полезно для случая, когда юрист уходит из онлайна (и из подписанного на ChatChannel#SecretToken состояния одновременно), а клиент остаётся. В этом случае уже клиент должен будет отписаться (фронтэнд) от ChatChannel#SecretToken:
+
+<pre><code class="ruby">
+{"command":"unsubscribe","identifier":"{\"channel\":\"ChatChannel\",\"secret_chat_token\":\"19ee9a0a55458ad1329e8987e7ec0f3d0790f8d3\"}"}
+</code></pre>
+
+Когда клиент уходит в оффлайн, сообщение о этом фактически дублируется: на AppearanceChannel и на ChatChannel#SecretToken (в виде "chat_subscribed":"off"). Это сделано просто для удобства.
+
+Что будет, если кто-нибудь подделает сообщение @{chat_request: {"asker_type":"client_user_id","asker_value":"2","chat_subscribed":"on"}}@ и отправит его на ChatRequestChannel#Jurist? Ничего страшного не случится - юрист подпишется на ChatChannel#SecretToken и начнёт ожидать поступления по нему несуществующих сообщений. И у юриста подписка на ChatChannel#SecretToken будет висеть "вечно" - вот и весь ущерб. Можно в будущем предусмотреть какой-нибудь таймаут "неактивной" подписки.

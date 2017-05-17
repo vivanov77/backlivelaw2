@@ -37,4 +37,76 @@ class User < ApplicationRecord
   include ActiveModel::Validations
   validates_with SingleCityValidator
 
+  def self.formatted_users city, user_id = nil, local_regions = false, other_regions = false
+
+    if city
+
+      lat = city.latitude
+
+      lon = city.longitude
+
+      region_id = city.region_id
+
+    end
+
+    region_users = User.where.not(id: user_id).includes(:cities).includes(:roles)
+
+    unless (local_regions && other_regions)
+
+      if local_regions
+
+        region_users = region_users.where(cities: {region_id: region_id})
+
+      elsif other_regions
+
+        region_users = region_users.where.not(cities: {region_id: region_id})
+
+      # elsif local_regions && other_regions
+
+      end
+
+    end    
+
+    region_users = region_users.map do |u| 
+
+      h = {}
+
+      h[:user]=u
+
+      h[:role]=u.roles.first
+
+      h[:city] = u.cities.first
+
+      if city
+
+        diff_lat = u.cities.first.latitude - lat
+
+        diff_lon = u.cities.first.longitude - lon
+
+        sq_dist = diff_lat*diff_lat + diff_lon * diff_lon
+
+        h[:distance] = Math.sqrt sq_dist
+
+      else
+
+        h[:distance] = nil
+
+      end
+
+      h
+
+    end
+
+    if city
+
+      region_users.sort_by { |hsh| hsh[:distance] }
+
+    else
+
+      region_users.sort_by { |hsh| hsh[:user][:email] }      
+
+    end
+
+  end
+
 end
