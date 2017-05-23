@@ -9,7 +9,7 @@
       <% if f.object.file_container && f.object.file_container.id %>
 
         <% url = request.base_url.to_s + f.object.file_container.file.to_s %>
-        <a href="<%= url %>" target="blank"><%= url %></a>
+        <%= image_tag url  %><br>
 
           <%
 
@@ -47,7 +47,8 @@
         <% if file_container.id %>
 
           <% url = request.base_url.to_s + file_container.file.to_s %>
-          <a href="<%= url %>" target="blank"><%= url %></a>
+
+          <%= image_tag url  %><br>
 
           <%
 
@@ -86,8 +87,8 @@
     <p>
       <% if f.file_container && f.file_container.id %>
 
-        <% url = request.base_url.to_s + f.file_contaner.file.to_s %>
-        <a href="<%= url %>" target="blank"><%= url %></a><br><br>        
+        <% url = request.base_url.to_s + f.file_container.file.to_s %>
+        <%= image_tag url  %><br><br>
 
       <% end %>    
     </p>
@@ -98,7 +99,7 @@
     <p>  
       <% f.file_containers.each_with_index do |ff, index| %>
 
-        <% url = request.base_url.to_s + ff.file.to_s %>
+        <%= image_tag url  %><br>
         id: <%= ff.id %> &nbsp;<a href="<%= url %>" target="blank"><%= url %></a><br><br>
 
       <% end %>

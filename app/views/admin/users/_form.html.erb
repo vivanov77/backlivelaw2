@@ -113,7 +113,9 @@
     <%= f.label "Город" %>
       <%= f.grouped_collection_select(:city_ids, Region.includes(:cities).where.not(:cities => { :region_id => nil } ).order(:name), :cities, :name, :id, :name, {:include_blank => "Ничего не выбрано"})
       %>
-  </div> 
+  </div>
+
+  <%= render 'layouts/uploaded_files', param: f %>  
 
   <div class="actions">
     <%= f.submit submit_russian_text "Пользователя" %>

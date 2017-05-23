@@ -109,6 +109,7 @@ class Api::UsersController < Api::ApplicationController
 
   # PATCH/PUT /users/1
   def update
+    p 123
     if @user.update(user_params)
       render json: @user
     else
@@ -133,7 +134,27 @@ class Api::UsersController < Api::ApplicationController
       # params.require(:user).permit(:first_name)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
 # https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
+      # ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      if params[:data] # JSON queries - default
+
+        res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      else # multipart form data - file upload
+        
+        # res = params.require(:user).permit(:title, :text, :user_id, :category_ids, 
+        #   file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+
+        res = params.require(:user).permit(:first_name, :middle_name, :last_name, "dob(3i)", "dob(2i)",
+         "dob(1i)", :active, :email_public, :phone, :experience, :qualification, :price, :balance,
+         :university, :faculty, "dob_issue(3i)", "dob_issue(2i)", "dob_issue(1i)", :work, :staff,
+         :role_ids, :city_ids,
+         file_container_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+
+      end
+
+      res
+
     end
 
     def check_for_questions

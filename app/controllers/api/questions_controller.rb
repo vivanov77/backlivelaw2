@@ -94,7 +94,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       end
 
-      res      
+      res
 
     end 
 end
