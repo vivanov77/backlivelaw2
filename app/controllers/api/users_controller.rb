@@ -109,7 +109,6 @@ class Api::UsersController < Api::ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    p 123
     if @user.update(user_params)
       render json: @user
     else
