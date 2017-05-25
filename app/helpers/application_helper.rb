@@ -279,6 +279,12 @@ module ApplicationHelper
 
   def generate_unique_secure_token
     SecureRandom.base58(24)
+  end
+
+# http://stackoverflow.com/questions/7994484/empty-folders-when-file-is-deleted-using-carrierwave
+  def remove_file_directory uploader
+    path = File.expand_path(uploader.store_path, uploader.root)
+    FileUtils.remove_dir(path, force: false)
   end  
 	
 end

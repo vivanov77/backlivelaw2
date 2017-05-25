@@ -19,10 +19,10 @@ class User < ApplicationRecord
   # has_one :chat_token, :inverse_of => :user
   has_many :chat_messages, as: :sendable, dependent: :destroy  
 
-  has_one :file_container, as: :fileable, dependent: :destroy
-  accepts_nested_attributes_for :file_container, allow_destroy: true
+  # has_one :file_container, as: :fileable, dependent: :destroy
+  # accepts_nested_attributes_for :file_container, allow_destroy: true
 
-  # resourcify
+  mount_uploader :avatar, AvatarUploader
 
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", jurist:"Юрист", lawyer:"Адвокат", blocked: "Заблокирован"}

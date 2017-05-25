@@ -98,7 +98,7 @@
   <%= @user.cities.first.try(:name) %>
 </p>
 
-<%= render 'layouts/uploaded_files', param: @user %>
+<%= render 'layouts/avatar', param: @user %>
 
 <%= link_to 'Редактировать', edit_admin_user_path(@user) %> |
 <%= link_to 'Назад', admin_users_path %>

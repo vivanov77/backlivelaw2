@@ -2,7 +2,9 @@ class Admin::UsersController < Admin::ApplicationController
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  before_action :check_for_questions, only: [:destroy]  
+  before_action :check_for_questions, only: [:destroy]
+
+  before_action :check_removed_avatar, only: [:update]
 
   # GET /users
   # GET /users.json
@@ -61,7 +63,7 @@ class Admin::UsersController < Admin::ApplicationController
       params.require(:user).permit(:first_name, :middle_name, :last_name, "dob(3i)", "dob(2i)",
        "dob(1i)", :active, :email_public, :phone, :experience, :qualification, :price, :balance,
        :university, :faculty, "dob_issue(3i)", "dob_issue(2i)", "dob_issue(1i)", :work, :staff,
-       :role_ids, :city_ids,
+       :role_ids, :city_ids, :avatar, :destroy_avatar,
        file_container_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
     end
 
@@ -76,6 +78,20 @@ class Admin::UsersController < Admin::ApplicationController
           format.json { head :no_content }
         end
       end
+    end
+
+    def check_removed_avatar
+
+      if params[:destroy_avatar]
+
+        @user.remove_avatar!
+
+        @user.save!
+
+        remove_file_directory @user.avatar     
+        
+      end
+
     end
 
 end
