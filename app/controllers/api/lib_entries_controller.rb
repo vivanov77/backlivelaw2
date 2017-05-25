@@ -77,7 +77,7 @@ class Api::LibEntriesController < Api::ApplicationController
         # res = params.require(:user).permit(:title, :text, :user_id, :category_ids, 
         #   file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
 
-        res = params.require(:user).permit(:title, :text, :file, :destroy_attachment)
+        res = params.require(:lib_entry).permit(:title, :text, :file, :destroy_attachment)
 
       end
 
