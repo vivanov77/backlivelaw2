@@ -68,6 +68,10 @@ gem 'active_model_serializers'
 gem 'mysql2', :platform => :ruby
 gem 'thinking-sphinx'
 gem 'devise_token_auth'
-gem 'omniauth'
 gem 'dbf'
 gem 'carrierwave', '~> 1.0'
+
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+# gem 'omniauth-odnoklassniki'

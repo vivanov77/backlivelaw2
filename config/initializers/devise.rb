@@ -1,6 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  include ApplicationHelper  
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -271,4 +272,13 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+
+config.omniauth :facebook, secret_key("FACEBOOK_APP_ID"), secret_key("FACEBOOK_APP_SECRET")
+# , callback_url: "CALLBACK_URL"
+
+config.omniauth :vkontakte, secret_key("VKONTAKTE_APP_ID"), secret_key("VKONTAKTE_APP_SECRET")
+
+# config.omniauth :odnoklassniki, secret_key("ODNOKLASSNIKI_APP_ID"), secret_key("ODNOKLASSNIKI_APP_SECRET"),
+#             :public_key => secret_key("ODNOKLASSNIKI_APP_PUBLIC"), :scope => 'VALUABLE_ACCESS'
+  
 end

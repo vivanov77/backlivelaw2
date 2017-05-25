@@ -10,5 +10,22 @@ class LibEntry < ApplicationRecord
 			errors.add(:base, "Нельзя создать правовую статью с уровнем вложенности больше 2 (считая с 0).")
 			throw :abort
 		end
-	end	
+	end
+
+	mount_uploader :file, FileUploader
+
+	after_destroy :local_remove_file_directory
+
+	def local_remove_file_directory
+
+		remove_file_directory file
+
+	end
+
+  def uploader_name
+
+    uploader_name_helper self
+
+  end
+  	
 end

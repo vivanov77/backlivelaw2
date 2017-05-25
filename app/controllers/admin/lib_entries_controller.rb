@@ -2,6 +2,8 @@ class Admin::LibEntriesController < Admin::ApplicationController
   before_action :set_lib_entry, only: [:show, :edit, :update, :destroy]
   before_action :set_parent_lib_entry, only: [:new, :edit]
 
+  before_action :check_removed_attachment, only: [:update]  
+
   # GET /lib_entries
   # GET /lib_entries.json
   def index
@@ -95,6 +97,20 @@ class Admin::LibEntriesController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lib_entry_params
-      params.require(:lib_entry).permit(:title, :text, :lib_entry_id)
+      params.require(:lib_entry).permit(:title, :text, :lib_entry_id, :file, :destroy_attachment)
     end
+
+    def check_removed_attachment
+
+      if params[:destroy_attachment]
+
+        @lib_entry.remove_file!
+
+        @lib_entry.save!
+
+        remove_file_directory @lib_entry.file
+        
+      end
+
+    end    
 end

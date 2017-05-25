@@ -13,5 +13,7 @@
   <%= @lib_entry.try(:lib_entry).try(:title) %>
 </p>
 
+<%= render 'layouts/uploaded_file', param: @lib_entry %>
+
 <%= link_to 'Редактировать', edit_admin_lib_entry_path(@lib_entry) %> |
 <%= link_to 'Назад', admin_lib_entries_path %>

@@ -285,6 +285,23 @@ module ApplicationHelper
   def remove_file_directory uploader
     path = File.expand_path(uploader.store_path, uploader.root)
     FileUtils.remove_dir(path, force: false)
-  end  
+  end
+
+  def heroku?
+# http://stackoverflow.com/questions/9383450/how-can-i-detect-herokus-environment    
+    Rails.env.production? && !ENV['DYNO'].blank?
+  end   
+
+  def secret_key key
+
+    heroku? ? ENV[key] : Rails.application.secrets[key]
+
+  end
+
+  def uploader_name_helper instance_obj
+# https://stackoverflow.com/questions/41863242/how-to-dynamically-determining-carrierwave-uploader-column-name/44179356#44179356
+    instance_obj.class.try(:uploaders).try(:keys).try(:first).try(:to_sym)
+
+  end
 	
 end

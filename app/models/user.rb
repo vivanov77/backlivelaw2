@@ -7,6 +7,9 @@ class User < ApplicationRecord
           :recoverable, :rememberable, :trackable, :validatable,
           # :confirmable,
           :omniauthable
+# http://stackoverflow.com/questions/8186584/how-do-i-set-up-email-confirmation-with-devise
+         # :omniauth_providers => [:facebook, :vkontakte]
+
   include DeviseTokenAuth::Concerns::User
   rolify
   has_many :questions, :inverse_of => :user, dependent: :destroy
@@ -111,5 +114,36 @@ class User < ApplicationRecord
     end
 
   end
+
+  def self.from_omniauth(auth)
+
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      # user.name = auth.info.name   # assuming the user model has a name
+      # user.image = auth.info.image # assuming the user model has an image
+    end
+  end
+
+  def self.from_omniauth_vkontakte(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      # user.email = auth.info.email
+# https://habrahabr.ru/post/142128/     
+
+# logger.debug auth
+
+      # user.email = auth.extra.raw_info.id.to_s + '@vk.com'
+      user.email = auth.extra.raw_info.first_name.to_s + "." + auth.extra.raw_info.last_name.to_s + '@vk.com'      
+      user.password = Devise.friendly_token[0,20]
+      # user.name = auth.info.name   # assuming the user model has a name
+      # user.image = auth.info.image # assuming the user model has an image
+    end
+  end 
+
+  def uploader_name
+
+    uploader_name_helper self
+
+  end   
 
 end

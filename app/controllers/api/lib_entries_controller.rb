@@ -5,6 +5,8 @@ class Api::LibEntriesController < Api::ApplicationController
     
   before_action :set_lib_entry, only: [:show, :update, :destroy]
 
+  before_action :check_removed_attachment, only: [:update]    
+
   # GET /lib_entries
   # GET /lib_entries.json
   def index
@@ -65,7 +67,36 @@ class Api::LibEntriesController < Api::ApplicationController
       # params.require(:lib_entry).permit(:title)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
 # https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      if params[:data] # JSON queries - default
+
+        res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      else # multipart form data - file upload
+        
+        # res = params.require(:user).permit(:title, :text, :user_id, :category_ids, 
+        #   file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+
+        res = params.require(:user).permit(:title, :text, :file, :destroy_attachment)
+
+      end
+
+      res
 
     end
+
+    def check_removed_attachment
+
+      if params[:destroy_attachment]
+
+        @lib_entry.remove_file!
+
+        @lib_entry.save!
+
+        remove_file_directory @lib_entry.file    
+        
+      end
+
+    end
+
 end

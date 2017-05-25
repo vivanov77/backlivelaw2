@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 	devise_for :users, controllers: { sessions: 'users/sessions' }
+    # devise_for :users, controllers: { sessions: "users/sessions", :omniauth_callbacks => "users/omniauth_callbacks" }
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	root 'admin/questions#index'
@@ -45,7 +47,10 @@ Rails.application.routes.draw do
 
 		resources :guest_chat_tokens
 
-		resources :chat_messages		
+		resources :chat_messages
+
+
+  		
 	end
 
 	namespace :api do
@@ -101,5 +106,11 @@ Rails.application.routes.draw do
 
 	# Serve websocket cable requests in-process
 	mount ActionCable.server => '/cable'
+
+		# namespace :users do
+		# 	get 'omniauth_callbacks/facebook'
+		# 	get 'omniauth_callbacks/vkontakte'
+		# 	# get 'omniauth_callbacks/odnoklassniki'
+		# end	
 
 end
