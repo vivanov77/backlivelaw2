@@ -31,6 +31,36 @@ class Message < ApplicationRecord
 # http://stackoverflow.com/questions/2642182/sorting-an-array-in-descending-order-in-ruby
 		messages.sort_by { |h| h[:created_at] }
 
+		messages = messages.map do |m| 
+
+			h = {}
+
+			h[:message]=m
+
+			if userid == m.sender_id
+
+				h[:correspondent_id] = m.recipient_id
+
+				h[:correspondent_email] = m.recipient.email
+
+				h[:direct_message] = true
+
+			else
+
+				h[:correspondent_id] = m.sender_id
+
+				h[:correspondent_email] = m.sender.email
+
+				h[:direct_message] = false
+
+			end			
+
+			h
+
+		end
+
+		messages
+
 	end
 
 	def self.dialog_messages userid, correspondent_id
@@ -47,6 +77,35 @@ class Message < ApplicationRecord
 		# messages.reload
 		
 		# messages
+		messages = messages.map do |m| 
+
+			h = {}
+
+			h[:message]=m
+
+			if userid == m.sender_id
+
+				h[:correspondent_id] = m.recipient_id
+
+				h[:correspondent_email] = m.recipient.email
+
+				h[:direct_message] = true
+
+			else
+
+				h[:correspondent_id] = m.sender_id
+
+				h[:correspondent_email] = m.sender.email
+
+				h[:direct_message] = false
+
+			end			
+
+			h
+
+		end
+
+		messages		
 
 	end
 

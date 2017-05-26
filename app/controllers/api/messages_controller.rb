@@ -37,7 +37,7 @@ class Api::MessagesController < Api::ApplicationController
 
         end
 
-    elsif param? params[:current_user]
+    elsif param? params[:all_dialogs]
 
       correspondents = Message.correspondents current_user.id
 
@@ -54,6 +54,12 @@ class Api::MessagesController < Api::ApplicationController
         render json: { errors: error_message }, status: :unprocessable_entity          
 
       end
+
+    elsif param? params[:search_correspondent]
+
+      @messages = Message.search :conditions => {:sender_email => params[:search_sender]}
+
+      render json: @messages
 
     else
 
