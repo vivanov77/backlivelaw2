@@ -92,7 +92,7 @@ Rails.application.routes.draw do
 			end
 		end
 
-		resources :messages, only: [:index, :create, :update]
+		resources :messages, only: [:index, :create, :update, :show]
 
 		resources :guest_chat_tokens, only: [:create, :show]
 

@@ -7,7 +7,9 @@ class Api::MessagesController < Api::ApplicationController
 
   before_action :mark_messages_read, only: [:create]
 
-  before_action :unread_messages_count, only: [:index]  
+  before_action :unread_messages_count, only: [:index]
+
+  before_action :check_own_message, only: [:show, :update]    
 
   # GET /messages
   # GET /messages.json
@@ -35,7 +37,7 @@ class Api::MessagesController < Api::ApplicationController
 
         end
 
-    else
+    elsif param? params[:current_user]
 
       correspondents = Message.correspondents current_user.id
 
@@ -53,15 +55,23 @@ class Api::MessagesController < Api::ApplicationController
 
       end
 
+    else
+
+        error_message = "Не указаны параметры ни current_user, ни correspondent_id."
+
+        render json: { errors: error_message }, status: :unprocessable_entity
+
     end
 
   end
 
   # GET /messages/1
   # GET /messages/1.json
-  # def show
-  #   render json: @message
-  # end
+  def show
+
+    render json: @message
+
+  end
 
   # POST /messages
   # POST /messages.json
@@ -186,6 +196,18 @@ class Api::MessagesController < Api::ApplicationController
 
       end
 
-    end    
+    end
+
+    def check_own_message
+
+      unless (@message.sender_id == current_user.id) || (@message.recipient_id == current_user.id)
+
+        error_message = "Можно просматривать только свои сообщения (и для себя)."
+        
+        render json: { errors: error_message }, status: :unprocessable_entity
+
+      end
+
+    end
 
 end
