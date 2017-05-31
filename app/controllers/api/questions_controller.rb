@@ -28,9 +28,11 @@ class Api::QuestionsController < Api::ApplicationController
 
     show_user: (param? params[:user]),
 
-    show_cities: (param? params[:city]),
+    show_cities: (param? params[:cities]),
 
-    include: '**'
+    # include: (param? params[:city]) ? : '**'
+
+    include: [:categories, :user, "user.**"]
 
   end
 
