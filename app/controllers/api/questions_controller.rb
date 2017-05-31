@@ -22,7 +22,15 @@ class Api::QuestionsController < Api::ApplicationController
 
     end
 
-    render json: @questions
+    render json: @questions,
+
+    show_categories: (param? params[:categories]),
+
+    show_user: (param? params[:user]),
+
+    show_cities: (param? params[:city]),
+
+    include: '**'
 
   end
 

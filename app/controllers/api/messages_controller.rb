@@ -55,15 +55,86 @@ class Api::MessagesController < Api::ApplicationController
 
       end
 
-    elsif param? params[:search_correspondent]
+    elsif param? params[:search_correspondent_email]
 
-      @messages = Message.search :conditions => {:sender_email => params[:search_sender]}
+      search_email = params[:search_correspondent_email]
 
-      render json: @messages
+      # conditions = {sender_email: search_email}
+
+      conditions = {messager_email: search_email}      
+
+      # conditions = {recipient_email: search_email}      
+
+      # conditions = true
+
+      # conditions = "sender_email: client2"
+
+      messages = Message.search search_email, conditions: conditions
+
+      # @messages = Message.search search_email, with: {recipient_id: current_user.id}
+
+
+
+# with_display = "*, IF(visible = 1 OR user_id = 5, 1, 0) AS display"
+# Article.search 'pancakes',
+#   :select => with_display,
+#   :with  => {'display' => 1}      
+
+
+# with_current_user_dialog = "*, IF(sender_id = #{current_user.id} OR recipient_id = #{current_user.id}, 1, 0) AS current_user_dialog"
+# messages = Message.search search_email,
+#   :select => with_current_user_dialog,
+#   :with  => {'current_user_dialog' => 1}
+
+
+    messages = messages.map do |m| 
+
+      h = {}
+
+      h[:message]=m
+
+      h[:user_id] = current_user.id
+
+      h[:user_email] = current_user.email      
+
+      if current_user.id == m.sender_id
+
+        h[:correspondent_id] = m.recipient_id
+
+        h[:correspondent_email] = m.recipient.email
+
+        h[:direct_message] = true
+
+      else     
+
+        h[:correspondent_id] = m.sender_id
+
+        h[:correspondent_email] = m.sender.email
+
+        h[:direct_message] = false
+
+      end     
+
+      h
+
+    end  
+
+
+# All pancackes belonging to tag 3 and belonging to one of tag 1 or tag 2
+# Article.search 'pancakes',
+#   :with_all => {:tag_ids => [[1,2], 3]}      
+
+      # Article.search 'pancakes'
+
+      # , :indices => ['sender_email_delta']
+
+      # conditions: conditions
+
+      render json: messages
 
     else
 
-        error_message = "Не указаны параметры ни current_user, ни correspondent_id."
+        error_message = "Не указаны параметры ни all_dialogs, ни correspondent_id."
 
         render json: { errors: error_message }, status: :unprocessable_entity
 

@@ -21,6 +21,8 @@ class Message < ApplicationRecord
 
 	def self.last_messages userid, correspondents
 
+		user_email = User.find(userid).try(:email)
+
 		messages = []
 
 		correspondents.each do |correspondent|
@@ -39,6 +41,10 @@ class Message < ApplicationRecord
 
 			if userid == m.sender_id
 
+				h[:user_id] = userid
+
+				h[:user_email] = user_email
+
 				h[:correspondent_id] = m.recipient_id
 
 				h[:correspondent_email] = m.recipient.email
@@ -46,6 +52,10 @@ class Message < ApplicationRecord
 				h[:direct_message] = true
 
 			else
+
+				h[:user_id] = userid
+
+				h[:user_email] = user_email				
 
 				h[:correspondent_id] = m.sender_id
 
@@ -64,6 +74,8 @@ class Message < ApplicationRecord
 	end
 
 	def self.dialog_messages userid, correspondent_id
+
+		user_email = User.find(userid).try(:email)
 
 		messages = Message.where('(sender_id = ? and recipient_id = ?) or (sender_id = ? and recipient_id = ?)', userid, correspondent_id, correspondent_id, userid).order("created_at")
 
@@ -85,6 +97,10 @@ class Message < ApplicationRecord
 
 			if userid == m.sender_id
 
+				h[:user_id] = userid
+
+				h[:user_email] = user_email					
+
 				h[:correspondent_id] = m.recipient_id
 
 				h[:correspondent_email] = m.recipient.email
@@ -92,6 +108,10 @@ class Message < ApplicationRecord
 				h[:direct_message] = true
 
 			else
+
+				h[:user_id] = userid
+
+				h[:user_email] = user_email					
 
 				h[:correspondent_id] = m.sender_id
 
@@ -105,7 +125,7 @@ class Message < ApplicationRecord
 
 		end
 
-		messages		
+		messages
 
 	end
 
