@@ -5,36 +5,85 @@ class Api::QuestionsController < Api::ApplicationController
     
   before_action :set_question, only: [:show, :update, :destroy]
 
+  def api_paginate_questions(scope, default_per_page = 20, show_categories = false, show_user = false, show_cities = false)
+# https://gist.github.com/be9/6446051
+    collection = scope.page(params[:offset]).per((params[:limit] || default_per_page).to_i)
+
+    current, total, per_page, total_count = collection.current_page, collection.total_pages, collection.limit_value, collection.total_count
+
+    collection = collection.to_a
+
+    result = collection.map do |elem|
+
+      h = {}
+
+      h[:question] = elem
+
+      h[:category] = elem.categories if show_categories
+
+      h[:user] = elem.user if show_user
+
+      h[:city] = elem.user.cities if show_cities
+
+      h
+
+    end
+
+    return {
+      pagination: {
+        current:  current,
+        previous: (current > 1 ? (current - 1) : nil),
+        next:     (current == total ? nil : (current + 1)),
+        limit:    per_page,
+        pages:    total,
+        count:    total_count
+      },
+      result: result
+    }   
+  end  
+
   # GET /questions
   def index
 
     @questions = Question.order(:id);
 
+
+    show_categories = (param? params[:categories])
+
+    show_user = (param? params[:user])
+
+    show_cities = (param? params[:cities])
+
+
     if params[:category]
 
-      @questions = @questions.includes(:categories).where(categories: {name: params[:category]});
+      @questions = @questions.includes(:categories).where(categories: {name: params[:category]})
 
     end
 
     if params[:offset]
 
-      @questions = api_paginate(@questions, 20)
+      @questions = api_paginate_questions(@questions, 20, show_categories, show_user, show_cities)
+
+      render json: @questions
+
+    else
+
+      hash1 = [:categories, :user]
+
+      hash2 = [:categories, :user, "user.**"]
+
+      render json: @questions,
+
+      show_categories: (param? params[:categories]),
+
+      show_user: (param? params[:user]),
+
+      show_cities: (param? params[:cities]),
+
+      include: (params[:offset] ? hash1 : hash2)      
 
     end
-
-    hash1 = [:categories, :user]
-
-    hash2 = [:categories, :user, "user.**"]
-
-    render json: @questions,
-
-    show_categories: (param? params[:categories]),
-
-    show_user: (param? params[:user]),
-
-    show_cities: (param? params[:cities]),
-
-    include: (params[:offset] ? hash1 : hash2)
 
   end
 
