@@ -61,7 +61,7 @@ class Api::MessagesController < Api::ApplicationController
 
       # conditions = {sender_email: search_email}
 
-      conditions = {messager_email: search_email}      
+      conditions = {messager_email: search_email}
 
       # conditions = {recipient_email: search_email}      
 
@@ -78,7 +78,7 @@ class Api::MessagesController < Api::ApplicationController
 # with_display = "*, IF(visible = 1 OR user_id = 5, 1, 0) AS display"
 # Article.search 'pancakes',
 #   :select => with_display,
-#   :with  => {'display' => 1}      
+#   :with  => {'display' => 1} 
 
 
 # with_current_user_dialog = "*, IF(sender_id = #{current_user.id} OR recipient_id = #{current_user.id}, 1, 0) AS current_user_dialog"
@@ -87,37 +87,37 @@ class Api::MessagesController < Api::ApplicationController
 #   :with  => {'current_user_dialog' => 1}
 
 
-    messages = messages.map do |m| 
+    # messages = messages.map do |m|
 
-      h = {}
+    #   h = {}
 
-      h[:message]=m
+    #   h[:message]=m
 
-      h[:user_id] = current_user.id
+    #   h[:user_id] = current_user.id
 
-      h[:user_email] = current_user.email      
+    #   h[:user_email] = current_user.email      
 
-      if current_user.id == m.sender_id
+    #   if current_user.id == m.sender_id
 
-        h[:correspondent_id] = m.recipient_id
+    #     h[:correspondent_id] = m.recipient_id
 
-        h[:correspondent_email] = m.recipient.email
+    #     h[:correspondent_email] = m.recipient.email
 
-        h[:direct_message] = true
+    #     h[:direct_message] = true
 
-      else     
+    #   else     
 
-        h[:correspondent_id] = m.sender_id
+    #     h[:correspondent_id] = m.sender_id
 
-        h[:correspondent_email] = m.sender.email
+    #     h[:correspondent_email] = m.sender.email
 
-        h[:direct_message] = false
+    #     h[:direct_message] = false
 
-      end     
+    #   end     
 
-      h
+    #   h
 
-    end  
+    # end  
 
 
 # All pancackes belonging to tag 3 and belonging to one of tag 1 or tag 2

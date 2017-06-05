@@ -98,6 +98,12 @@ class Api::UsersController < Api::ApplicationController
 
     @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
 
+    # if params[:offset]
+
+    #   @users = api_paginate(@users, 20)
+
+    # end    
+
     render json: @users
 
     # render json: @users, show_roles: true

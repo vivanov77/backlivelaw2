@@ -12,7 +12,7 @@ class Api::QuestionsController < Api::ApplicationController
 
     if params[:category]
 
-      @questions = @questions.includes(:categories).where(:categories => {name: params[:category]});
+      @questions = @questions.includes(:categories).where(categories: {name: params[:category]});
 
     end
 
@@ -22,6 +22,10 @@ class Api::QuestionsController < Api::ApplicationController
 
     end
 
+    hash1 = [:categories, :user]
+
+    hash2 = [:categories, :user, "user.**"]
+
     render json: @questions,
 
     show_categories: (param? params[:categories]),
@@ -30,9 +34,7 @@ class Api::QuestionsController < Api::ApplicationController
 
     show_cities: (param? params[:cities]),
 
-    # include: (param? params[:city]) ? : '**'
-
-    include: [:categories, :user, "user.**"]
+    include: (params[:offset] ? hash1 : hash2)
 
   end
 
