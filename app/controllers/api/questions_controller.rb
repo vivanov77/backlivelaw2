@@ -39,8 +39,9 @@ class Api::QuestionsController < Api::ApplicationController
         count:    total_count
       },
       result: result
-    }   
-  end  
+    }
+       
+  end
 
   # GET /questions
   def index

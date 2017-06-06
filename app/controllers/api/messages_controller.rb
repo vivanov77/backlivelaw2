@@ -51,7 +51,7 @@ class Api::MessagesController < Api::ApplicationController
 
         error_message = "Пользователь #{current_user.email} ещё не посылал и не получал сообщений."
 
-        render json: { errors: error_message }, status: :unprocessable_entity          
+        render json: { errors: error_message }, status: :unprocessable_entity
 
       end
 
@@ -59,82 +59,116 @@ class Api::MessagesController < Api::ApplicationController
 
       search_email = params[:search_correspondent_email]
 
-      # conditions = {sender_email: search_email}
+      # https://stackoverflow.com/questions/44372006/thinkingsphinx-dynamic-indices-on-the-sql-backed-indices
 
-      conditions = {messager_email: search_email}
+      current_user_email = "\"" + current_user.email + "\""
 
-      # conditions = {recipient_email: search_email}      
+      messages = Message.search(
+        "(@sender_email #{current_user_email} @recipient_email #{search_email}) | \
 
-      # conditions = true
-
-      # conditions = "sender_email: client2"
-
-      messages = Message.search search_email, conditions: conditions
-
-      # @messages = Message.search search_email, with: {recipient_id: current_user.id}
+        (@sender_email #{search_email} @recipient_email #{current_user_email})"
+      )      
 
 
+      messages1 = []
 
-# with_display = "*, IF(visible = 1 OR user_id = 5, 1, 0) AS display"
-# Article.search 'pancakes',
-#   :select => with_display,
-#   :with  => {'display' => 1} 
+      messages.each do |m|
 
+        h = {}
 
-# with_current_user_dialog = "*, IF(sender_id = #{current_user.id} OR recipient_id = #{current_user.id}, 1, 0) AS current_user_dialog"
-# messages = Message.search search_email,
-#   :select => with_current_user_dialog,
-#   :with  => {'current_user_dialog' => 1}
+        if current_user.id == m.sender_id
 
+          h[:message] = m
 
-    # messages = messages.map do |m|
+          h[:user_id] = m.sender_id
 
-    #   h = {}
+          h[:user_email] = m.sender.email
 
-    #   h[:message]=m
+          h[:correspondent_id] = m.recipient_id
 
-    #   h[:user_id] = current_user.id
+          h[:correspondent_email] = m.recipient.email
 
-    #   h[:user_email] = current_user.email      
+          h[:direct_message] = true
 
-    #   if current_user.id == m.sender_id
+        else
 
-    #     h[:correspondent_id] = m.recipient_id
+          h[:message] = m
 
-    #     h[:correspondent_email] = m.recipient.email
+          h[:user_id] = m.recipient_id
 
-    #     h[:direct_message] = true
+          h[:user_email] = m.recipient.email        
 
-    #   else     
+          h[:correspondent_id] = m.sender_id
 
-    #     h[:correspondent_id] = m.sender_id
+          h[:correspondent_email] = m.sender.email
 
-    #     h[:correspondent_email] = m.sender.email
+          h[:direct_message] = false
 
-    #     h[:direct_message] = false
+        end
 
-    #   end     
+        selected = messages1.select do |s| 
 
-    #   h
+          s[:user_id] == h[:user_id] && s[:correspondent_id] == h[:correspondent_id]
 
-    # end  
+        end
 
+        s = selected.try(:first)
 
-# All pancackes belonging to tag 3 and belonging to one of tag 1 or tag 2
-# Article.search 'pancakes',
-#   :with_all => {:tag_ids => [[1,2], 3]}      
+        if s
 
-      # Article.search 'pancakes'
+          if (s[:message].updated_at < m.updated_at)
 
-      # , :indices => ['sender_email_delta']
+            i = messages1.index s
 
-      # conditions: conditions
+            # p "wiped out:", s
+
+            messages1[i] = h
+
+          else
+
+            # p "wiped out:", h
+
+          end
+
+        else
+
+          messages1 << h
+
+        end
+
+        # messages1 << h
+
+      end
+
+      messages1.sort_by { |hsh| hsh[:correspondent_email] }
+
+      render json: messages1
+
+    elsif (param? params[:search_dialog_text]) && (param? params[:correspondent_id])
+
+      search_text = params[:search_dialog_text]
+
+      correspondent_id = params[:correspondent_id]
+
+      conditions = {text: search_text}
+
+      with_current_user_dialog = 
+
+"*, IF((sender_id = #{current_user.id} AND recipient_id = #{correspondent_id}) OR \
+
+(sender_id = #{correspondent_id} AND recipient_id = #{current_user.id}), 1, 0) \
+
+AS current_user_dialog"
+      
+      messages = Message.search search_text, conditions: conditions,
+        :select => with_current_user_dialog,
+        :with  => {'current_user_dialog' => 1}
 
       render json: messages
 
     else
 
-        error_message = "Не указаны параметры ни all_dialogs, ни correspondent_id."
+        error_message = "Не указаны параметры."
 
         render json: { errors: error_message }, status: :unprocessable_entity
 

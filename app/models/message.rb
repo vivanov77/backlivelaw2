@@ -2,6 +2,14 @@ class Message < ApplicationRecord
 	belongs_to :sender, class_name: 'User', :inverse_of => :messages
 	belongs_to :recipient, class_name: 'User', :inverse_of => :messages
 
+	# after_save ThinkingSphinx::RealTime.callback_for(:message)	
+
+	# def correspondent_email
+
+	# 	sender.email
+
+	# end	
+
 	def self.correspondents userid
 
 # Find out who sent messages to this user and to whom he sent messages (e.g. correspondents)

@@ -6,13 +6,14 @@ ThinkingSphinx::Index.define :message, :with => :active_record, :delta => true d
 
 	indexes recipient.email, :as => :recipient_email, :sortable => true	
 
-	indexes [sender.email, recipient.email], :as => :messager_email, :sortable => true
+	# indexes [sender.email, recipient.email], :as => :messager_email, :sortable => true
 
 	has sender_id, created_at, updated_at
 
 	has recipient_id
 
 end
+
 end
 
 # 1. Поиск в списке цепочек по собеседнику

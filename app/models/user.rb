@@ -43,7 +43,7 @@ class User < ApplicationRecord
   include ActiveModel::Validations
   validates_with SingleCityValidator
 
-  def self.formatted_users city, user_id = nil, local_regions = false, other_regions = false
+  def self.formatted_users city, user_id = nil, local_regions = false, other_regions = false, offset = false
 
     if city
 

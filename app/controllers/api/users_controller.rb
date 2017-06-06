@@ -10,6 +10,62 @@ class Api::UsersController < Api::ApplicationController
   before_action :check_removed_avatar, only: [:update]  
 
   # before_action :verify_owner
+
+  def api_paginate_users(scope, default_per_page = 20)
+# https://gist.github.com/be9/6446051
+    collection = scope.page(params[:offset]).per((params[:limit] || default_per_page).to_i)
+
+    current, total, per_page, total_count = collection.current_page, collection.total_pages, collection.limit_value, collection.total_count
+
+    # collection = collection.to_a
+
+    collection
+
+    # result = collection.map do |elem|
+
+    #   h = {}
+
+    #   h[:question] = elem
+
+    #   h[:category] = elem.categories if show_categories
+
+    #   h[:user] = elem.user if show_user
+
+    #   h[:city] = elem.user.cities if show_cities
+
+    #   h
+
+    # end
+
+    # return {
+    #   pagination: {
+    #     current:  current,
+    #     previous: (current > 1 ? (current - 1) : nil),
+    #     next:     (current == total ? nil : (current + 1)),
+    #     limit:    per_page,
+    #     pages:    total,
+    #     count:    total_count
+    #   },
+    #   result: result
+    # }
+
+  end
+
+  def api_paginate_users2 result
+
+    return {
+      pagination: {
+        current:  current,
+        previous: (current > 1 ? (current - 1) : nil),
+        next:     (current == total ? nil : (current + 1)),
+        limit:    per_page,
+        pages:    total,
+        count:    total_count
+      },
+      result: result
+    }    
+
+  end
     
   # GET /users
   def index
@@ -96,15 +152,46 @@ class Api::UsersController < Api::ApplicationController
 
     end
 
-    @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
+    if params[:offset]
+
+      # @users = api_paginate_users(@users, 20)
+
+    collection = @users.page(params[:offset]).per((params[:limit] || default_per_page).to_i)
+
+    current, total, per_page, total_count = collection.current_page, collection.total_pages, collection.limit_value, collection.total_count
+
+
+    end
+
+    @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions], params[:offset]
 
     # if params[:offset]
 
-    #   @users = api_paginate(@users, 20)
+    #   @users = api_paginate_users(@users, 20)
 
-    # end    
+    # end
 
-    render json: @users
+    if params[:offset]      
+
+      # render json: api_paginate_users2(@users)
+
+    render json: {
+      pagination: {
+        current:  current,
+        previous: (current > 1 ? (current - 1) : nil),
+        next:     (current == total ? nil : (current + 1)),
+        limit:    per_page,
+        pages:    total,
+        count:    total_count
+      },
+      result: collection
+    }          
+
+    else
+
+      render json: @users
+
+    end    
 
     # render json: @users, show_roles: true
 
