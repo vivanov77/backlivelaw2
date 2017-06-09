@@ -1,7 +1,7 @@
 # encoding: utf-8
 namespace :kladr do
 
-  desc 'Сгенерировать json-файл загрузки регионов и городов. Параметр - путь к папке geo_files.'
+  desc 'Сгенерировать json-файл загрузки ip-адресов. Параметр - путь к папке geo_files.'
   # Синтаксис: rake kladr:ip["/home/viktor/geo_files"]
   # geo-files взято с http://ipgeobase.ru/
   task :ip, [:ip_folder_path] => [:environment] do |t, args|

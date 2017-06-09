@@ -23,6 +23,10 @@ class Api::ApplicationController < ActionController::API
         render json: { errors: error_message }, status: :unprocessable_entity	
 	end
 
+	include ConfigurablesHelper
+
+	before_action :init_configurable
+
 	private
 
 	def invalid_record error    	

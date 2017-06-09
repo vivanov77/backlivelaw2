@@ -303,5 +303,13 @@ module ApplicationHelper
     instance_obj.class.try(:uploaders).try(:keys).try(:first).try(:to_sym)
 
   end
+
+# https://stackoverflow.com/questions/4508692/get-available-diskspace-in-ruby
+  def check_disk_space
+    system('df -H | grep debug > ff')
+    ss = File.open('ff').read.split(/\s+/)
+    system('rm ff')
+    "#{ss[3]}"
+  end  
 	
 end

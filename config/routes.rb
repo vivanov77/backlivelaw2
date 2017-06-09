@@ -49,8 +49,12 @@ Rails.application.routes.draw do
 
 		resources :chat_messages
 
+		resources :metro_lines, only: [:index]
 
-  		
+	    resources :configurables, only: [:index, :show, :edit, :update, :destroy, :new]
+
+	    resources :citations	    
+		  		
 	end
 
 	namespace :api do
@@ -101,6 +105,10 @@ Rails.application.routes.draw do
 		resources :chat_messages, only: [:index]
 
 		resources :secret_message_tokens, only: [:create, :show]
+
+	    resources :configurables, only: [:index]
+
+	    resources :citations, only: [:index, :show]
 
 	end	
 

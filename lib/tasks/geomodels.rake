@@ -96,10 +96,7 @@ namespace :kladr do
 
       f.puts JSON.pretty_generate(ip_ranges)
 
-    end    
-
-
-
+    end
 
   end
 end

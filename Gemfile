@@ -75,3 +75,6 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 # gem 'omniauth-odnoklassniki'
+
+gem 'russian'
+gem 'configurable_engine'

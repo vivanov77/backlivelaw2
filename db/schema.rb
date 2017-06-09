@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421143259) do
+ActiveRecord::Schema.define(version: 20170609110123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,12 @@ ActiveRecord::Schema.define(version: 20170421143259) do
     t.index ["sendable_type", "sendable_id"], name: "index_chat_messages_on_sendable_type_and_sendable_id", using: :btree
   end
 
+  create_table "citations", force: :cascade do |t|
+    t.text     "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "cities", force: :cascade do |t|
     t.string   "kladr_code"
     t.string   "name"
@@ -78,6 +84,14 @@ ActiveRecord::Schema.define(version: 20170421143259) do
     t.boolean  "delta",            default: true, null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "configurables", force: :cascade do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["name"], name: "index_configurables_on_name", using: :btree
   end
 
   create_table "doc_requests", force: :cascade do |t|
@@ -149,6 +163,26 @@ ActiveRecord::Schema.define(version: 20170421143259) do
     t.boolean  "delta",        default: true,  null: false
     t.index ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
     t.index ["sender_id"], name: "index_messages_on_sender_id", using: :btree
+  end
+
+  create_table "metro_lines", force: :cascade do |t|
+    t.string   "name"
+    t.string   "hex_color"
+    t.string   "metroable_type"
+    t.integer  "metroable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["metroable_type", "metroable_id"], name: "index_metro_lines_on_metroable_type_and_metroable_id", using: :btree
+  end
+
+  create_table "metro_stations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "lat"
+    t.string   "lng"
+    t.integer  "metro_line_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["metro_line_id"], name: "index_metro_stations_on_metro_line_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
