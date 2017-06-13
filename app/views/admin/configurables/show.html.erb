@@ -1,0 +1,51 @@
+<p>
+  <strong>Имя:</strong>
+  <%= @configurable.title %>
+</p>
+
+<p>
+  <strong>Содержимое:</strong>
+  <%# if @configurable.name == "contacts" %>
+  <% if @configurable.ctyped? %>
+
+	<div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% @configurable.ctype_titles.each do |title| %>
+              <th><%= title %></th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @configurable.get_ctable.each do |row| %>
+          <tr>
+            <% row.each do |key, value| %>
+            <td><%= value.keys[0] %>
+              <% if value.values[0] %>
+              &nbsp;<%= @configurable.subtype_title key, value.values[0] %>
+              <% end %>              
+            </td>
+            <% end %>
+          </tr>
+        <% end %>        
+        </tbody>
+      </table>
+      </div>  
+
+  <% elsif @configurable.type_text? %>
+    <div class="filters"><%= @configurable.value.html_safe %></div>
+  <% elsif @configurable.type_string? %>
+    <div class="filters"><%= @configurable.value %></div>
+  <% elsif @configurable.type_image? %>
+    <div class="filters">
+
+    <%= render 'layouts/uploaded_images', param: @configurable %>      
+
+    </div>    
+  <% end %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_configurable_path(@configurable) %> |
+<%= link_to 'Назад', admin_configurables_path %>

@@ -1,0 +1,6 @@
+<h1>Редактирование <%= @new ? "новой " : "" %>настройки</h1>
+
+<%= render 'form', configurable: @configurable %>
+
+<%= link_to 'Показать', [:admin, @configurable] %> |
+<%= link_to 'Назад', admin_configurables_path %>

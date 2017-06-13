@@ -1,0 +1,22 @@
+<%= form_for([:admin, citation]) do |f| %>
+  <% if citation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(citation.errors.count, "error") %> prohibited this citation from being saved:</h2>
+
+      <ul>
+      <% citation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Цитата" %>
+    <%= f.text_area :text %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Цитату" %>
+  </div>
+<% end %>

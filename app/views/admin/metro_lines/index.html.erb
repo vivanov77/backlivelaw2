@@ -1,0 +1,40 @@
+<h1>Линии и станции метро в российских городах</h1>
+
+<span style="color:green">ПРИМЕЧАНИЕ: Список линий и станций российских метрополитенов загружается через rake kladr:metro и не редактируется.</span><br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Имя</th>
+      <!-- <th>Цвет</th>       -->
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @metroables.each do |metroable| %>
+      <tr style="background-color:#9cce6e;">
+        <td><%= metroable.name %></td>
+      </tr>
+
+      <% metroable.metro_lines.each do |metro_line| %>
+        <tr>
+          <td>&nbsp;`--------&gt;</td>
+          <td style="background-color:#<%= metro_line.hex_color %>;"><%= metro_line.name %></td>
+        </tr>
+
+        <% metro_line.metro_stations.each do |metro_station| %>
+          <tr>
+            <td>&nbsp;`--------&gt;</td>
+            <td>&nbsp;`--------&gt;</td>
+            <td><%= metro_station.name %></td>
+            <td>широта: <%= metro_station.lat %>,</td>
+            <td>долгота: <%= metro_station.lng %></td>
+          </tr>
+        <% end %>
+
+      <% end %>
+      
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,73 @@
+<%= form_for([:admin, configurable]) do |f| %>
+
+  <div class="field">
+    <%= f.label "Имя" %>
+    <%= @configurable.title %>
+  </div>
+  
+  <div class="field">    
+    <%# if @configurable.name == "contacts" %>
+    <% if @configurable.ctyped? %>
+
+      <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <% @configurable.ctype_titles.each do |title| %>
+              <th><%= title %></th>
+            <% end %>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @configurable.get_ctable.each_with_index do |row, index| %>
+          <tr>
+            <% row.each do |key, value| %>
+              <td><%= value.keys[0] %>
+                <% if value.values[0] %>
+                &nbsp;<%= @configurable.subtype_title key, value.values[0] %>
+                <% end %>
+                <% unless value.keys[0].blank? %>&nbsp;
+                  <%= link_to "Удалить", admin_configurable_path(@configurable, configurable: {value: nil}, ctype_destroy: true, ctype_index: index, ctype_name: key), method: :patch %>
+                <% end %>                
+              </td>           
+            <% end %>
+          </tr>
+        <% end %>         
+           <tr>
+             <% @configurable.ctype_names.each do |name| %>
+               <td>
+                 <input type="text" name="ctype[<%= name %>]">
+                 <% if @configurable.key_subtyped? name %>
+<!-- http://apidock.com/rails/ActionView/Helpers/FormTagHelper/select_tag#54-select-tag-with-options-for-select-example                  -->
+<!-- http://stackoverflow.com/questions/10989259/swapping-keys-and-values-in-a-hash -->                   
+                  <%= select_tag("csubtype[#{name}]", options_for_select(@configurable.subtypes_hash(name).invert), { include_blank: "Ничего не выбрано"}) %>
+
+                 <% end %>
+               </td>
+              <% end %>
+            </tr>      
+        </tbody>
+      </table>
+      </div>
+
+      <%= f.hidden_field :value, value: nil %>
+
+    <% elsif @configurable.type_text? %>
+      <%= f.label "Содержимое" %>
+      <%= f.text_area :value, :class => "tinymce", :rows => 40, :cols => 120 %>
+    <% elsif @configurable.type_string? %>
+      <%= f.label "Содержимое" %>
+      <%= f.text_field :value %>
+    <% elsif @configurable.type_image? %>
+      <%= f.hidden_field :value, value: nil %>
+      <%= render 'layouts/uploaded_images', param: f %>
+    <% end %>
+  </div>
+
+  <%#= tinymce :language => "ru", menubar: false %>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text " (Добавить)  Настройку" %>
+  </div>
+<% end %>

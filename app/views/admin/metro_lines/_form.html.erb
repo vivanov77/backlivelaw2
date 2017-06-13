@@ -1,0 +1,27 @@
+<%= form_for([:admin, metro_line]) do |f| %>
+  <% if metro_line.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(metro_line.errors.count, "error") %> prohibited this metro_line from being saved:</h2>
+
+      <ul>
+      <% metro_line.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :hex_color %>
+    <%= f.text_field :hex_color %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Линия метро" %>
+  </div>
+<% end %>

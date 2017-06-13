@@ -1,0 +1,17 @@
+<p>
+  <strong>Id:</strong>
+  <%= @metro_line.id %>
+</p>
+
+<p>
+  <strong>Имя:</strong>
+  <%= @metro_line.name %>
+</p>
+
+<p>
+  <strong>Цвет:</strong>
+  <span style="background:#<%= @metro_line.hex_color %>">----------------------</span>
+</p>
+
+<!-- <%#= link_to 'Edit', edit_admin_metro_line_path(@metro_line) %> | -->
+<%= link_to 'Назад', admin_metro_lines_path %>

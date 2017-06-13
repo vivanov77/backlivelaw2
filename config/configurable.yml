@@ -1,0 +1,55 @@
+# This file controls what config variables you want to be able to allow your users
+# to set, as well as those you'll be able to access from within the application.
+# 
+# If you want to be able to access a string config[:site_title], for example:
+#   
+# site_title:
+#   name: Site Title
+#   type: string
+#   default: My Site
+#   
+# 'name' is the name that appears in the edit form
+# 
+# 'type' can be 'string' for a text field, 'password' for a password field or 'text' for a text area
+#   'type' defaults to 'string'
+# 
+# 'default' is the default value to use if there's no entry in the database. Otherwise, nil will be returned
+# 
+# Some Examples:
+
+about: # Do not rename this key unless you rename it's occurence in dependent controllers and views
+  name: "О проекте" # You may freely rename this key, but don't forget to restart the server
+  default: nil
+  type: text  
+
+faq: # Do not rename this key unless you rename it's occurence in dependent controllers and views
+  name: "Часто задаваемые вопросы" # You may freely rename this key, but don't forget to restart the server
+  default: nil
+  type: text
+#   type: string
+
+eula: # Do not rename this key unless you rename it's occurence in dependent controllers and views
+  name: "Пользовательское соглашение" # You may freely rename this key, but don't forget to restart the server
+  default: nil
+  type: text
+
+feedback_notify_email:
+  name: "Электронная почта для уведомления о поступлении отклика"
+  default: nil
+  type: text
+  ctype: { email: "Электронная почта" } # https://github.com/ruby/psych/issues/12  
+
+odnoklassniki:
+  name: "Одноклассники"
+  default: nil
+  type: string
+
+vk:
+  name: "ВКонтакте"
+  default: nil
+  type: string
+
+facebook:
+  name: "Фейсбук"
+  default: nil
+  type: string
