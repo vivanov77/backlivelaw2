@@ -21,13 +21,15 @@ class Api::ConfigurablesController < Api::ApplicationController
 
     check_value_class = check_value.class.to_s.downcase.to_sym
 
+    check_value_url = check_value.url ? Rails.root.to_s + "/public" + URI.unescape(check_value.url).to_s : nil
+
     hash_reply = {}
 
     hash_reply[:id] = @configurable.id
 
     hash_reply[:name] = @configurable.name
 
-    hash_reply[:value] = check_value_class == :fileuploader ? (Rails.root.to_s + "/public" + URI.unescape(check_value.url).to_s) : @configurable.value
+    hash_reply[:value] = check_value_class == :fileuploader ? check_value_url : @configurable.value
 
     hash_reply[:created_at] = @configurable.created_at
 
