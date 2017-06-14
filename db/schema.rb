@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170609110123) do
+ActiveRecord::Schema.define(version: 20170609110124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(version: 20170609110123) do
     t.string   "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "chat_sound_free"
+    t.string   "chat_sound_paid"
     t.index ["name"], name: "index_configurables_on_name", using: :btree
   end
 

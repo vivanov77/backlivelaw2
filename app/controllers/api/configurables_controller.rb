@@ -17,7 +17,23 @@ class Api::ConfigurablesController < Api::ApplicationController
 
      end
 
-    render json: @configurable.to_json
+    check_value = (@configurable.respond_to? @configurable.name) ? (@configurable.send @configurable.name) : nil
+
+    check_value_class = check_value.class.to_s.downcase.to_sym
+
+    hash_reply = {}
+
+    hash_reply[:id] = @configurable.id
+
+    hash_reply[:name] = @configurable.name
+
+    hash_reply[:value] = check_value_class == :fileuploader ? (Rails.root.to_s + "/public" + URI.unescape(check_value.url).to_s) : @configurable.value
+
+    hash_reply[:created_at] = @configurable.created_at
+
+    hash_reply[:updated_at] = @configurable.updated_at
+
+    render json: hash_reply
 
     else
 

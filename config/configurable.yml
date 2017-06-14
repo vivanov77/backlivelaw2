@@ -53,3 +53,13 @@ facebook:
   name: "Фейсбук"
   default: nil
   type: string
+
+chat_sound_free:
+  name: "Звук чата (бесплатного)"
+  default: nil
+  type: file
+
+chat_sound_paid:
+  name: "Звук чата (платного)"
+  default: nil
+  type: file

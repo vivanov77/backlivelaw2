@@ -38,10 +38,10 @@
     <div class="filters"><%= @configurable.value.html_safe %></div>
   <% elsif @configurable.type_string? %>
     <div class="filters"><%= @configurable.value %></div>
-  <% elsif @configurable.type_image? %>
+  <% elsif @configurable.type_file? %>
     <div class="filters">
 
-    <%= render 'layouts/uploaded_images', param: @configurable %>      
+    <%= render 'layouts/uploaded_file_setting', param: @configurable %>      
 
     </div>    
   <% end %>

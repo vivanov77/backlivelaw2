@@ -33,7 +33,7 @@ module ConfigurablesHelper
       def found name
       	c = Configurable.find_by(name: name)
 
-        if c && c.type_image?
+        if c && (c.type_image? || c.type_file?)
 
           c
 
@@ -57,9 +57,12 @@ module ConfigurablesHelper
 
       end
 
-      has_one :image, as: :imageable, dependent: :destroy
-      accepts_nested_attributes_for :image
-        
+      # mount_uploader :file, FileUploader
+
+      mount_uploader :chat_sound_free, FileUploader
+
+      mount_uploader :chat_sound_paid, FileUploader
+
     end
 
     # http://stackoverflow.com/questions/5654517/in-ruby-on-rails-to-extend-the-string-class-where-should-the-code-be-put-in
@@ -277,6 +280,18 @@ module ConfigurablesHelper
       def type_image?
 
         Configurable.defaults[self.name][:type] == "image"
+
+      end
+
+      def type_file?
+
+        Configurable.defaults[self.name][:type] == "file"
+
+      end
+
+      def uploader_name
+
+        uploader_name_helper self
 
       end      
 

@@ -310,6 +310,28 @@ module ApplicationHelper
     ss = File.open('ff').read.split(/\s+/)
     system('rm ff')
     "#{ss[3]}"
-  end  
+  end
+
+
+  def image_stored_file_path image
+# http://stackoverflow.com/questions/2733007/urldecode-in-ruby
+    URI.unescape(image.file.to_s).to_s
+  end
+
+  def image_file_path image
+# http://stackoverflow.com/questions/3724487/rails-root-directory-path
+    Rails.root.to_s + "/public" + (image_stored_file_path image)
+
+  end
+
+  def obj_file_size obj
+
+    uploader = obj.send obj.name.to_sym
+
+    file_path = Rails.root.to_s + "/public" + URI.unescape(uploader.to_s).to_s
+
+    number_to_human_size (File.size file_path)
+
+  end
 	
 end

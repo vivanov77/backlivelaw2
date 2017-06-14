@@ -2,7 +2,7 @@ class Admin::LibEntriesController < Admin::ApplicationController
   before_action :set_lib_entry, only: [:show, :edit, :update, :destroy]
   before_action :set_parent_lib_entry, only: [:new, :edit]
 
-  before_action :check_removed_attachment, only: [:update]  
+  before_action :check_removed_attachment, only: [:update]
 
   # GET /lib_entries
   # GET /lib_entries.json

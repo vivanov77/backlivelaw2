@@ -59,9 +59,9 @@
     <% elsif @configurable.type_string? %>
       <%= f.label "Содержимое" %>
       <%= f.text_field :value %>
-    <% elsif @configurable.type_image? %>
+    <% elsif @configurable.type_file? %>
       <%= f.hidden_field :value, value: nil %>
-      <%= render 'layouts/uploaded_images', param: f %>
+      <%= render 'layouts/uploaded_file_setting', param: f %>
     <% end %>
   </div>
 

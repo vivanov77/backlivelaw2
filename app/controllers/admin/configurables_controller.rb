@@ -10,6 +10,8 @@ class Admin::ConfigurablesController < Admin::ApplicationController
 
   before_action :set_ctable, only: [:update]
 
+  before_action :check_removed_attachment, only: [:update]
+
   def index
 
     @configurables = Configurable.get_all
@@ -79,7 +81,7 @@ class Admin::ConfigurablesController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def configurable_params
-      params.require(:configurable).permit(:name, :value, image_attributes: ["file", "@original_filename", "@content_type", "@headers"])
+      params.require(:configurable).permit(:name, :value, :file, :chat_sound_free, :chat_sound_paid, :destroy_attachment, image_attributes: ["file", "@original_filename", "@content_type", "@headers"])
     end
 
     # def bind_tinymce_images_to_parent_configurable
@@ -152,5 +154,27 @@ class Admin::ConfigurablesController < Admin::ApplicationController
     end
 
   end
+
+  def check_removed_attachment
+
+    da = params[:destroy_attachment]
+
+    if da
+
+      @configurable = Configurable.find(params[:id]) unless @configurable
+
+      # @configurable.remove_file!
+
+      @configurable.send "remove_#{@configurable.name}!"
+
+      @configurable.save!
+
+      # byebug
+
+      # remove_file_directory @configurable.file
+      remove_file_directory (@configurable.send @configurable.name.to_sym)
+    end
+
+  end  
 
 end
