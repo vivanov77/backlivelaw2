@@ -5,7 +5,7 @@ class Api::ChatTemplatesController < Api::ApplicationController
   # GET /chat_templates.json
   def index
 
-    @chat_templates = ChatTemplate.all
+    @chat_templates = ChatTemplate.where(user_id: current_user.id).all
 
     render json: @chat_templates
 
@@ -20,7 +20,7 @@ class Api::ChatTemplatesController < Api::ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_chat_template
-      @chat_template = ChatTemplate.find(params[:id])
+      @chat_template = ChatTemplate.where(user_id: current_user.id).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
