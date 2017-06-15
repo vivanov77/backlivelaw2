@@ -5,15 +5,7 @@ class Api::ChatTemplatesController < Api::ApplicationController
   # GET /chat_templates.json
   def index
 
-    if params[:user_id]
-
-      @chat_templates = ChatTemplate.where(user_id: current_user.id).first      
-
-    else
-
-      @chat_templates = ChatTemplate.where(user_id: current_user.id).all
-
-    end
+    @chat_templates = ChatTemplate.where(user_id: current_user.id).all
 
     render json: @chat_templates
 
