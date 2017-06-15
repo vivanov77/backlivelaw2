@@ -1,0 +1,39 @@
+<%= form_for([:admin, feedback]) do |f| %>
+  <% if feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(feedback.errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+      <ul>
+      <% feedback.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Электронная почта" %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Имя" %>
+    <%= f.text_field :name %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Содержимое" %>
+    <%= f.text_area :text, :cols => 40, :rows => 10 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Пользователь" %><br />
+    <%= f.collection_select :user_id, User.roled(:client).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите клиента' %>          
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Отзыв" %>
+  </div>
+<% end %>

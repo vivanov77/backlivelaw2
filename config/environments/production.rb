@@ -83,4 +83,25 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+# http://stackoverflow.com/questions/23407320/using-mail-form-in-rails-for-contact-errnoeconnrefused-connection-refused
+# http://stackoverflow.com/questions/18124878/netsmtpauthenticationerror-when-sending-email-from-rails-app-on-staging-envir
+
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true  
+
+# http://stackoverflow.com/questions/18124878/netsmtpauthenticationerror-when-sending-email-from-rails-app-on-staging-envir
+  config.action_mailer.smtp_settings = {
+      address: 'smtp.yandex.ru',
+      port: 465,
+      domain: 'yandex.ru',
+      user_name: ENV['DYNO'].blank? ? Rails.application.secrets.YANDEX_LOGIN : ENV['YANDEX_LOGIN'],
+      password: ENV['DYNO'].blank? ? Rails.application.secrets.YANDEX_PASSWORD : ENV['YANDEX_PASSWORD'],
+      authentication: :plain,
+      enable_starttls_auto: true,
+      ssl: true,
+      tls: true
+} 
+  
 end

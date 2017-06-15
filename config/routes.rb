@@ -53,7 +53,9 @@ Rails.application.routes.draw do
 
 	    resources :configurables, only: [:index, :show, :edit, :update, :destroy, :new]
 
-	    resources :citations	    
+	    resources :citations
+
+	    resources :feedbacks
 		  		
 	end
 
@@ -109,6 +111,8 @@ Rails.application.routes.draw do
 	    resources :configurables, only: [:index]
 
 	    resources :citations, only: [:index, :show]
+
+	    resources :feedbacks, only: [:index, :create, :show]
 
 	end	
 

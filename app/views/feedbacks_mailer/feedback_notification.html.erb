@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Поступил отзыв</h1>
+
+    <p>
+      Поступил новый отзыв со следующими данными.
+    </p>
+
+    <p>
+      <strong>Имя:</strong>
+      <%= @feedback.name %>
+    </p>
+
+    <p>
+      <strong>Электронная почта:</strong>
+      <%= @feedback.email %>
+    </p>
+
+    <p>
+      <strong>Содержимое:</strong>
+      <%= @feedback.text %>
+    </p>
+
+  </body>
+</html>

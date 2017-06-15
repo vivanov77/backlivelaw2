@@ -30,7 +30,7 @@ class Admin::CitationsController < Admin::ApplicationController
 
     respond_to do |format|
       if @citation.save
-        format.html { redirect_to [:admin, @citation], notice: 'Citation was successfully created.' }
+        format.html { redirect_to [:admin, @citation], notice: 'Цитата была успешно создана.' }
         format.json { render :show, status: :created, location: @citation }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class Admin::CitationsController < Admin::ApplicationController
   def update
     respond_to do |format|
       if @citation.update(citation_params)
-        format.html { redirect_to [:admin, @citation], notice: 'Citation was successfully updated.' }
+        format.html { redirect_to [:admin, @citation], notice: 'Цитата была успешно обновлена.' }
         format.json { render :show, status: :ok, location: @citation }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class Admin::CitationsController < Admin::ApplicationController
   def destroy
     @citation.destroy
     respond_to do |format|
-      format.html { redirect_to admin_citations_url, notice: 'Citation was successfully destroyed.' }
+      format.html { redirect_to admin_citations_url, notice: 'Цитата была успешно удалена.' }
       format.json { head :no_content }
     end
   end

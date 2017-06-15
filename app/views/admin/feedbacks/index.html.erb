@@ -1,0 +1,29 @@
+<h1>Отзывы</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Содержимое</th>
+      <th>Email</th>
+      <th>Имя</th>      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.text %></td>
+        <td><%= feedback.try(:user).try(:email) %></td>
+        <td><%= feedback.try(:user).try(:first_name) %></td>        
+        <td><%= link_to 'Показать', [:admin, feedback] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_feedback_path(feedback) %></td>
+        <td><%= link_to 'Удалить', [:admin, feedback], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Отзыв', new_admin_feedback_path %>

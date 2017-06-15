@@ -20,7 +20,9 @@ class User < ApplicationRecord
   # has_many :messages, foreign_key: 'sender_id', :inverse_of => :user
   has_many :messages, foreign_key: 'sender_id', dependent: :destroy
   # has_one :chat_token, :inverse_of => :user
-  has_many :chat_messages, as: :sendable, dependent: :destroy  
+  has_many :chat_messages, as: :sendable, dependent: :destroy
+
+  has_many :feedbacks, :inverse_of => :user, dependent: :destroy  
 
   # has_one :file_container, as: :fileable, dependent: :destroy
   # accepts_nested_attributes_for :file_container, allow_destroy: true

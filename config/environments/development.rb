@@ -52,5 +52,19 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }  
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+# http://stackoverflow.com/questions/18124878/netsmtpauthenticationerror-when-sending-email-from-rails-app-on-staging-envir
+  config.action_mailer.smtp_settings = {
+      address: 'smtp.yandex.ru',
+      port: 465,
+      domain: 'yandex.ru',
+      user_name: Rails.application.secrets.YANDEX_LOGIN,
+      password: Rails.application.secrets.YANDEX_PASSWORD,
+      authentication: :plain,
+      enable_starttls_auto: true,
+      ssl: true,
+      tls: true
+}
+  
 end

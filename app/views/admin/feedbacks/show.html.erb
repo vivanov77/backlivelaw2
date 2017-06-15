@@ -1,0 +1,18 @@
+<p>
+  <strong>Содержимое:</strong>
+  <%= @feedback.text %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @feedback.email %>
+</p>
+
+<p>
+  <strong>Имя:</strong>
+  <%= @feedback.name %>
+</p>
+
+
+<%= link_to 'Редактировать', edit_admin_feedback_path(@feedback) %> |
+<%= link_to 'Назад', admin_feedbacks_path %>

@@ -82,7 +82,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       show_cities: (param? params[:cities]),
 
-      include: (params[:offset] ? hash1 : hash2)      
+      include: (params[:offset] ? hash1 : hash2)
 
     end
 
