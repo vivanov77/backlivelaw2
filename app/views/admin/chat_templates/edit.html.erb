@@ -1,0 +1,6 @@
+<h1>Редактирование чат-шаблона</h1>
+
+<%= render 'form', chat_template: @chat_template %>
+
+<%= link_to 'Показать', [:admin, @chat_template] %> |
+<%= link_to 'Назад', admin_chat_templates_path %>

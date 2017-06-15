@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170609110125) do
+ActiveRecord::Schema.define(version: 20170615110705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20170609110125) do
     t.datetime "updated_at",      null: false
     t.index ["receivable_type", "receivable_id"], name: "index_chat_messages_on_receivable_type_and_receivable_id", using: :btree
     t.index ["sendable_type", "sendable_id"], name: "index_chat_messages_on_sendable_type_and_sendable_id", using: :btree
+  end
+
+  create_table "chat_templates", force: :cascade do |t|
+    t.string   "text"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chat_templates_on_user_id", using: :btree
   end
 
   create_table "citations", force: :cascade do |t|

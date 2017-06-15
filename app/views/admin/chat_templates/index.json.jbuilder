@@ -1,0 +1,1 @@
+json.array! @chat_templates, partial: 'chat_templates/chat_template', as: :chat_template

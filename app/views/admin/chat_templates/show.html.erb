@@ -1,0 +1,12 @@
+<p>
+  <strong>Текст:</strong>
+  <%= @chat_template.text %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @chat_template.try(:user).try(:email) %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_chat_template_path(@chat_template) %> |
+<%= link_to 'Назад', admin_chat_templates_path %>

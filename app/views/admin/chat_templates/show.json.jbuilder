@@ -1,0 +1,1 @@
+json.partial! "chat_templates/chat_template", chat_template: @chat_template

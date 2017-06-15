@@ -1,0 +1,27 @@
+<h1>Чат-шаблоны</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Текст</th>
+      <th>Пользователь</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chat_templates.each do |chat_template| %>
+      <tr>
+        <td><%= chat_template.text %></td>
+        <td><%= chat_template.try(:user).try(:email) %></td>
+        <td><%= link_to 'Показать', [:admin, chat_template] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_chat_template_path(chat_template) %></td>
+        <td><%= link_to 'Удалить', [:admin, chat_template], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новый чат-шаблон', new_admin_chat_template_path %>

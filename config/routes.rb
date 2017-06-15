@@ -56,6 +56,8 @@ Rails.application.routes.draw do
 	    resources :citations
 
 	    resources :feedbacks
+
+	    resources :chat_templates
 		  		
 	end
 
@@ -113,6 +115,8 @@ Rails.application.routes.draw do
 	    resources :citations, only: [:index, :show]
 
 	    resources :feedbacks, only: [:index, :create, :show]
+
+	    resources :chat_templates, only: [:index, :show]
 
 	end	
 

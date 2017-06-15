@@ -1,0 +1,30 @@
+<%= form_for([:admin, chat_template]) do |f| %>
+  <% if chat_template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(chat_template.errors.count, "error") %> prohibited this chat_template from being saved:</h2>
+
+      <ul>
+      <% chat_template.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Текст" %>
+    <%= f.text_field :text %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Пользователь" %><br />
+    <%= f.collection_select :user_id, User.roled([:jurist, :lawyer]), :id, :email
+    # , :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Шаблон" %>
+  </div>
+<% end %>
