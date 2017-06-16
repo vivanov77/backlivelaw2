@@ -97,7 +97,7 @@ class Admin::LibEntriesController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def lib_entry_params
-      params.require(:lib_entry).permit(:title, :text, :lib_entry_id, :file, :destroy_attachment)
+      params.require(:lib_entry).permit(:title, :text, :lib_entry_id, :file, :data, :destroy_attachment)
     end
 
     def check_removed_attachment
