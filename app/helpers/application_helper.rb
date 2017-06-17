@@ -4,7 +4,7 @@ module ApplicationHelper
 # https://gist.github.com/be9/6446051
 	  collection = scope.page(params[:offset]).per((params[:limit] || default_per_page).to_i)
 
-	  current, total, per_page = collection.current_page, collection.total_pages, collection.limit_value
+	  current, total, per_page, total_count = collection.current_page, collection.total_pages, collection.limit_value, collection.total_count
 
 	  # return [{
 	  #   pagination: {
@@ -17,6 +17,10 @@ module ApplicationHelper
 	  #   }
 	  # }, {result: collection}]
 
+    # collection 
+
+    result_collection = yield collection if block_given? 
+
 	  return {
 	    pagination: {
 	      current:  current,
@@ -24,9 +28,9 @@ module ApplicationHelper
 	      next:     (current == total ? nil : (current + 1)),
 	      limit:    per_page,
 	      pages:    total,
-	      count:    collection.total_count
+	      count:    total_count
 	    },
-	    result: collection
+	    result: result_collection
 	  }	  
 	end
 

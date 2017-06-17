@@ -20,6 +20,6 @@ class QuestionSerializer < ActiveModel::Serializer
 
   def should_render_user
     @instance_options[:show_user]
-  end  
+  end
    
 end

@@ -8,24 +8,26 @@ class Api::DocResponsesController < Api::ApplicationController
   # GET /doc_responses
   def index
 
-    @doc_responses = DocResponse    
+    @doc_responses = DocResponse
 
-    # if params[:category]
+    @doc_responses = @doc_responses.order(:id)
 
-    #   @doc_responses = @doc_responses.includes(:categories).where(categories: {name: params[:category]})
+    render json: @doc_responses,
 
-    # end
+    show_user: (param? params[:user]),
 
-    @doc_responses = @doc_responses.order(:id);
-
-    render json: @doc_responses
+    include: :user
 
   end
 
   # GET /doc_responses/1
   def show
 
-    render json: @doc_response
+    render json: @doc_response,
+
+    show_user: (param? params[:user]),
+
+    include: :user    
 
   end
 
