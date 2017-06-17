@@ -65,8 +65,13 @@ gem 'cancancan'
 gem 'kaminari'
 gem 'active_model_serializers'
 
-gem 'mysql2', :platform => :ruby
-gem 'thinking-sphinx'
+# unless ENV["DYNO"]
+
+#   gem 'mysql2', :platform => :ruby
+#   gem 'thinking-sphinx'
+
+# end
+
 gem 'devise_token_auth'
 gem 'dbf'
 gem 'carrierwave', '~> 1.0'
