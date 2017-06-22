@@ -31,10 +31,33 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.from_omniauth(request.env["omniauth.auth"])
+# https://stackoverflow.com/questions/44657191/devise-token-auth-omniauth-json-response/44698754#44698754 
+    namespace_name = request.env["omniauth.params"]["namespace_name"]    
 
     if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
-      set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+      
+      if namespace_name && namespace_name == "api"
+
+        @client_id = SecureRandom.urlsafe_base64(nil, false)
+        @token     = SecureRandom.urlsafe_base64(nil, false)
+
+        @user.tokens[@client_id] = {
+          token: BCrypt::Password.create(@token),
+          expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
+        }
+        @user.save
+
+        @resource = @user # trade-off for "update_auth_header" defined in "DeviseTokenAuth::Concerns::SetUserByToken"
+
+        sign_in(:user, @user, store: false, bypass: false)        
+
+        render json: @user
+
+      else
+        sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
+      end
+      
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
