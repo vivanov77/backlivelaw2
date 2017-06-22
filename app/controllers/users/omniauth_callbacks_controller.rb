@@ -47,7 +47,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   
   def vkontakte
     @user = User.from_omniauth_vkontakte(request.env["omniauth.auth"])
- 
+# https://stackoverflow.com/questions/44657191/devise-token-auth-omniauth-json-response/44698754#44698754 
     namespace_name = request.env["omniauth.params"]["namespace_name"]
 
     if @user.persisted?

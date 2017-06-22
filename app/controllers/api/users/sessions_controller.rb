@@ -7,34 +7,34 @@ class Api::Users::SessionsController < DeviseTokenAuth::SessionsController
   #   super
   # end
 
-  def create
+  # def create
 
-    p "short_login"
+  #   p "short_login"
 
-    user = User.find_by email: params[:email]
+  #   user = User.find_by email: params[:email]
 
-        @client_id = SecureRandom.urlsafe_base64(nil, false)
-        @token     = SecureRandom.urlsafe_base64(nil, false)
+  #       @client_id = SecureRandom.urlsafe_base64(nil, false)
+  #       @token     = SecureRandom.urlsafe_base64(nil, false)
 
-        user.tokens[@client_id] = {
-          token: BCrypt::Password.create(@token),
-          expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
-        }
-        user.save
+  #       user.tokens[@client_id] = {
+  #         token: BCrypt::Password.create(@token),
+  #         expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
+  #       }
+  #       user.save
 
 
-        @resource = user
+  #       @resource = user
 
-        sign_in(:user, @resource, store: false, bypass: false)
+  #       sign_in(:user, @resource, store: false, bypass: false)
 
-        render json: user
+  #       render json: user
 
-  end
+  # end
 
   # POST /resource/sign_in
-  def create2
+  def create
 
-    p "Users::SessionsController.create"
+    # p "Users::SessionsController.create"
 
     user = User.find_by email: params[:email] 
 
