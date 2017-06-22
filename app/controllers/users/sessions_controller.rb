@@ -8,6 +8,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+
     user = User.find_by email: sign_in_params[:email]
     if user && (!user.has_role? :admin)
       # sign_out

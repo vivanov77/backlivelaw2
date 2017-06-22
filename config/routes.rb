@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
 
-	devise_for :users, controllers: { sessions: 'users/sessions' }
-    # devise_for :users, controllers: { sessions: "users/sessions", :omniauth_callbacks => "users/omniauth_callbacks" }
+	# devise_for :users, controllers: { sessions: 'users/sessions' }
+    devise_for :users, controllers: { sessions: 'users/sessions', :omniauth_callbacks => 'users/omniauth_callbacks' }
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	root 'admin/questions#index'
+
+	# namespace :users do
+	# 	get 'omniauth_callbacks/facebook'
+	# 	get 'omniauth_callbacks/vkontakte'
+	# 	# get 'omniauth_callbacks/odnoklassniki'
+	# end
 
 	namespace :admin do
 
@@ -79,9 +85,7 @@ Rails.application.routes.draw do
 
 	    resources :categories, only: [:index, :show]
 
-		mount_devise_token_auth_for 'User', at: 'auth', controllers: { sessions: 'api/users/sessions' }
-
-		# devise_for :users, controllers: { sessions: 'api/users/sessions' }
+	    mount_devise_token_auth_for 'User', at: 'auth', controllers: { sessions: 'api/users/sessions' }
 
 	    resources :users, only: [:index, :show, :update] # after devise_for :users!!!!
 

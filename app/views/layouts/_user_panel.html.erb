@@ -11,6 +11,11 @@
     <%= link_to 'Войти', new_user_session_path %>
     &nbsp;&nbsp;&nbsp;<span style="color:green">У всех тестовых пользователей (rake db:seed) пароль: "12345678"</span>
   </div>
+
+<div>
+  <li><%= link_to 'Войти через Vkontakte', user_vkontakte_omniauth_authorize_path %></li>
+  <!-- <li><%#= link_to 'Войти через Facebook', user_facebook_omniauth_authorize_path %></li>   -->
+</div>  
   
 <% end %>
 

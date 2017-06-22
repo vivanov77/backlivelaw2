@@ -273,7 +273,7 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-config.omniauth :facebook, secret_key("FACEBOOK_APP_ID"), secret_key("FACEBOOK_APP_SECRET")
+config.omniauth :facebook, secret_key("FACEBOOK_APP_ID"), secret_key("FACEBOOK_APP_SECRET"), provider_ignores_state: true
 # , callback_url: "CALLBACK_URL"
 
 config.omniauth :vkontakte, secret_key("VKONTAKTE_APP_ID"), secret_key("VKONTAKTE_APP_SECRET")

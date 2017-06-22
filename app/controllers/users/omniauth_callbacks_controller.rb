@@ -1,4 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+      include DeviseTokenAuth::Concerns::SetUserByToken
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
@@ -46,10 +47,35 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   
   def vkontakte
     @user = User.from_omniauth_vkontakte(request.env["omniauth.auth"])
+ 
+    namespace_name = request.env["omniauth.params"]["namespace_name"]
 
     if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
-      set_flash_message(:notice, :success, :kind => "Vkontakte") if is_navigational_format?
+
+      if namespace_name && namespace_name == "api"
+
+        @client_id = SecureRandom.urlsafe_base64(nil, false)
+        @token     = SecureRandom.urlsafe_base64(nil, false)
+
+        @user.tokens[@client_id] = {
+          token: BCrypt::Password.create(@token),
+          expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
+        }
+        @user.save
+
+        @resource = @user # trade-off for "update_auth_header" defined in "DeviseTokenAuth::Concerns::SetUserByToken"
+
+        sign_in(:user, @user, store: false, bypass: false)        
+
+        render json: @user
+
+      else
+
+        sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, :kind => "Vkontakte") if is_navigational_format?
+
+      end
+
     else
       session["devise.vkontakte_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url

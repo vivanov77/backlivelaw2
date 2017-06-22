@@ -6,11 +6,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
           # :confirmable,
-          :omniauthable
+          :omniauthable,
 # http://stackoverflow.com/questions/8186584/how-do-i-set-up-email-confirmation-with-devise
-         # :omniauth_providers => [:facebook, :vkontakte]
+         :omniauth_providers => [:facebook, :vkontakte]
 
   include DeviseTokenAuth::Concerns::User
+
+  devise :omniauthable
+
   rolify
   has_many :questions, :inverse_of => :user, dependent: :destroy
   has_many :comments, :inverse_of => :user, dependent: :destroy
