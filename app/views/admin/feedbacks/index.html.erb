@@ -14,8 +14,8 @@
     <% @feedbacks.each do |feedback| %>
       <tr>
         <td><%= feedback.text %></td>
-        <td><%= feedback.try(:user).try(:email) %></td>
-        <td><%= feedback.try(:user).try(:first_name) %></td>        
+        <td><%= feedback.email %></td>
+        <td><%= feedback.name %></td>        
         <td><%= link_to 'Показать', [:admin, feedback] %></td>
         <td><%= link_to 'Редактировать', edit_admin_feedback_path(feedback) %></td>
         <td><%= link_to 'Удалить', [:admin, feedback], method: :delete, data: { confirm: 'Вы уверены?' } %></td>

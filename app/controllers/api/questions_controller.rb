@@ -5,6 +5,8 @@ class Api::QuestionsController < Api::ApplicationController
     
   before_action :set_question, only: [:show, :update, :destroy]
 
+  before_action :preview_questions_chars, only: [:show, :index]  
+
 #   def api_paginate_questions(scope, default_per_page = 20, show_categories = false, show_user = false, show_cities = false)
 # # https://gist.github.com/be9/6446051
 #     collection = scope.page(params[:offset]).per((params[:limit] || default_per_page).to_i)
@@ -120,6 +122,8 @@ class Api::QuestionsController < Api::ApplicationController
     show_comments: (!(params[:comments] == "false") && !(params[:comments] == "nil") && params[:comments]),
     show_file_containers: (!(params[:files] == "false") && !(params[:files] == "nil") && params[:files]),
 
+    text_preview: (param? params[:text_preview]) ? @preview_questions_chars : nil,
+
     include: [:categories, :comments, :files]
 
   end
@@ -182,5 +186,16 @@ class Api::QuestionsController < Api::ApplicationController
 
       res
 
-    end 
+    end
+
+    def preview_questions_chars
+
+      res = Configurable.found :preview_questions_chars
+
+      if res
+        @preview_questions_chars = res.value.to_i
+      else
+        @preview_questions_chars = 50
+      end
+    end
 end

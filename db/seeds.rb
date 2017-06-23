@@ -25,12 +25,14 @@ admin.save!
 user1 = User.find_or_create_by(email: "client1@example.com") { |u| u.password = "12345678"}
 user1.add_role :client
 user1.first_name = "John"
+user1.last_name = "Smith"
 # admin.confirm
 user1.save!
 
 user2 = User.find_or_create_by(email: "client2@example.com") { |u| u.password = "12345678" }
 user2.add_role :client
 user2.first_name = "Jack"
+user2.last_name = "Johnson"
 # admin.confirm
 user2.save!
 
@@ -152,3 +154,64 @@ sleep 1
 message = Message.create sender_id: user3.id, recipient_id: user1.id
 sleep 1
 message = Message.create sender_id: user1.id, recipient_id: user3.id
+
+DocRequest.delete_all
+
+doc_request1 = DocRequest.create title: "Запрос документа1", text: "Текст запроса документа1", user_id: user1.id
+doc_request2 = DocRequest.create title: "Запрос документа2 ", text: "Текст запроса документа2", user_id: user1.id
+doc_request3 = DocRequest.create title: "Запрос документа3", text: "Текст запроса документа3", user_id: user1.id
+doc_request4 = DocRequest.create title: "Запрос документа4", text: "Текст запроса документа4", user_id: user2.id
+doc_request5 = DocRequest.create title: "Запрос документа5", text: "Текст запроса документа5", user_id: user2.id
+doc_request6 = DocRequest.create title: "Запрос документа6", text: "Текст запроса документа6", user_id: user2.id
+
+DocResponse.delete_all
+
+doc_response1 = DocResponse.create text: "Текст ответа на запрос документа1", price: 100, user_id: user3.id, doc_request_id: doc_request1.id
+doc_response2 = DocResponse.create text: "Текст ответа на запрос документа2", price: 200, user_id: user4.id, doc_request_id: doc_request2.id
+doc_response3 = DocResponse.create text: "Текст ответа на запрос документа3", price: 300, user_id: user5.id, doc_request_id: doc_request3.id
+doc_response4 = DocResponse.create text: "Текст ответа на запрос документа4", price: 400, user_id: user6.id, doc_request_id: doc_request4.id
+doc_response5 = DocResponse.create text: "Текст ответа на запрос документа5", price: 500, user_id: user3.id, doc_request_id: doc_request5.id
+doc_response6 = DocResponse.create text: "Текст ответа на запрос документа6", price: 600, user_id: user4.id, doc_request_id: doc_request6.id
+
+ChatMessage.delete_all
+
+chat_message1 = ChatMessage.create sendable_type: "User", sendable_id: user1.id, receivable_type: "User", receivable_id: user2.id, text: "Chat message 1"
+sleep 1
+chat_message2 = ChatMessage.create sendable_type: "User", sendable_id: user3.id, receivable_type: "User", receivable_id: user1.id, text: "Chat message 2"
+sleep 1
+chat_message3 = ChatMessage.create sendable_type: "User", sendable_id: user2.id, receivable_type: "User", receivable_id: user4.id, text: "Chat message 3"
+sleep 1
+chat_message4 = ChatMessage.create sendable_type: "User", sendable_id: user1.id, receivable_type: "User", receivable_id: user4.id, text: "Chat message 4"
+sleep 1
+chat_message5 = ChatMessage.create sendable_type: "User", sendable_id: user1.id, receivable_type: "User", receivable_id: user2.id, text: "Chat message 5"
+sleep 1
+chat_message6 = ChatMessage.create sendable_type: "User", sendable_id: user3.id, receivable_type: "User", receivable_id: user1.id, text: "Chat message 6"
+sleep 1
+chat_message7 = ChatMessage.create sendable_type: "User", sendable_id: user1.id, receivable_type: "User", receivable_id: user3.id, text: "Chat message 7"
+
+Citation.delete_all
+
+citation1 = Citation.create text: "Цитата1"
+citation2 = Citation.create text: "Цитата2"
+citation3 = Citation.create text: "Цитата3"
+citation4 = Citation.create text: "Цитата4"
+citation5 = Citation.create text: "Цитата5"
+citation6 = Citation.create text: "Цитата6"
+
+Feedback.delete_all
+
+feedback1 = Feedback.create text: "Отзыв1", user_id: user1.id, email: user1.email, name: user1.last_name
+feedback2 = Feedback.create text: "Отзыв2", user_id: user1.id, email: user1.email, name: user1.last_name
+feedback3 = Feedback.create text: "Отзыв3", user_id: user1.id, email: user1.email, name: user1.last_name
+feedback4 = Feedback.create text: "Отзыв4", user_id: user2.id, email: user2.email, name: user2.last_name
+feedback5 = Feedback.create text: "Отзыв5", user_id: user2.id, email: user2.email, name: user2.last_name
+feedback6 = Feedback.create text: "Отзыв6", user_id: user2.id, email: user2.email, name: user2.last_name
+
+ChatTemplate.delete_all
+
+chat_template1 = ChatTemplate.create text: "Шаблон ответа в чате1", user_id: user1.id
+chat_template2 = ChatTemplate.create text: "Шаблон ответа в чате2", user_id: user1.id
+chat_template3 = ChatTemplate.create text: "Шаблон ответа в чате3", user_id: user1.id
+chat_template4 = ChatTemplate.create text: "Шаблон ответа в чате4", user_id: user2.id
+chat_template5 = ChatTemplate.create text: "Шаблон ответа в чате5", user_id: user2.id
+chat_template6 = ChatTemplate.create text: "Шаблон ответа в чате6", user_id: user2.id

@@ -63,3 +63,8 @@ chat_sound_paid:
   name: "Звук чата (платного)"
   default: nil
   type: file
+
+preview_questions_chars:
+  name: "Количество символов для предпросмотра вопроса"
+  default: nil
+  type: string  

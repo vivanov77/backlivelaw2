@@ -1,5 +1,6 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :created_at, :updated_at
+
+  attributes :id, :title, :text, :created_at, :updated_at
   has_many :comments, if: -> { should_render_comments }
   has_many :file_containers, if: -> { should_render_file_containers }
   has_many :categories, if: -> { should_render_categories }
@@ -9,6 +10,20 @@ class QuestionSerializer < ActiveModel::Serializer
   def should_render_comments
   	@instance_options[:show_comments]
   end
+
+  def text
+    if @instance_options[:text_preview]
+
+      preview_questions_chars = @instance_options[:text_preview]
+
+      ind = object.text.slice(preview_questions_chars..-1).index(" ") + preview_questions_chars
+
+      object.text.slice(0..ind) + "..."
+
+    else
+      object.text
+    end
+   end
 
   def should_render_file_containers
   	@instance_options[:show_file_containers]
