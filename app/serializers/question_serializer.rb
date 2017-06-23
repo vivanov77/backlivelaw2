@@ -16,9 +16,15 @@ class QuestionSerializer < ActiveModel::Serializer
 
       preview_questions_chars = @instance_options[:text_preview]
 
-      ind = object.text.slice(preview_questions_chars..-1).index(" ") + preview_questions_chars
+      if object.text
 
-      object.text.slice(0..ind) + "..."
+        ind = object.text.slice(preview_questions_chars..-1).index(" ") + preview_questions_chars
+
+        object.text.slice(0..ind) + "..."
+
+      else
+        nil
+      end
 
     else
       object.text
