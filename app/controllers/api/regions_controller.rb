@@ -14,7 +14,16 @@ class Api::RegionsController < Api::ApplicationController
   # GET /regions/1
   # GET /regions/1.json
   def show
-    render json: @region
+    # render json: @region
+
+    show_metro_lines = (param? params[:metro_lines])
+
+    render json: @region, 
+
+    show_metro_lines: show_metro_lines,
+    
+    include: :metro_lines
+        
   end 
 
   private

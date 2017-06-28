@@ -122,6 +122,8 @@ Rails.application.routes.draw do
 
 	    resources :chat_templates, only: [:index, :show]
 
+		resources :metro_lines, only: [:index, :show]	    
+
 	end	
 
 	# Serve websocket cable requests in-process

@@ -34,7 +34,14 @@ class Api::CitiesController < Api::ApplicationController
   # GET /cities/1
   # GET /cities/1.json
   def show
-    render json: @city
+
+    show_metro_lines = (param? params[:metro_lines])
+
+    render json: @city, 
+
+    show_metro_lines: show_metro_lines,
+    
+    include: :metro_lines
   end  
 
   private

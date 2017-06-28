@@ -14,20 +14,20 @@
   <tbody>
     <% @metroables.each do |metroable| %>
       <tr style="background-color:#9cce6e;">
-        <td><%= metroable.name %></td>
+        <td><%= metroable.name %> (class:<%= metroable.class %>, id:<%= metroable.id %>)</td>
       </tr>
 
       <% metroable.metro_lines.each do |metro_line| %>
         <tr>
           <td>&nbsp;`--------&gt;</td>
-          <td style="background-color:#<%= metro_line.hex_color %>;"><%= metro_line.name %></td>
+          <td style="background-color:#<%= metro_line.hex_color %>;"><%= metro_line.name %> (id:<%= metro_line.id %>)</td>
         </tr>
 
         <% metro_line.metro_stations.each do |metro_station| %>
           <tr>
             <td>&nbsp;`--------&gt;</td>
             <td>&nbsp;`--------&gt;</td>
-            <td><%= metro_station.name %></td>
+            <td><%= metro_station.name %> (id:<%= metro_station.id %>)</td>
             <td>широта: <%= metro_station.lat %>,</td>
             <td>долгота: <%= metro_station.lng %></td>
           </tr>
