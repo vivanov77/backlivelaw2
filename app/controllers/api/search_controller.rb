@@ -11,10 +11,6 @@ class Api::SearchController < Api::ApplicationController
   			result = Question.search @keyword
   		when "doc"
   			result = DocResponse.search @keyword
-      # when "query"
-      #   result = DocRequest.search @keyword
-      when "message"
-        result = Message.search @keyword        
   		else
   			result = {error: "Неподдерживаемый тип поиска"}
   		end
