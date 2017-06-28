@@ -19,6 +19,8 @@ class Api::QuestionsController < Api::ApplicationController
 
     show_cities = (param? params[:cities])
 
+    text_preview = (param? params[:text_preview])
+
     hash1 = [:categories, :user]
 
     hash2 = [:categories, :user, "user.**"]
@@ -27,13 +29,13 @@ class Api::QuestionsController < Api::ApplicationController
     render_conditions = 
 
     {
-      show_categories: (param? params[:categories]),
+      show_categories: show_categories,
       
-      show_user: (param? params[:user]),
+      show_user: show_user,
 
-      show_cities: (param? params[:cities]),
+      show_cities: show_cities,
 
-      text_preview: (param? params[:text_preview]) ? @preview_questions_chars : nil,      
+      text_preview: text_preview ? @preview_questions_chars : nil,      
 
       include: (params[:offset] ? hash1 : hash2)    
     }

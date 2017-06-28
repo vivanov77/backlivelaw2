@@ -1,6 +1,6 @@
 class Api::UsersController < Api::ApplicationController
 
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   # load_and_authorize_resource
     
   before_action :set_user, only: [:show, :update, :destroy]
@@ -36,6 +36,12 @@ class Api::UsersController < Api::ApplicationController
 
     city = nil
 
+    if param? params[:city_id]
+
+      city = City.find params[:city_id]
+
+    end    
+
     if param? params[:lawyer]
 
       params_array << :lawyer
@@ -60,41 +66,41 @@ class Api::UsersController < Api::ApplicationController
 
     end
 
-    if (param? params[:same_region]) || (param? params[:other_regions])
+    # if (param? params[:same_region]) || (param? params[:other_regions])
 
-      if current_user
+    #   if current_user
 
-        city = current_user.cities.first
+    #     city = current_user.cities.first
 
-      else
+    #   else
 
-        if (param? params[:city_id])
+    #     if (param? params[:city_id])
 
-          city = City.find params[:city_id]
+    #       city = City.find params[:city_id]
 
-          unless city
+    #       unless city
 
-            error_message = "Город с #{city_id} не найден."       
+    #         error_message = "Город с #{city_id} не найден."       
 
-            render json: { errors: error_message }, status: :unprocessable_entity
+    #         render json: { errors: error_message }, status: :unprocessable_entity
 
-            return
+    #         return
 
-          end
+    #       end
 
-        else
+    #     else
 
-          error_message = "Для гостей в случае указания параметра same_region или other_regions нужно ещё и указать параметр city_id"       
+    #       error_message = "Для гостей в случае указания параметра same_region или other_regions нужно ещё и указать параметр city_id"       
 
-          render json: { errors: error_message }, status: :unprocessable_entity
+    #       render json: { errors: error_message }, status: :unprocessable_entity
 
-          return
+    #       return
 
-        end
+    #     end
 
-      end
+    #   end
 
-    end
+    # end
 
     if params[:offset]
 

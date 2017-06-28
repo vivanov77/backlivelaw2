@@ -62,21 +62,21 @@ class User < ApplicationRecord
 
     region_users = User.where.not(id: user_id).includes(:cities).includes(:roles)
 
-    unless (local_regions && other_regions)
+    # unless (local_regions && other_regions)
 
-      if local_regions
+    #   if local_regions
 
-        region_users = region_users.where(cities: {region_id: region_id})
+    #     region_users = region_users.where(cities: {region_id: region_id})
 
-      elsif other_regions
+    #   elsif other_regions
 
-        region_users = region_users.where.not(cities: {region_id: region_id})
+    #     region_users = region_users.where.not(cities: {region_id: region_id})
 
-      # elsif local_regions && other_regions
+    #   # elsif local_regions && other_regions
 
-      end
+    #   end
 
-    end    
+    # end    
 
     region_users = region_users.map do |u| 
 
@@ -86,9 +86,9 @@ class User < ApplicationRecord
 
       h[:role]=u.roles.first
 
-      h[:city] = u.cities.first
+      h[:city] = u.cities.size == 0 ? :user_has_no_city : u.cities.first
 
-      if city
+      if city && (u.cities.size > 0)
 
         diff_lat = u.cities.first.latitude - lat
 
