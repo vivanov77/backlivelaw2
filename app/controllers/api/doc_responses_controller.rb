@@ -10,24 +10,51 @@ class Api::DocResponsesController < Api::ApplicationController
 
     @doc_responses = DocResponse
 
+    show_categories = (param? params[:categories])
+
+    show_user = (param? params[:user])
+
+    if params[:category]
+
+# http://guides.rubyonrails.org/active_record_querying.html#nested-associations-hash
+
+      @doc_responses = @doc_responses.includes(doc_request: [:categories]).where(categories: {name: params[:category]})
+
+    end
+
     @doc_responses = @doc_responses.order(:id)
 
     render json: @doc_responses,
 
-    show_user: (param? params[:user]),
+    show_user: show_user,
 
-    include: :user
+    show_doc_request: show_categories,
+
+    show_categories: show_categories,
+
+    include: [:user, "doc_request.**"]
 
   end
 
   # GET /doc_responses/1
   def show
 
+    show_categories = (param? params[:categories])
+
+    show_user = (param? params[:user])
+    
+
     render json: @doc_response,
 
     show_user: (param? params[:user]),
 
-    include: :user    
+    show_user: show_user,
+
+    show_doc_request: show_categories,
+
+    show_categories: show_categories,
+
+    include: [:user, "doc_request.**"]
 
   end
 

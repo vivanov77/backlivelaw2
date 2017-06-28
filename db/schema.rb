@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615110707) do
+ActiveRecord::Schema.define(version: 20170615110708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,8 +120,9 @@ ActiveRecord::Schema.define(version: 20170615110707) do
     t.float    "price"
     t.integer  "user_id"
     t.integer  "doc_request_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "delta",          default: true, null: false
     t.index ["doc_request_id"], name: "index_doc_responses_on_doc_request_id", using: :btree
     t.index ["user_id"], name: "index_doc_responses_on_user_id", using: :btree
   end
