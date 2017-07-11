@@ -32,6 +32,10 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
+  has_many :cash_operations, :inverse_of => :user, dependent: :destroy
+
+  has_many :payments, foreign_key: 'sender_id', dependent: :destroy  
+
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", jurist:"Юрист", lawyer:"Адвокат", blocked: "Заблокирован"}
 
@@ -149,6 +153,54 @@ class User < ApplicationRecord
 
     uploader_name_helper self
 
-  end   
+  end
+
+  def total_cash_in
+    CashOperation.where(user_id: self.id).where(operation: "in").sum("sum")
+  end
+
+  def total_cash_out
+    CashOperation.where(user_id: self.id).where(operation: "out").sum("sum")
+  end
+
+  def total_payment_in
+    Payment.where(recipient_id: self.id).sum("sum")
+  end
+
+  def total_payment_out
+    Payment.where(sender_id: self.id).sum("sum")
+  end
+
+  def income
+    total_cash_in + total_payment_in
+  end
+
+  def outcome
+    total_cash_out + total_payment_out
+  end
+
+  def get_balance
+
+    total_cash_in - total_cash_out + total_payment_in - total_payment_out
+
+  end
+
+  def purchased_categories
+    # http://guides.rubyonrails.org/active_record_querying.html#nested-associations-hash
+    category_spans = CategorySubscription.
+
+    includes(payment_type: [:payment]).
+
+    where(payment_types: {payable_type: "CategorySubscription"}).
+
+    where(payments: {sender_id: self.id}).
+
+    order(:category_id)
+    
+  end
+
+  def actual_purchased_categories
+    purchased_categories.select {|x| (x.expiration x.payment.created_at) >= Time.now}
+  end
 
 end

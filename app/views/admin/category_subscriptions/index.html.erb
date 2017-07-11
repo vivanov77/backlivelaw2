@@ -1,0 +1,29 @@
+<h1>Подписки на категории</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Промежуток времени</th>
+      <th>Категория</th>
+      <th>Цена</th>
+      <th colsubscription="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @category_subscriptions.each do |category_subscription| %>
+      <tr>
+        <td><%= category_subscription.timespan_name %></td>
+        <td><%= category_subscription.category.try(:name) %></td>
+        <td><%= category_subscription.price %></td>
+        <td><%= link_to 'Показать', [:admin, category_subscription] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_category_subscription_path(category_subscription) %></td>
+        <td><%= link_to 'Удалить', [:admin, category_subscription], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новая подписка на категорию', new_admin_category_subscription_path %>

@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615110708) do
+ActiveRecord::Schema.define(version: 20170707114153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cash_operations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "comment"
+    t.string   "operation"
+    t.float    "sum"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cash_operations_on_user_id", using: :btree
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -33,6 +43,15 @@ ActiveRecord::Schema.define(version: 20170615110708) do
     t.integer "category_id", null: false
     t.index ["category_id"], name: "index_categories_questions_on_category_id", using: :btree
     t.index ["question_id"], name: "index_categories_questions_on_question_id", using: :btree
+  end
+
+  create_table "category_subscriptions", force: :cascade do |t|
+    t.string   "timespan"
+    t.float    "price"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["category_id"], name: "index_category_subscriptions_on_category_id", using: :btree
   end
 
   create_table "chat_messages", force: :cascade do |t|
@@ -205,6 +224,29 @@ ActiveRecord::Schema.define(version: 20170615110708) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["metro_line_id"], name: "index_metro_stations_on_metro_line_id", using: :btree
+  end
+
+  create_table "payment_types", force: :cascade do |t|
+    t.integer  "payment_id"
+    t.string   "payable_type"
+    t.integer  "payable_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["payable_type", "payable_id"], name: "index_payment_types_on_payable_type_and_payable_id", using: :btree
+    t.index ["payment_id"], name: "index_payment_types_on_payment_id", using: :btree
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "comment"
+    t.boolean  "cfrozen"
+    t.string   "option"
+    t.float    "sum"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["recipient_id"], name: "index_payments_on_recipient_id", using: :btree
+    t.index ["sender_id"], name: "index_payments_on_sender_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|

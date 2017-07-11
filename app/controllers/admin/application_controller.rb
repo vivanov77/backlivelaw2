@@ -21,4 +21,9 @@ class Admin::ApplicationController < ApplicationController
 			redirect_to :back, notice:
 			"#{exception.message}."
 	end
+
+	rescue_from UserError do |exception|
+			redirect_to :back, notice:
+			"#{exception.message}"
+	end	
 end

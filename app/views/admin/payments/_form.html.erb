@@ -1,0 +1,72 @@
+<%= form_for([:admin, payment]) do |f| %>
+  <% if payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+
+      <ul>
+      <% payment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Отправитель" %><br />
+    <%= f.collection_select :sender_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Получатель" %><br />
+    <%= f.collection_select :recipient_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Назначение" %>
+<!-- https://stackoverflow.com/questions/1192843/grouped-select-in-rails     -->
+<!-- https://stackoverflow.com/questions/15252900/rails-select-tag-selected-value -->
+    <%= select_tag "payment_type", 
+          grouped_options_for_select(make_grouped_options(CategorySubscription, Question, DocRequest), 
+          type_id(payment.try(:payment_type).try(:payable))), include_blank: "Ничего не выбрано" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Заморожен" %>
+    <%= f.check_box :cfrozen %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Опция" %>
+    <% options = options_from_collection_for_select Payment::PAYMENT_OPTIONS, :first, :second %>
+    <%#= f.select :operation, Payment::PAYMENT_OPTIONS %>
+    <%= f.select :option, options %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Сумма" %>
+    <%= f.text_field :sum %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Комментарий" %>
+    <%= f.text_field :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Платёж" %>
+  </div>
+<% end %>
+
+
+<!--       t.belongs_to :sender, index: true
+      t.belongs_to :recipient, index: true
+      t.string :comment
+      t.boolean :frozen
+      t.integer :operation
+      t.float :sum -->
+
+<%# console %>

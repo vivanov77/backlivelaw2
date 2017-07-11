@@ -1,0 +1,6 @@
+<h1>Редактирование подписки на категорию</h1>
+
+<%= render 'form', category_subscription: @category_subscription %>
+
+<%= link_to 'Показать', [:admin, @category_subscription] %> |
+<%= link_to 'Назад', admin_category_subscriptions_path %>

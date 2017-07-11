@@ -1,0 +1,6 @@
+<h1>Редактирование платежного типа</h1>
+
+<%= render 'form', payment_type: @payment_type %>
+
+<%= link_to 'Показать', [:admin, @payment_type] %> |
+<%= link_to 'Назад', admin_payment_types_path %>

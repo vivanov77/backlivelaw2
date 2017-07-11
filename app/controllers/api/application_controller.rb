@@ -43,4 +43,9 @@ class Api::ApplicationController < ActionController::API
 		
 	end
 
+	rescue_from UserError do |exception|
+
+        render json: { errors: exception.message }, status: :unprocessable_entity
+	end	
+
 end

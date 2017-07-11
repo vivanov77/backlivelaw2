@@ -1,0 +1,34 @@
+<h1>Платежные типы (служебный тип)</h1>
+
+<div style="color:red">ПРИМЕЧАНИЕ: Не редактируется. Это служебные данные.</div><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>    
+      <th>payment_id</th>
+      <th>payable_type</th>
+      <th>payable_id</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payment_types.each do |payment_type| %>
+      <tr>
+        <td><%= payment_type.id %></td>      
+        <td><%= payment_type.payment_id %></td>
+        <td><%= payment_type.payable_type %></td>
+        <td><%= payment_type.payable_id %></td>
+       
+        <td><%= link_to 'Показать', [:admin, payment_type] %></td>
+        <td><%#= link_to 'Редактировать', edit_admin_payment_type_path(payment_type) %></td>
+        <td><%#= link_to 'Удалить', [:admin, payment_type], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to 'Новый платёжный тип', new_admin_payment_type_path %>

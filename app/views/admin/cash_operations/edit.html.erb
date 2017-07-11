@@ -1,0 +1,6 @@
+<h1>Редактирование операции с наличными</h1>
+
+<%= render 'form', cash_operation: @cash_operation %>
+
+<%= link_to 'Показать', [:admin, @cash_operation] %> |
+<%= link_to 'Назад', admin_cash_operations_path %>

@@ -337,5 +337,42 @@ module ApplicationHelper
     number_to_human_size (File.size file_path)
 
   end
+
+  def payment_name x
+    name = x.try(:name) || x.try(:title) ||  (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]): nil)
+  end
+
+  def make_grouped_options *params
+  # https://stackoverflow.com/questions/1192843/grouped-select-in-rails
+
+    grouped_options = {}
+
+    params.each do |param|
+
+      grouped_options[param.runame] = param.all.map do |x|
+
+        name = payment_name x
+
+        arr = []
+
+        arr << name
+
+        arr << "#{x.class.to_s}\##{x.id}"
+
+        arr
+
+      end
+
+    end
+
+    grouped_options
+
+  end
+
+  def type_id obj
+    obj ? (obj.class.to_s + "#" + obj.id.to_s) : nil
+  end
+
+  class UserError < StandardError; end
 	
 end

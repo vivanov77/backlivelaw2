@@ -1,0 +1,42 @@
+<p>
+  <strong>Отправитель:</strong>
+  <%= @payment.try(:sender).try(:email) %>
+</p>
+
+<p>
+  <strong>Получатель:</strong>
+  <%= @payment.try(:recipient).try(:email) %>
+</p>
+
+<p>
+  <strong>Опция:</strong>
+  <%= @payment.option_name %>
+</p>
+
+<p>
+  <strong>Назначение:</strong>
+  <%= @payment.try(:payment_type).try(:payable).try(:class).try(:runame).try(:+,": ").try(:+, @payment.purpose) %>
+</p>
+
+<p>
+  <strong>Заморожен:</strong>
+  <%= @payment.cfrozen %>
+</p>
+
+<p>
+  <strong>Сумма:</strong>
+  <%= @payment.sum %>
+</p>
+
+<p>
+  <strong>Комментарий:</strong>
+  <%= @payment.comment %>
+</p>
+
+<p>
+  <strong>Создан:</strong>
+  <%= @payment.created_at %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_payment_path(@payment) %> |
+<%= link_to 'Назад', admin_payments_path %>

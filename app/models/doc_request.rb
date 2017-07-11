@@ -13,6 +13,10 @@ class DocRequest < ApplicationRecord
 		}
 	end
 
+	def self.runame
+		"Запрос документа"
+	end
+
 
   # validates :user, presence: true
   # validates :category, presence: true

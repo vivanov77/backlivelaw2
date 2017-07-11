@@ -1,0 +1,2 @@
+module CategorySubscriptionsHelper
+end

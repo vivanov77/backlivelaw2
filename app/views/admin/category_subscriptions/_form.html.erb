@@ -1,0 +1,36 @@
+<%= form_for([:admin, category_subscription]) do |f| %>
+  <% if category_subscription.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(category_subscription.errors.count, "error") %> prohibited this category_subscription from being saved:</h2>
+
+      <ul>
+      <% category_subscription.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">    
+    <%= f.label "Промежуток времени" %>
+    <%= f.text_field :timespan %>
+  </div>
+
+   <div class="field">
+    <%= f.label "Категория" %>
+    <%= f.collection_select :category_id, Category.order(:name), :id, :name,
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+  # http://guides.rubyonrails.org/form_helpers.html#using-form-helpers
+                  :prompt => 'Выберите категорию' %>
+
+  </div>  
+
+  <div class="field">
+    <%= f.label "Цена" %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Подписку на категорию" %>
+  </div>
+<% end %>

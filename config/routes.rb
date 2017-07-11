@@ -64,6 +64,14 @@ Rails.application.routes.draw do
 	    resources :feedbacks
 
 	    resources :chat_templates
+
+	    resources :payments
+
+	    resources :cash_operations
+
+	    resources :payment_types, only: [:index, :show]
+
+		resources :category_subscriptions	    
 		  		
 	end
 
@@ -122,7 +130,13 @@ Rails.application.routes.draw do
 
 	    resources :chat_templates, only: [:index, :show]
 
-		resources :metro_lines, only: [:index, :show]	    
+		resources :metro_lines, only: [:index, :show]
+
+	    resources :payments, only: [:index, :create, :show]
+
+	    resources :cash_operations, only: [:index, :create, :show]
+
+		resources :category_subscriptions, only: [:index, :show]
 
 	end	
 

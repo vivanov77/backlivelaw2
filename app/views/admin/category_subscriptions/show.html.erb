@@ -1,0 +1,17 @@
+<p>
+  <strong>Промежуток времени:</strong>
+  <%= @category_subscription.timespan %>
+</p>
+
+<p>
+  <strong>Категория:</strong>
+  <%= @category_subscription.category.try(:name) %>
+</p>
+
+<p>
+  <strong>Цена:</strong>
+  <%= @category_subscription.price %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_category_subscription_path(@category_subscription) %> |
+<%= link_to 'Назад', admin_category_subscriptions_path %>

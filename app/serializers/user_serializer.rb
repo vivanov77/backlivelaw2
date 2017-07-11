@@ -6,6 +6,8 @@ class UserSerializer < ActiveModel::Serializer
   # has_many :cities, if: -> { should_render_association }
   has_many :cities, if: -> { should_render_cities }
   has_many :roles, if: -> { should_render_roles }
+  has_many :actual_purchased_categories, if: -> { should_render_actual_purchased_categories }
+  has_many :purchased_categories, if: -> { should_render_purchased_categories }  
 
 # http://stackoverflow.com/questions/42244237/activemodel-serializers-has-many-with-condition-at-run-time
   def should_render_cities
@@ -15,5 +17,13 @@ class UserSerializer < ActiveModel::Serializer
   def should_render_roles
   	@instance_options[:show_roles]
   end
+
+  def should_render_actual_purchased_categories
+    @instance_options[:show_actual_purchased_categories]
+  end
+
+  def should_render_purchased_categories
+    @instance_options[:show_purchased_categories]
+  end  
     
 end

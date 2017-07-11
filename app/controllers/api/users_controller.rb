@@ -7,7 +7,9 @@ class Api::UsersController < Api::ApplicationController
 
   before_action :check_for_questions, only: [:destroy]
 
-  before_action :check_removed_avatar, only: [:update]  
+  before_action :check_removed_avatar, only: [:update]
+
+  before_action :set_render_options, only: [:show, :index]  
 
   # before_action :verify_owner
     
@@ -25,12 +27,6 @@ class Api::UsersController < Api::ApplicationController
       @users = @users.where(online: true)
 
     end
-
-    # if param? params[:city_id]
-
-    #   @users = @users.where(cities: {id: params[:city_id] })
-
-    # end
 
     params_array = []
 
@@ -65,43 +61,7 @@ class Api::UsersController < Api::ApplicationController
       @users = @users.includes(:roles).where(roles: {name: params_array })
 
     end
-
-    # if (param? params[:same_region]) || (param? params[:other_regions])
-
-    #   if current_user
-
-    #     city = current_user.cities.first
-
-    #   else
-
-    #     if (param? params[:city_id])
-
-    #       city = City.find params[:city_id]
-
-    #       unless city
-
-    #         error_message = "Город с #{city_id} не найден."       
-
-    #         render json: { errors: error_message }, status: :unprocessable_entity
-
-    #         return
-
-    #       end
-
-    #     else
-
-    #       error_message = "Для гостей в случае указания параметра same_region или other_regions нужно ещё и указать параметр city_id"       
-
-    #       render json: { errors: error_message }, status: :unprocessable_entity
-
-    #       return
-
-    #     end
-
-    #   end
-
-    # end
-
+ 
     if params[:offset]
 
       collection = api_paginate(@users) do |param_collection|
@@ -116,7 +76,7 @@ class Api::UsersController < Api::ApplicationController
 
       @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
 
-      render json: @users
+      render( {json: @users}.merge set_render_options )
 
     end    
 
@@ -124,7 +84,7 @@ class Api::UsersController < Api::ApplicationController
 
   # GET /users/1
   def show
-    render json: @user, include: [:cities], show_cities: true
+    render( {json: @user}.merge set_render_options )
   end
 
   # PATCH/PUT /users/1
@@ -210,7 +170,29 @@ class Api::UsersController < Api::ApplicationController
         
       end
 
-    end    
+    end
 
+    def set_render_options
+
+      show_cities = (param? params[:cities])
+
+      show_actual_purchased_categories = (param? params[:actual_purchased_categories])
+
+      show_purchased_categories = (param? params[:purchased_categories])      
+
+      render_conditions = 
+
+      {
+        include: [:cities, :actual_purchased_categories],
+
+        show_cities: show_cities,
+
+        show_actual_purchased_categories: show_actual_purchased_categories,
+
+        show_purchased_categories: show_purchased_categories        
+      }
+
+
+    end
 
 end

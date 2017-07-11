@@ -1,0 +1,47 @@
+<%= form_for([:admin, cash_operation]) do |f| %>
+  <% if cash_operation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cash_operation.errors.count, "error") %> prohibited this cash_operation from being saved:</h2>
+
+      <ul>
+      <% cash_operation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Пользователь" %><br />
+    <%= f.collection_select :user_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div> 
+
+  <div class="field">
+    <%= f.label "Операция" %>
+    <% options = options_from_collection_for_select CashOperation::CASH_OPERATION_TYPES, :first, :second, cash_operation.operation %>
+    <%#= f.select :operation, Payment::PAYMENT_TYPES %>
+    <%= f.select :operation, options %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Сумма" %>
+    <%= f.text_field :sum %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Комментарий" %>
+    <%= f.text_field :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Операцию с наличностью" %>
+  </div>
+<% end %>
+
+
+<!--       t.belongs_to :user, index: true
+      t.string :comment
+      t.integer :operation
+      t.float :sum -->

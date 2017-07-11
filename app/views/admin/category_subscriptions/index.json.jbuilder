@@ -1,0 +1,1 @@
+json.array! @category_spans, partial: 'category_spans/category_span', as: :category_span

@@ -1,0 +1,22 @@
+<p>
+  <strong>id:</strong>
+  <%= @payment_type.id %>
+</p>
+
+<p>
+  <strong>payment_id:</strong>
+  <%= @payment_type.payment_id %>
+</p>
+
+<p>
+  <strong>payable_type:</strong>
+  <%= @payment_type.payable_type %>
+</p>
+
+<p>
+  <strong>payable_id:</strong>
+  <%= @payment_type.payable_id %>
+</p>
+
+<!-- <%#= link_to 'Редактировать', edit_admin_payment_type_path(@payment_type) %> | -->
+<%= link_to 'Назад', admin_payment_types_path %>

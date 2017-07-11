@@ -1,0 +1,22 @@
+<p>
+  <strong>Пользователь:</strong>
+  <%= @cash_operation.try(:user).try(:email) %>
+</p>
+
+<p>
+  <strong>Операция:</strong>
+  <%= @cash_operation.operation_name %>
+</p>
+
+<p>
+  <strong>Сумма:</strong>
+  <%= @cash_operation.sum %>
+</p>
+
+<p>
+  <strong>Комментарий:</strong>
+  <%= @cash_operation.comment %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_cash_operation_path(@cash_operation) %> |
+<%= link_to 'Назад', admin_cash_operations_path %>
