@@ -30,7 +30,7 @@
 <!-- https://stackoverflow.com/questions/1192843/grouped-select-in-rails     -->
 <!-- https://stackoverflow.com/questions/15252900/rails-select-tag-selected-value -->
     <%= select_tag "payment_type", 
-          grouped_options_for_select(make_grouped_options(CategorySubscription, Question, DocRequest), 
+          grouped_options_for_select(make_grouped_options(Rails.configuration.payment_types), 
           type_id(payment.try(:payment_type).try(:payable))), include_blank: "Ничего не выбрано" %>
   </div>
 

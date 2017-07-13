@@ -339,10 +339,12 @@ module ApplicationHelper
   end
 
   def payment_name x
-    name = x.try(:name) || x.try(:title) ||  (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]): nil)
+    name = x.try(:name) || x.try(:title) ||
+    (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]) : nil) ||
+    x.try(:doc_request).try(:title)
   end
 
-  def make_grouped_options *params
+  def make_grouped_options params
   # https://stackoverflow.com/questions/1192843/grouped-select-in-rails
 
     grouped_options = {}
@@ -374,5 +376,7 @@ module ApplicationHelper
   end
 
   class UserError < StandardError; end
-	
+
+  class DoubleAdminError < StandardError; end
+
 end

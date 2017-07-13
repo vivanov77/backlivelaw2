@@ -1,14 +1,14 @@
-class Api::DocResponsesController < Api::ApplicationController
+class Api::DocsController < Api::ApplicationController
 
   # before_action :authenticate_user!
   # load_and_authorize_resource
     
-  before_action :set_doc_response, only: [:show, :update, :destroy]
+  before_action :set_doc, only: [:show, :update, :destroy]
 
-  # GET /doc_responses
+  # GET /docs
   def index
 
-    @doc_responses = DocResponse
+    @docs = Doc
 
     show_categories = (param? params[:categories])
 
@@ -18,13 +18,13 @@ class Api::DocResponsesController < Api::ApplicationController
 
 # http://guides.rubyonrails.org/active_record_querying.html#nested-associations-hash
 
-      @doc_responses = @doc_responses.includes(doc_request: [:categories]).where(categories: {name: params[:category]})
+      @docs = @docs.includes(doc_request: [:categories]).where(categories: {name: params[:category]})
 
     end
 
-    @doc_responses = @doc_responses.order(:id)
+    @docs = @docs.order(:id)
 
-    render json: @doc_responses,
+    render json: @docs,
 
     show_user: show_user,
 
@@ -36,7 +36,7 @@ class Api::DocResponsesController < Api::ApplicationController
 
   end
 
-  # GET /doc_responses/1
+  # GET /docs/1
   def show
 
     show_categories = (param? params[:categories])
@@ -44,9 +44,7 @@ class Api::DocResponsesController < Api::ApplicationController
     show_user = (param? params[:user])
     
 
-    render json: @doc_response,
-
-    show_user: (param? params[:user]),
+    render json: @doc,
 
     show_user: show_user,
 
@@ -58,41 +56,41 @@ class Api::DocResponsesController < Api::ApplicationController
 
   end
 
-  # POST /doc_responses
+  # POST /docs
   def create
-    @doc_response = DocResponse.new(doc_response_params)
+    @doc = Doc.new(doc_params)
 
-    if @doc_response.save
-      render json: @doc_response, status: :created, location: [:api, @doc_response]
+    if @doc.save
+      render json: @doc, status: :created, location: [:api, @doc]
     else
-      render json: @doc_response.errors, status: :unprocessable_entity
+      render json: @doc.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /doc_responses/1
+  # PATCH/PUT /docs/1
   def update
-    if @doc_response.update(doc_response_params)
-      render json: @doc_response
+    if @doc.update(doc_params)
+      render json: @doc
     else
-      render json: @doc_response.errors, status: :unprocessable_entity
+      render json: @doc.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /doc_responses/1
+  # DELETE /docs/1
   # def destroy
-  #   @doc_response.destroy
-  #   render json: "Вопрос с id=\"#{@doc_response.id}\" успешно удалён".to_json, status: :ok    
+  #   @doc.destroy
+  #   render json: "Вопрос с id=\"#{@doc.id}\" успешно удалён".to_json, status: :ok    
   # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_doc_response
-      @doc_response = DocResponse.find(params[:id])
+    def set_doc
+      @doc = Doc.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
-    def doc_response_params
-      # params.require(:doc_response).permit(:title, :user_ids)
+    def doc_params
+      # params.require(:doc).permit(:title, :user_ids)
 
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
 # https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
@@ -103,7 +101,7 @@ class Api::DocResponsesController < Api::ApplicationController
 
       else # multipart form data - file upload
         
-        res = params.require(:doc_response).permit(:chosen, :text, :price, :user_id, :doc_request_id, 
+        res = params.require(:doc).permit(:chosen, :text, :price, :user_id, :doc_request_id, 
           file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
       end
 

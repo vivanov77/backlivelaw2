@@ -66,5 +66,8 @@ Rails.application.configure do
       ssl: true,
       tls: true
 }
+
+# ngrok external ip
+config.web_console.whitelisted_ips = '54.162.112.37'
   
 end

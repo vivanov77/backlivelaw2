@@ -1,1 +1,1 @@
-json.partial! "category_spans/category_span", category_span: @category_span
+json.partial! "category_subscriptions/category_v", category_subscription: @category_subscription

@@ -15,16 +15,6 @@
     <% unless flash[:notice].blank? %>
       <p class="notice"><%= notice %></p>
     <% end %>
-
-    <!-- <%#= link_to "Тестовый платёж Яндекс.Касса", yandex_kassa_pay_path%><br><br> -->
-
-    <%= render :partial => "layouts/user_panel" %>
-
-    <% if user_signed_in? && (current_user.has_role? :admin) %>
-
-      <%= render :partial => "layouts/admin_nav"%>
-
-    <% end %>
     
     <%= yield %>
   </body>

@@ -164,14 +164,14 @@ doc_request4 = DocRequest.create title: "Запрос документа4", text
 doc_request5 = DocRequest.create title: "Запрос документа5", text: "Текст запроса документа5", user_id: user2.id
 doc_request6 = DocRequest.create title: "Запрос документа6", text: "Текст запроса документа6", user_id: user2.id
 
-DocResponse.delete_all
+Doc.delete_all
 
-doc_response1 = DocResponse.create text: "Текст ответа на запрос документа1", price: 100, user_id: user3.id, doc_request_id: doc_request1.id
-doc_response2 = DocResponse.create text: "Текст ответа на запрос документа2", price: 200, user_id: user4.id, doc_request_id: doc_request2.id
-doc_response3 = DocResponse.create text: "Текст ответа на запрос документа3", price: 300, user_id: user5.id, doc_request_id: doc_request3.id
-doc_response4 = DocResponse.create text: "Текст ответа на запрос документа4", price: 400, user_id: user6.id, doc_request_id: doc_request4.id
-doc_response5 = DocResponse.create text: "Текст ответа на запрос документа5", price: 500, user_id: user3.id, doc_request_id: doc_request5.id
-doc_response6 = DocResponse.create text: "Текст ответа на запрос документа6", price: 600, user_id: user4.id, doc_request_id: doc_request6.id
+doc1 = Doc.create text: "Текст документа1", price: 100, user_id: user3.id, doc_request_id: doc_request1.id
+doc2 = Doc.create text: "Текст документа2", price: 200, user_id: user4.id, doc_request_id: doc_request2.id
+doc3 = Doc.create text: "Текст документа3", price: 300, user_id: user5.id, doc_request_id: doc_request3.id
+doc4 = Doc.create text: "Текст документа4", price: 400, user_id: user6.id, doc_request_id: doc_request4.id
+doc5 = Doc.create text: "Текст документа5", price: 500, user_id: user3.id, doc_request_id: doc_request5.id
+doc6 = Doc.create text: "Текст документа6", price: 600, user_id: user4.id, doc_request_id: doc_request6.id
 
 ChatMessage.delete_all
 

@@ -1,4 +1,4 @@
-class DocResponseSerializer < ActiveModel::Serializer
+class DocSerializer < ActiveModel::Serializer
   attributes :id, :chosen, :text, :price, :created_at, :updated_at
   # has_one :user
   # has_one :doc_request

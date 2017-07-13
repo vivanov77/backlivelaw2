@@ -1,6 +1,8 @@
 class User < ApplicationRecord
 
   include ApplicationHelper
+
+  # before_commit :check_operation, on: [:create, :update]  
   
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
@@ -19,7 +21,7 @@ class User < ApplicationRecord
   has_many :comments, :inverse_of => :user, dependent: :destroy
   has_and_belongs_to_many :cities
   has_many :doc_requests, :inverse_of => :user, dependent: :destroy
-  has_many :doc_responses, :inverse_of => :user, dependent: :destroy
+  has_many :docs, :inverse_of => :user, dependent: :destroy
   # has_many :messages, foreign_key: 'sender_id', :inverse_of => :user
   has_many :messages, foreign_key: 'sender_id', dependent: :destroy
   # has_one :chat_token, :inverse_of => :user
@@ -187,7 +189,7 @@ class User < ApplicationRecord
 
   def purchased_categories
     # http://guides.rubyonrails.org/active_record_querying.html#nested-associations-hash
-    category_spans = CategorySubscription.
+    category_subscriptions = CategorySubscription.
 
     includes(payment_type: [:payment]).
 
@@ -202,5 +204,20 @@ class User < ApplicationRecord
   def actual_purchased_categories
     purchased_categories.select {|x| (x.expiration x.payment.created_at) >= Time.now}
   end
+
+  # def check_operation
+
+  #   admin_count = User.includes(:roles).where(roles: {name: "admin"}).count
+
+  #   if admin_count > 1
+
+  #     # self.remove_role :admin
+  #     # self.save!
+
+  #     raise DoubleAdminError, "На сайте может быть только один админ. У пользователя #{self.email} роль админа автоматически убрана.)."
+
+  #   end
+
+  # end
 
 end

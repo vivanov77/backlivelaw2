@@ -1,6 +1,6 @@
 class DocRequest < ApplicationRecord
 	belongs_to :user, :inverse_of => :doc_requests
-	has_many :doc_responses, :inverse_of => :doc_request, dependent: :destroy
+	has_many :docs, :inverse_of => :doc_request, dependent: :destroy
 	has_and_belongs_to_many :categories
 
 	after_commit :set_response_delta_flags

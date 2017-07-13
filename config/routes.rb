@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 
 	    resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!	
 
-		resources :doc_responses
+		resources :docs
 		resources :doc_requests
 
 		resources :lib_entries do
@@ -99,11 +99,11 @@ Rails.application.routes.draw do
 
 	    resources :search, only: [:index]
 
-		resources :doc_responses, only: [:index, :show, :create, :update]
+		resources :docs, only: [:index, :show, :create, :update]
 		resources :doc_requests, only: [:index, :show, :create, :update]
 
 		resources :doc_requests, only: [:index, :show, :create, :update] do
-			resources :doc_responses
+			resources :docs
 		end
 
 		resources :lib_entries, except: [:destroy] do
@@ -138,7 +138,17 @@ Rails.application.routes.draw do
 
 		resources :category_subscriptions, only: [:index, :show]
 
-	end	
+	end
+
+	namespace :yandex_kassa do
+
+		get 'pay' => 'kassa#pay'
+
+		get 'check' => 'kassa#check'
+
+		get 'aviso' => 'kassa#aviso'
+
+	end
 
 	# Serve websocket cable requests in-process
 	mount ActionCable.server => '/cable'

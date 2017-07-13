@@ -4,7 +4,7 @@ class Payment < ApplicationRecord
 
 	has_one :payment_type
 
-	before_commit :check_operation, on: [:create, :update, :destroy]	
+	before_commit :check_operation, on: [:create, :update, :destroy]
 
 	# accepts_nested_attributes_for :payment_type, allow_destroy: true	
   

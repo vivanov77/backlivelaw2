@@ -4,12 +4,10 @@ one:
   ip_block_start: 1
   ip_block_end: 1
   ip_range: MyString
-  kladr_city_code: MyString
   city: one
 
 two:
   ip_block_start: 1
   ip_block_end: 1
   ip_range: MyString
-  kladr_city_code: MyString
   city: two

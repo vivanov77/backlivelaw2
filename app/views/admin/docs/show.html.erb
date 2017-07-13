@@ -1,0 +1,29 @@
+<!-- <p>
+  <strong>Выбрано клиентом:</strong>
+  <%#= @doc.chosen %>
+</p> -->
+
+<p>
+  <strong>Содержимое:</strong>
+  <%= @doc.text %>
+</p>
+
+<p>
+  <strong>Цена:</strong>
+  <%= @doc.price %>
+</p>
+
+<p>
+  <strong>Создатель:</strong>
+  <%= @doc.try(:user).try(:email) %>
+</p>
+
+<p>
+  <strong>Запрос документа:</strong>
+  <%= @doc.try(:doc_request).try(:title) %>
+</p>
+
+<%= render 'layouts/uploaded_files', param: @doc %>
+
+<%= link_to 'Редактировать', edit_admin_doc_path(@doc) %> |
+<%= link_to 'Назад', admin_docs_path %>

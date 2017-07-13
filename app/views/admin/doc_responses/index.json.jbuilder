@@ -1,1 +1,0 @@
-json.array! @doc_responses, partial: 'doc_responses/doc_response', as: :doc_response
