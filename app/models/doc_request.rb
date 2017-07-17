@@ -3,12 +3,24 @@ class DocRequest < ApplicationRecord
 	has_many :docs, :inverse_of => :doc_request, dependent: :destroy
 	has_and_belongs_to_many :categories
 
+	has_many :proposals, :as =>:proposable
+
 	after_commit :set_response_delta_flags
+
+	def virtual_attribute_payment
+
+		proposal_ids = Proposal.where(proposable_type: "DocRequest", proposable_id: self.id).map &:id
+
+		Payment.includes(:payment_type).where(payment_types: {payable_type: "Proposal", payable_id:proposal_ids}).
+
+		first
+
+	end	
 
 	private
 
 	def set_response_delta_flags
-		doc_responses.each { |response|
+		docs.each { |response|
 		  response.update_attributes :delta => true
 		}
 	end
@@ -17,18 +29,32 @@ class DocRequest < ApplicationRecord
 		"Запрос документа"
 	end
 
+	scope :paid, -> do
+
+		includes(proposals: [payment_type: [:payment]]).
+
+		where(proposals: {proposable_type: "DocRequest"}).
+
+		# where("payments.sum > 0")
+
+		where("payments.id is not null")
+
+	end
+
+
+	scope :unpaid, -> do
+
+		where.not(id: (paid.map &:id))
+
+	end
+
+	# scope :unpaid_categorized, ->(actual_purchased_categories) do
+
+	# 	unpaid.includes(:categories).where(categories: {id: (actual_purchased_categories.map &:id)})
+
+	# end	
 
   # validates :user, presence: true
   # validates :category, presence: true
-
-# after_save :set_response_delta_flags
-# after_destroy :set_delta_flag 
-
-# def set_delta_flag
-
-#   doc_responses.first.delta = true
-#   doc_responses.first.save
-
-# end
 
 end

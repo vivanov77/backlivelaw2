@@ -1,5 +1,5 @@
 class DocSerializer < ActiveModel::Serializer
-  attributes :id, :chosen, :text, :price, :created_at, :updated_at
+  attributes :id, :text, :price, :created_at, :updated_at
   # has_one :user
   # has_one :doc_request
   belongs_to :doc_request, if: -> { should_render_doc_request }

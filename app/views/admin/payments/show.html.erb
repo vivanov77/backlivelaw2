@@ -15,7 +15,7 @@
 
 <p>
   <strong>Назначение:</strong>
-  <%= @payment.try(:payment_type).try(:payable).try(:class).try(:runame).try(:+,": ").try(:+, @payment.purpose) %>
+  <%= @payment.purpose %>
 </p>
 
 <p>

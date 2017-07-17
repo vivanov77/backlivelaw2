@@ -1,0 +1,18 @@
+<p>
+  <strong>Цена:</strong>
+  <%= @proposal.price %>
+</p>
+
+<p>
+  <strong>Назначение:</strong>
+  <%= @proposal.purpose %>  
+</p>
+
+<p>
+  <strong>Создатель:</strong>
+  <%= @proposal.user ? @proposal.user.email : "Не указано" %>
+</p>
+
+
+<%= link_to 'Редактировать', edit_admin_proposal_path(@proposal) %> |
+<%= link_to 'Назад', admin_proposals_path %>

@@ -1,0 +1,38 @@
+<%= form_for([:admin, proposal]) do |f| %>
+  <% if proposal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(proposal.errors.count, "error") %> prohibited this proposal from being saved:</h2>
+
+      <ul>
+      <% proposal.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Цена" %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Назначение" %>
+<!-- https://stackoverflow.com/questions/1192843/grouped-select-in-rails     -->
+<!-- https://stackoverflow.com/questions/15252900/rails-select-tag-selected-value -->
+    <%= select_tag "proposable", 
+          grouped_options_for_select(make_grouped_options(Rails.configuration.proposal_types), 
+          type_id(proposal.try(:proposable))), include_blank: "Ничего не выбрано" %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Пользователь" %><br />
+    <%= f.collection_select :user_id, User.roled([:jurist, :lawyer]).order(:email), :id, :email, {:include_blank => "Ничего не выбрано"},
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+    prompt: 'Выберите клиента' %>          
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Предложение" %>
+  </div>
+<% end %>

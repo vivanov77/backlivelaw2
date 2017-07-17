@@ -8,8 +8,10 @@ class Question < ApplicationRecord
 	has_many :file_containers, as: :fileable, dependent: :destroy
 	accepts_nested_attributes_for :file_containers, allow_destroy: true
 
-	has_one :payment_type, :as =>:payable
-	has_one :payment, :through => :payment_type
+	# has_one :payment_type, :as =>:payable
+	# has_one :payment, :through => :payment_type
+
+	has_many :proposals, :as =>:proposable
 
 	# has_one :file_container, as: :fileable, dependent: :destroy
 	# accepts_nested_attributes_for :file_container

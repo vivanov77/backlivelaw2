@@ -69,6 +69,6 @@ class Admin::DocRequestsController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def doc_request_params
-      params.require(:doc_request).permit(:title, :text, :paid, :user_id, :category_ids)
+      params.require(:doc_request).permit(:title, :text, :user_id, :category_ids)
     end
 end

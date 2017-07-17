@@ -187,7 +187,7 @@ class User < ApplicationRecord
 
   end
 
-  def purchased_categories
+  def purchased_category_subscriptions
     # http://guides.rubyonrails.org/active_record_querying.html#nested-associations-hash
     category_subscriptions = CategorySubscription.
 
@@ -201,9 +201,16 @@ class User < ApplicationRecord
     
   end
 
-  def actual_purchased_categories
-    purchased_categories.select {|x| (x.expiration x.payment.created_at) >= Time.now}
+  def actual_purchased_category_subscriptions
+    purchased_category_subscriptions.select {|x| (x.expiration x.payment.created_at) >= Time.now}
   end
+
+  def actual_purchased_categories
+    # purchased_category_subscriptions.select{|x| (x.expiration x.payment.created_at) >= Time.now}.
+
+    Category.includes(:category_subscriptions).where(category_subscriptions: {category_id: (actual_purchased_category_subscriptions.map &:category_id)})
+    
+  end  
 
   # def check_operation
 

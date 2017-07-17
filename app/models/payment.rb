@@ -24,8 +24,24 @@ class Payment < ApplicationRecord
 
 	end
 
+	# def typed_purpose
+	# 	self.try(:payment_type).try(:payable).try(:class).try(:runame).try(:+,": ").try(:+, self.purpose)
+	# end
+
 	def typed_purpose
-		self.try(:payment_type).try(:payable).try(:class).try(:runame).try(:+,": ").try(:+, self.purpose)
+
+		class_name = self.try(:payment_type).try(:payable).try(:class).try(:runame)
+
+		if purpose && class_name
+
+		  class_name + ": " + purpose
+
+		else
+
+		  nil
+
+		end
+
 	end
 
 	private

@@ -1,0 +1,6 @@
+<h1>Редактирование предложения</h1>
+
+<%= render 'form', proposal: @proposal %>
+
+<%= link_to 'Показать', [:admin, @proposal] %> |
+<%= link_to 'Назад', admin_proposals_path %>

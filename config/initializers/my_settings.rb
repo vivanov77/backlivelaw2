@@ -13,3 +13,11 @@ ApplicationRecord.descendants.select do |model|
 	model.instance_methods.include?(:payment)
 
 end
+
+Rails.application.config.proposal_types = 
+
+ApplicationRecord.descendants.select do |model|
+
+	model.instance_methods.include?(:proposals)
+
+end

@@ -71,7 +71,9 @@ Rails.application.routes.draw do
 
 	    resources :payment_types, only: [:index, :show]
 
-		resources :category_subscriptions	    
+		resources :category_subscriptions
+
+		resources :proposals
 		  		
 	end
 
@@ -137,6 +139,8 @@ Rails.application.routes.draw do
 	    resources :cash_operations, only: [:index, :create, :show]
 
 		resources :category_subscriptions, only: [:index, :show]
+
+		resources :proposals		
 
 	end
 

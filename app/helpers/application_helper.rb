@@ -341,7 +341,8 @@ module ApplicationHelper
   def payment_name x
     name = x.try(:name) || x.try(:title) ||
     (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]) : nil) ||
-    x.try(:doc_request).try(:title)
+    x.try(:doc_request).try(:title) ||
+    (x.try(:proposable) ? (x.proposable.class.try(:runame) + "#" + x.name ) : nil)
   end
 
   def make_grouped_options params

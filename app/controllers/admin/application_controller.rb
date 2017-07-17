@@ -9,10 +9,10 @@ class Admin::ApplicationController < ApplicationController
 			sign_out
 			redirect_to store_path, notice: "Пользователь заблокирован."
 		else
-			redirect_to :back, notice:    
+			redirect_back(fallback_location: root_path, notice:    
 			#"You don't have the right to #{exception.action} #{exception.subject.class.to_s.downcase.pluralize}"
 			# "You don't have the right to #{exception.action} #{exception.subject.class.to_s.downcase == 'class' ? exception.subject.to_s.pluralize : exception.subject.class.to_s}"
-			"У Вас нет роли на #{ru_action exception.action}."
+			"У Вас нет роли на #{ru_action exception.action}.")
 			#"You don't have the right to #{exception.action} #{exception.subject.class}"
 		end
 	end

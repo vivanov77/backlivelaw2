@@ -176,20 +176,20 @@ class Api::UsersController < Api::ApplicationController
 
       show_cities = (param? params[:cities])
 
-      show_actual_purchased_categories = (param? params[:actual_purchased_categories])
+      show_actual_purchased_category_subscriptions = (param? params[:actual_purchased_category_subscriptions])
 
-      show_purchased_categories = (param? params[:purchased_categories])      
+      show_purchased_category_subscriptions = (param? params[:purchased_category_subscriptions])      
 
       render_conditions = 
 
       {
-        include: [:cities, :actual_purchased_categories],
+        include: [:cities, :actual_purchased_category_subscriptions],
 
         show_cities: show_cities,
 
-        show_actual_purchased_categories: show_actual_purchased_categories,
+        show_actual_purchased_category_subscriptions: show_actual_purchased_category_subscriptions,
 
-        show_purchased_categories: show_purchased_categories        
+        show_purchased_category_subscriptions: show_purchased_category_subscriptions        
       }
 
 

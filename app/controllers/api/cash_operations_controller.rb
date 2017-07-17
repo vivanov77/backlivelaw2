@@ -12,7 +12,7 @@ class Api::CashOperationsController < Api::ApplicationController
 
     @cash_operations = CashOperation.order(:id);
 
-    render( {json: @cash_operations}.merge set_render_options )    
+    render( {json: @cash_operations}.merge set_render_options )
 
   end
 
@@ -83,35 +83,9 @@ class Api::CashOperationsController < Api::ApplicationController
 
       end
 
-      # transfer @cash_operation
-
       res
       
     end
-
-  # def transfer co
-
-  #   unless co.user
-
-  #     raise UserError, "Не указан пользователь, совершающий операцию."
-
-  #   end
-
-  #   co.user.balance ||= 0
-
-  #   co.user.balance += case co.operation
-  #   when "in"
-  #     co.sum
-  #   when "out"
-  #     if co.user.balance >= co.sum
-  #       -co.sum
-  #     else
-  #       raise UserError, "Недостаточно средств для вывода."
-  #     end
-  #   else
-  #     nil     
-  #   end
-  # end   
 
     def set_render_options
 
