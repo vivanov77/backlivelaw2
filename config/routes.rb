@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 
 	    resources :users, only: [:index, :show, :edit, :update, :destroy] # after devise_for :users!!!!	
 
-		resources :docs
+		resources :doc_responses
 		resources :doc_requests
 
 		resources :lib_entries do
@@ -101,7 +101,7 @@ Rails.application.routes.draw do
 
 	    resources :search, only: [:index]
 
-		resources :docs, only: [:index, :show, :create, :update]
+		resources :doc_responses, only: [:index, :show, :create, :update]
 		resources :doc_requests, only: [:index, :show, :create, :update]
 
 		resources :doc_requests, only: [:index, :show, :create, :update] do

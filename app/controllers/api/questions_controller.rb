@@ -7,38 +7,46 @@ class Api::QuestionsController < Api::ApplicationController
 
   before_action :preview_questions_chars, only: [:show, :index]
 
+  before_action :set_render_options, only: [:show, :index]
+
   # GET /questions
   def index
 
-    @questions = Question.order(:id)
+    @questions = Question
 
+    if current_user
 
-    show_categories = (param? params[:categories])
+      if current_user.has_role? :client
 
-    show_user = (param? params[:user])
+        @questions = @questions.where(user_id: current_user.id)
 
-    show_cities = (param? params[:cities])
+      elsif (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
 
-    text_preview = (param? params[:text_preview])
+         @questions = @questions.includes(:categories).
 
-    hash1 = [:categories, :user]
+         where(categories: {id: (current_user.actual_purchased_categories.map &:id)})
 
-    hash2 = [:categories, :user, "user.**"]
+      end
 
+    end
 
-    render_conditions = 
+    if param? params[:charged]
 
-    {
-      show_categories: show_categories,
-      
-      show_user: show_user,
+      @questions = @questions.where(charged: true)
 
-      show_cities: show_cities,
+    end        
 
-      text_preview: text_preview ? @preview_questions_chars : nil,      
+    if param? params[:unpaid]
 
-      include: (params[:offset] ? hash1 : hash2)    
-    }
+      @questions = @questions.unpaid
+
+    end
+
+    if param? params[:paid]
+
+      @questions = @questions.paid
+
+    end
 
 
     if params[:category]
@@ -46,6 +54,7 @@ class Api::QuestionsController < Api::ApplicationController
       @questions = @questions.includes(:categories).where(categories: {name: params[:category]})
 
     end
+
 
     if params[:offset]
 
@@ -55,7 +64,7 @@ class Api::QuestionsController < Api::ApplicationController
 
           param_collection.to_a,
 
-          render_conditions
+          set_render_options
         )
 
       end      
@@ -64,7 +73,7 @@ class Api::QuestionsController < Api::ApplicationController
 
     else
 
-      render( {json: @questions}.merge render_conditions )
+      render( {json: @questions}.merge set_render_options )
 
     end
 
@@ -73,14 +82,7 @@ class Api::QuestionsController < Api::ApplicationController
   # GET /questions/1
   def show
 
-    render json: @question,
-    show_categories: (!(params[:categories] == "false") && !(params[:categories] == "nil") && params[:categories]),
-    show_comments: (!(params[:comments] == "false") && !(params[:comments] == "nil") && params[:comments]),
-    show_file_containers: (!(params[:files] == "false") && !(params[:files] == "nil") && params[:files]),
-
-    text_preview: (param? params[:text_preview]) ? @preview_questions_chars : nil,
-
-    include: [:categories, :comments, :files]
+    render( {json: @payment}.merge set_render_options )
 
   end
 
@@ -154,4 +156,51 @@ class Api::QuestionsController < Api::ApplicationController
         @preview_questions_chars = 50
       end
     end
+
+    def set_render_options
+
+      show_categories = (param? params[:categories])
+
+      show_user = (param? params[:user])
+
+
+      show_proposals = (param? params[:proposals])
+
+      show_virtual_attribute_payment = (param? params[:payment])
+
+
+      show_cities = (param? params[:cities])
+
+      show_comments = (param? params[:comments])
+
+      show_file_containers = (param? params[:files])
+
+      text_preview = (param? params[:text_preview])
+
+      hash1 = [:user, :categories, :comments, :files, :proposals, :virtual_attribute_payment]
+
+      hash2 = hash1 + ["user.**"]
+
+
+      render_conditions = 
+
+      {
+
+        show_user: show_user,
+
+        show_categories: show_categories,
+
+        show_proposals: show_proposals,
+        
+        show_virtual_attribute_payment: show_virtual_attribute_payment,
+
+
+        show_cities: show_cities,
+
+        text_preview: text_preview ? @preview_questions_chars : nil,      
+
+        include: (params[:offset] ? hash1 : hash2)    
+      }  
+
+    end    
 end

@@ -1,6 +1,6 @@
 class DocRequest < ApplicationRecord
 	belongs_to :user, :inverse_of => :doc_requests
-	has_many :docs, :inverse_of => :doc_request, dependent: :destroy
+	has_many :doc_responses, :inverse_of => :doc_request, dependent: :destroy
 	has_and_belongs_to_many :categories
 
 	has_many :proposals, :as =>:proposable
@@ -20,13 +20,13 @@ class DocRequest < ApplicationRecord
 	private
 
 	def set_response_delta_flags
-		docs.each { |response|
+		doc_responses.each { |response|
 		  response.update_attributes :delta => true
 		}
 	end
 
 	def self.runame
-		"Запрос документа"
+		"Заказ документа"
 	end
 
 	scope :paid, -> do

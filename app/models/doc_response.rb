@@ -1,4 +1,4 @@
-class Doc < ApplicationRecord
+class DocResponse < ApplicationRecord
   belongs_to :user, :inverse_of => :docs
   belongs_to :doc_request, :inverse_of => :docs
   has_many :file_containers, as: :fileable, dependent: :destroy
@@ -8,7 +8,7 @@ class Doc < ApplicationRecord
   # has_one :payment, :through => :payment_type
 
   def self.runame
-	"Документ"
+	"Выполненный заказ на документ"
   end
 
 end

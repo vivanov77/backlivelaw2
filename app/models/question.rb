@@ -16,6 +16,20 @@ class Question < ApplicationRecord
 	# has_one :file_container, as: :fileable, dependent: :destroy
 	# accepts_nested_attributes_for :file_container
 
+	def virtual_attribute_payment
+
+		return nil unless charged
+
+		proposal_ids = Proposal.where(proposable_type: "Question", proposable_id: self.id).map &:id
+
+		Payment.includes(:payment_type).where(payment_types: {payable_type: "Proposal", payable_id:proposal_ids}).
+
+		first
+
+	end	
+
+	private
+
 	def parent_question?
 		false
 	end
@@ -26,7 +40,26 @@ class Question < ApplicationRecord
 
 	def self.runame
 		"Вопрос"
+	end	
+
+	scope :paid, -> do
+
+		includes(proposals: [payment_type: [:payment]]).
+
+		where(proposals: {proposable_type: "Question"}).
+
+		# where("payments.sum > 0")
+
+		where("payments.id is not null")
+
 	end
+
+
+	scope :unpaid, -> do
+
+		where.not(id: (paid.map &:id))
+
+	end	
 
 	# validates :user, presence: true
 	# validates :category, presence: true		

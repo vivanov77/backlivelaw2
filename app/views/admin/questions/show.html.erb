@@ -18,6 +18,11 @@
   <%= @question.categories.size > 0 ? @question.categories.first.name : "Не указано" %>
 </p>
 
+<p>
+  <strong>Платный:</strong>
+  <%= @question.charged %>
+</p>
+
 <%= render 'layouts/uploaded_files', param: @question %>
 
 <%= link_to 'Редактировать', edit_admin_question_path(@question) %> |

@@ -37,6 +37,11 @@
 
   </div>
 
+  <div class="field">
+    <%= f.label "Платный" %>
+    <%= f.check_box :charged %>
+  </div>  
+
   <%= render 'layouts/uploaded_files', param: f %>
 
   <div class="actions">

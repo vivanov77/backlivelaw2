@@ -22,8 +22,6 @@ class Api::DocRequestsController < Api::ApplicationController
 
        where(categories: {id: (current_user.actual_purchased_categories.map &:id)})
 
-       # byebug
-    
     end
 
     if param? params[:unpaid]
@@ -121,13 +119,13 @@ class Api::DocRequestsController < Api::ApplicationController
       render_conditions = 
 
       {
-        include: [:user, :proposals, :categories, :virtual_attribute_payment],
+        include: [:user, :categories, :proposals, :virtual_attribute_payment],
 
-        show_user: show_user,        
-
-        show_proposals: show_proposals,
+        show_user: show_user,
 
         show_categories: show_categories,
+
+        show_proposals: show_proposals,
         
         show_virtual_attribute_payment: show_virtual_attribute_payment
       }

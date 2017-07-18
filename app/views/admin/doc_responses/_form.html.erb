@@ -1,10 +1,10 @@
-<%= form_for([:admin, doc]) do |f| %>
-  <% if doc.errors.any? %>
+<%= form_for([:admin, doc_response]) do |f| %>
+  <% if doc_response.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(doc.errors.count, "error") %> prohibited this doc from being saved:</h2>
+      <h2><%= pluralize(doc_response.errors.count, "error") %> prohibited this doc_response from being saved:</h2>
 
       <ul>
-      <% doc.errors.full_messages.each do |message| %>
+      <% doc_response.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -34,15 +34,15 @@
   </div>
 
   <div class="field">
-    <%= f.label "Запрос на документ" %><br />
+    <%= f.label "Заказ на документ" %><br />
     <%= f.collection_select :doc_request_id, DocRequest.order(:title), :id, :title, {:include_blank => "Ничего не выбрано"},
   # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
-    prompt: 'Выберите запрос на документ' %>          
+    prompt: 'Выберите заказ на документ' %>          
   </div> 
 
   <%= render 'layouts/uploaded_files', param: f %>  
 
   <div class="actions">
-    <%= f.submit submit_russian_text "Документ" %>
+    <%= f.submit submit_russian_text "Выполненный заказ на документ" %>
   </div>
 <% end %>
