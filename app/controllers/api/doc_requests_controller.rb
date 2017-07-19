@@ -89,12 +89,19 @@ class Api::DocRequestsController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def doc_request_params
-      # params.require(:doc_request).permit(:title, :user_ids)
-
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/master/doc_responses/general/deserialization.md
 
-      res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      if params[:data] # JSON queries - default
+
+        res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+
+      else # multipart form data - file upload
+
+        res = params.require(:doc_request).permit(:title, :text, :user_id, :category_ids, 
+        file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
+
+      end
 
       if user_signed_in?
 

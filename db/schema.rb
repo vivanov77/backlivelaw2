@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713124036) do
+ActiveRecord::Schema.define(version: 20170713124038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,18 +144,6 @@ ActiveRecord::Schema.define(version: 20170713124036) do
     t.index ["user_id"], name: "index_doc_responses_on_user_id", using: :btree
   end
 
-  create_table "docs", force: :cascade do |t|
-    t.text     "text"
-    t.float    "price"
-    t.integer  "user_id"
-    t.integer  "doc_request_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "delta",          default: true, null: false
-    t.index ["doc_request_id"], name: "index_docs_on_doc_request_id", using: :btree
-    t.index ["user_id"], name: "index_docs_on_user_id", using: :btree
-  end
-
   create_table "feedbacks", force: :cascade do |t|
     t.text     "text"
     t.string   "name"
@@ -266,6 +254,9 @@ ActiveRecord::Schema.define(version: 20170713124036) do
     t.integer  "proposable_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.text     "text"
+    t.integer  "limit_hours"
+    t.integer  "limit_minutes"
     t.index ["proposable_type", "proposable_id"], name: "index_proposals_on_proposable_type_and_proposable_id", using: :btree
     t.index ["user_id"], name: "index_proposals_on_user_id", using: :btree
   end

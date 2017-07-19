@@ -7,6 +7,8 @@ class Api::PaymentsController < Api::ApplicationController
 
   before_action :set_render_options, only: [:show, :index]
 
+  # before_action :set_frozen, only: [:create]
+
   # after_action :process_payment_type, only: [:create]
 
   # GET /payments
@@ -28,6 +30,8 @@ class Api::PaymentsController < Api::ApplicationController
   # POST /payments
   def create
     @payment = Payment.new(payment_params)
+
+    set_frozen
 
     if @payment.save
 
@@ -139,6 +143,16 @@ class Api::PaymentsController < Api::ApplicationController
         show_payment_type: show_payment_type,
 
       }
+
+    end
+
+    def set_frozen
+
+      unless (@payment.sender.has_role? :admin) && (@payment.recipient.has_role? :admin)
+
+        @payment.cfrozen = true
+
+      end
 
     end
 end

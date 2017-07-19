@@ -26,9 +26,7 @@ class Question < ApplicationRecord
 
 		first
 
-	end	
-
-	private
+	end
 
 	def parent_question?
 		false
@@ -37,6 +35,8 @@ class Question < ApplicationRecord
 	def parent_comment?
 		false
 	end
+
+	private	
 
 	def self.runame
 		"Вопрос"

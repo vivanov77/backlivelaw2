@@ -10,6 +10,8 @@ class Admin::CommentsController < Admin::ApplicationController
       @comments = Comment.where(id: params[:comment_id])
     elsif params[:question_id]
       @comments = Question.where(id: params[:question_id])
+    elsif params[:proposal_id]
+      @comments = Proposal.where(id: params[:proposal_id])
     else
       @comments = Comment.order(:title)
     end
@@ -81,14 +83,18 @@ class Admin::CommentsController < Admin::ApplicationController
 
     def set_commentable
 
-      @commentable = Comment.find_by_id(params[:comment_id]) if params[:comment_id]
-      
-      @commentable = Question.find_by_id(params[:question_id]) if params[:question_id]
+      if params[:commentable_type] && params[:commentable_id]
+
+        param_class = class_by_name params[:commentable_type]
+
+        @commentable = param_class.find_by_id(params[:commentable_id])
+
+      end
 
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:title, :text, :commentable_id, :user_id)
+      params.require(:comment).permit(:title, :text, :commentable_type, :commentable_id, :user_id)
     end
 end

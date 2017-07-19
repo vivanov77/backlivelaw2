@@ -30,13 +30,13 @@ class Api::UsersController < Api::ApplicationController
 
     params_array = []
 
-    city = nil
+    # city = nil
 
-    if param? params[:city_id]
+    # if param? params[:city_id]
 
-      city = City.find params[:city_id]
+    #   city = City.find params[:city_id]
 
-    end    
+    # end    
 
     if param? params[:lawyer]
 
@@ -66,19 +66,22 @@ class Api::UsersController < Api::ApplicationController
 
       collection = api_paginate(@users) do |param_collection|
 
-        param_collection.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
+        ActiveModel::SerializableResource.new(
 
-      end
+          param_collection.to_a,
+
+          set_render_options
+        )
+
+      end      
 
       render json: collection
 
     else
 
-      @users = @users.formatted_users city, current_user.try(:id), params[:same_region], params[:other_regions]
-
       render( {json: @users}.merge set_render_options )
 
-    end    
+    end 
 
   end
 
@@ -176,6 +179,12 @@ class Api::UsersController < Api::ApplicationController
 
       show_cities = (param? params[:cities])
 
+      show_distance = (param? params[:distance])
+
+      show_balance = (param? params[:balance])      
+
+      city_id = params[:city_id]
+
       show_actual_purchased_category_subscriptions = (param? params[:actual_purchased_category_subscriptions])
 
       show_purchased_category_subscriptions = (param? params[:purchased_category_subscriptions])      
@@ -187,9 +196,15 @@ class Api::UsersController < Api::ApplicationController
 
         show_cities: show_cities,
 
+        show_virtual_relation_distance: show_distance,
+
+        show_virtual_relation_balance: show_balance,        
+
         show_actual_purchased_category_subscriptions: show_actual_purchased_category_subscriptions,
 
-        show_purchased_category_subscriptions: show_purchased_category_subscriptions        
+        show_purchased_category_subscriptions: show_purchased_category_subscriptions,
+
+        city_id: city_id
       }
 
 

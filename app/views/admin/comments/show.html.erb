@@ -9,13 +9,13 @@
 </p>
 
 <p>
-  <strong>Родитель:</strong>
-  <%= @comment.commentable.try(:title) %>
+  <strong>Родитель class:</strong>
+  <%= @comment.commentable_type %>
 </p>
 
 <p>
-  <strong>Тип родителя:</strong>
-  <%= @comment.commentable_type %>
+  <strong>Родитель id:</strong>
+  <%= @comment.commentable.try(:id) %>
 </p>
 
 <p>
@@ -24,4 +24,5 @@
 </p>
 
 <%= link_to 'Редактировать', edit_admin_comment_path(@comment) %> |
-<%= link_to 'Назад', admin_questions_path %>
+<%= link_to 'Назад', (helper_by_name2 "admin_#{@commentable.class.to_s.underscore.pluralize}_path") %>
+<%#= console %>

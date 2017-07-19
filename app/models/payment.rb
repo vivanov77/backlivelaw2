@@ -65,7 +65,8 @@ class Payment < ApplicationRecord
 
 		validate_operation
 
-		if self.sender.get_balance < 0
+		# if self.sender.get_balance < 0
+		if self.sender.get_accessible_balance < 0
 
 			# p "self.user.id", self.user.id
 
@@ -84,5 +85,5 @@ class Payment < ApplicationRecord
 			raise UserError, "Недостаточно средств отправителя платежа (его баланс: #{self.sender.get_balance + self.sum}, сумма платежа: #{self.sum})."
 
 		end
-	end	
+	end
 end

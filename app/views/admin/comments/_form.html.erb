@@ -15,24 +15,17 @@
     <span>Родитель:</span><br>
     <span>Id: <%= @commentable.id %></span><br>    
     <span>Класс: <%= @commentable.class %></span><br>
-    <span>Заголовок: <%= @commentable.title %></span>
+    <span>Заголовок: <%= @commentable.try(:title) %></span>
   </div> Родитель комментария - нередактируемое по смыслу поле. Но, если надо, могу сделать редактируемым (хотя геморно).
 
 <!--     <div class="field">
     <%#= f.label "Вопрос" %><br />
     <%#= select_tag :question_id, options_from_collection_for_select(Question.order(:title), :id, :title, @commentable.id), {:include_blank => "Ничего не выбрано"} %>
-  </div>   -->  
+  </div>   -->
 
-  <% if @commentable.class.to_s.downcase == "question" %>
+  <%= hidden_field_tag :commentable_type, @commentable.class.to_s %>  
 
-    <%= hidden_field_tag :question_id, @commentable.id %>
-
-  <% elsif @commentable.class.to_s.downcase == "comment" %>
-
-    <%= hidden_field_tag :comment_id, @commentable.id %>
-
-  <% end %>
-
+  <%= hidden_field_tag :commentable_id, @commentable.id %>
 
   <div class="field">
     <%= f.label "Заголовок" %>

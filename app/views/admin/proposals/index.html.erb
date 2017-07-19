@@ -1,25 +1,77 @@
-<h1>Предложения</h1>
+<h1>Предложения (с комментариями)</h1>
+
+<span style="background-color:#9cce6e;">Вопросы</span><br>
+<span style="background-color:#e5f2d9;">Комментарии</span><br>
+<span>Субкомментарии</span>
+<br><br><br>
 
 <table>
   <thead>
     <tr>
-      <th>Цена</th>
-      <th>Назначение</th>
-      <th>Создатель</th>      
+      <th>Id</th>    
+      <th>Заголовок</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @proposals.each do |proposal| %>
-      <tr>
-        <td><%= proposal.price %></td>
-        <td><%= proposal.purpose %></td>        
-        <td><%= proposal.try(:user).try(:email) %></td>
+    <% @proposals.order(:id).each do |proposal| %>
+      <tr style="background-color:#9cce6e;">
+        <td><%= proposal.id %></td>
+        <td><%= proposal.price %></td>        
         <td><%= link_to 'Показать', [:admin, proposal] %></td>
         <td><%= link_to 'Редактировать', edit_admin_proposal_path(proposal) %></td>
         <td><%= link_to 'Удалить', [:admin, proposal], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+        <td><%= link_to 'Комментировать', new_admin_proposal_comment_path(proposal.id, commentable_id: proposal.id, commentable_type: proposal.class.to_s) %></td>
+        <% if proposal.comments.size > 0 %>
+          <td><%= link_to 'Показать детей', admin_proposal_comments_path(proposal.id) %></td>
+        <% end %>          
       </tr>
+
+
+      <% if proposal.comments.size > 0 %>
+
+        <% proposal.comments.order(:id).each do |comment| %>
+          <tr style="background-color:#e5f2d9;">
+            <td>&nbsp;`--------&gt;</td>
+            <td><%= comment.id %></td>
+            <td><%= comment.title %></td>
+            <td><%= link_to 'Показать', admin_proposal_comment_path(proposal.id, comment.id) %></td>
+            <td><%= link_to 'Редактировать', edit_admin_proposal_comment_path(proposal.id, comment.id) %></td>
+            <td><%= link_to 'Удалить', admin_proposal_comment_path(proposal.id, comment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>       
+
+            <td><%= link_to 'Комментировать', new_admin_comment_comment_path(comment.id, commentable_id: comment.id, commentable_type: comment.class.to_s) %></td>
+            <% if comment.comments.size > 0 %>
+              <td><%= link_to 'Показать детей', admin_comment_comments_path(comment.id) %></td>
+            <% end %>
+
+          </tr>
+
+
+          <% if comment.comments.size > 0 %>
+
+            <% comment.comments.order(:id).each do |subcomment| %>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;`--------&gt;</td>
+                <td><%= subcomment.id %></td>
+                <td><%= subcomment.title %></td>
+                <td><%= link_to 'Показать', admin_comment_comment_path(comment.id, subcomment.id) %></td>
+                <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(comment.id, subcomment.id) %></td>
+                <td><%= link_to 'Удалить', admin_comment_comment_path(comment.id, subcomment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+              </tr>
+
+            <% end %>
+
+          <% end %>
+
+
+
+
+        <% end %>
+
+      <% end %>
+
     <% end %>
   </tbody>
 </table>

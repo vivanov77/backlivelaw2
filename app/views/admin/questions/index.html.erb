@@ -22,7 +22,7 @@
         <td><%= link_to 'Показать', [:admin, question] %></td>
         <td><%= link_to 'Редактировать', edit_admin_question_path(question) %></td>
         <td><%= link_to 'Удалить', [:admin, question], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
-        <td><%= link_to 'Комментировать', new_admin_question_comment_path(question.id) %></td>
+        <td><%= link_to 'Комментировать', new_admin_question_comment_path(question.id, commentable_id: question.id, commentable_type: question.class.to_s) %></td>
         <% if question.comments.size > 0 %>
           <td><%= link_to 'Показать детей', admin_question_comments_path(question.id) %></td>
         <% end %>          
@@ -40,7 +40,7 @@
             <td><%= link_to 'Редактировать', edit_admin_question_comment_path(question.id, comment.id) %></td>
             <td><%= link_to 'Удалить', admin_question_comment_path(question.id, comment.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>       
 
-            <td><%= link_to 'Комментировать', new_admin_comment_comment_path(comment.id) %></td>
+            <td><%= link_to 'Комментировать', new_admin_comment_comment_path(comment.id, commentable_id: comment.id, commentable_type: comment.class.to_s) %></td>
             <% if comment.comments.size > 0 %>
               <td><%= link_to 'Показать детей', admin_comment_comments_path(comment.id) %></td>
             <% end %>

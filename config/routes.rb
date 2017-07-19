@@ -73,7 +73,9 @@ Rails.application.routes.draw do
 
 		resources :category_subscriptions
 
-		resources :proposals
+		resources :proposals do
+			resources :comments
+		end		
 		  		
 	end
 

@@ -5,7 +5,7 @@ class Admin::QuestionsController < Admin::ApplicationController
   # GET /questions.json
   def index
 
-    @questions = Question.order(:id);
+    @questions = Question.order(:id)
 
     @page = params[:offset]
     

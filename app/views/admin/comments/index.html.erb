@@ -12,7 +12,7 @@
     <% @comments.each do |comment| %>
       <tr>
         <td><%= comment.id %></td>      
-        <td><%= comment.title %></td>
+        <td><%= comment.try(:title) %></td>
         <td><%= link_to 'Показать', [:admin, comment] %></td>
         <td><%= link_to 'Редактировать', edit_admin_comment_path(comment) %></td>
         <td><%= link_to 'Удалить', [:admin, comment], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
@@ -29,7 +29,7 @@
           <tr style="background-color:#e5f2d9;">
             <td>&nbsp;`--------&gt;</td>
             <td><%= subcomment.id %></td>
-            <td><%= subcomment.title %></td>
+            <td><%= subcomment.try(:title) %></td>
             <td><%= link_to 'Показать', admin_comment_comment_path(comment.id, subcomment.id) %></td>
             <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(comment.id, subcomment.id) %></td>
             <td><%= link_to 'Удалить', admin_comment_comment_path(comment.id, subcomment.id), method: :delete, data: { confirm: 'Вы уверены?' } %>              
@@ -52,7 +52,7 @@
                 <td>&nbsp;&nbsp;&nbsp;</td>
                 <td>&nbsp;`--------&gt;</td>
                 <td><%= sub2comment.id %></td>
-                <td><%= sub2comment.title %></td>
+                <td><%= sub2comment.try(:title) %></td>
                 <td><%= link_to 'Показать', admin_comment_comment_path(subcomment.id, sub2comment.id) %></td>
                 <td><%= link_to 'Редактировать', edit_admin_comment_comment_path(subcomment.id, sub2comment.id) %></td>
                 <td><%= link_to 'Удалить', admin_comment_comment_path(subcomment.id, sub2comment.id), method: :delete, data: { confirm: 'Вы уверены?' } %>              

@@ -17,6 +17,21 @@
   </div>
 
   <div class="field">
+    <%= f.label "Срок выполнения: Часы" %>
+    <%= f.text_field :limit_hours %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Срок выполнения: Минуты" %>
+    <%= f.text_field :limit_minutes %>
+  </div>  
+
+  <div class="field">
+    <%= f.label "Описание" %>
+    <%= f.text_area :text %>
+  </div>  
+
+  <div class="field">
     <%= f.label "Назначение" %>
 <!-- https://stackoverflow.com/questions/1192843/grouped-select-in-rails     -->
 <!-- https://stackoverflow.com/questions/15252900/rails-select-tag-selected-value -->

@@ -166,7 +166,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       show_proposals = (param? params[:proposals])
 
-      show_virtual_attribute_payment = (param? params[:payment])
+      show_virtual_relation_payment = (param? params[:payment])
 
 
       show_cities = (param? params[:cities])
@@ -177,7 +177,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       text_preview = (param? params[:text_preview])
 
-      hash1 = [:user, :categories, :comments, :files, :proposals, :virtual_attribute_payment]
+      hash1 = [:user, :categories, :comments, :files, :proposals, :virtual_relation_payment]
 
       hash2 = hash1 + ["user.**"]
 
@@ -192,7 +192,7 @@ class Api::QuestionsController < Api::ApplicationController
 
         show_proposals: show_proposals,
         
-        show_virtual_attribute_payment: show_virtual_attribute_payment,
+        show_virtual_relation_payment: show_virtual_relation_payment,
 
 
         show_cities: show_cities,

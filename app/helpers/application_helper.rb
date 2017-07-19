@@ -235,7 +235,7 @@ module ApplicationHelper
 
   end
 
-  def helper_by_name2 path, id, params
+  def helper_by_name2 path, id=nil, params=nil
 
     Rails.application.routes.url_helpers.send path, id, params
 
@@ -339,7 +339,8 @@ module ApplicationHelper
   end
 
   def payment_name x
-    name = x.try(:name) || x.try(:title) ||
+    name = (x.try(:name) ? (x.try(:name) + "#id:" + x.try(:id).try(:to_s)) : nil ) || 
+    x.try(:title) ||
     (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]) : nil) ||
     x.try(:doc_request).try(:title) ||
     (x.try(:proposable) ? (x.proposable.class.try(:runame) + "#" + x.name ) : nil)

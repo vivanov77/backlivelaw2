@@ -54,77 +54,77 @@ class User < ApplicationRecord
   include ActiveModel::Validations
   validates_with SingleCityValidator
 
-  def self.formatted_users city, user_id = nil, local_regions = false, other_regions = false
+  # def self.formatted_users city, user_id = nil, local_regions = false, other_regions = false
 
-    if city
+  #   if city
 
-      lat = city.latitude
+  #     lat = city.latitude
 
-      lon = city.longitude
+  #     lon = city.longitude
 
-      region_id = city.region_id
+  #     region_id = city.region_id
 
-    end
+  #   end
 
-    region_users = User.where.not(id: user_id).includes(:cities).includes(:roles)
+  #   region_users = User.where.not(id: user_id).includes(:cities).includes(:roles)
 
-    # unless (local_regions && other_regions)
+  #   # unless (local_regions && other_regions)
 
-    #   if local_regions
+  #   #   if local_regions
 
-    #     region_users = region_users.where(cities: {region_id: region_id})
+  #   #     region_users = region_users.where(cities: {region_id: region_id})
 
-    #   elsif other_regions
+  #   #   elsif other_regions
 
-    #     region_users = region_users.where.not(cities: {region_id: region_id})
+  #   #     region_users = region_users.where.not(cities: {region_id: region_id})
 
-    #   # elsif local_regions && other_regions
+  #   #   # elsif local_regions && other_regions
 
-    #   end
+  #   #   end
 
-    # end    
+  #   # end    
 
-    region_users = region_users.map do |u| 
+  #   region_users = region_users.map do |u| 
 
-      h = {}
+  #     h = {}
 
-      h[:user]=u
+  #     h[:user]=u
 
-      h[:role]=u.roles.first
+  #     h[:role]=u.roles.first
 
-      h[:city] = u.cities.size == 0 ? :user_has_no_city : u.cities.first
+  #     h[:city] = u.cities.size == 0 ? :user_has_no_city : u.cities.first
 
-      if city && (u.cities.size > 0)
+  #     if city && (u.cities.size > 0)
 
-        diff_lat = u.cities.first.latitude - lat
+  #       diff_lat = u.cities.first.latitude - lat
 
-        diff_lon = u.cities.first.longitude - lon
+  #       diff_lon = u.cities.first.longitude - lon
 
-        sq_dist = diff_lat*diff_lat + diff_lon * diff_lon
+  #       sq_dist = diff_lat*diff_lat + diff_lon * diff_lon
 
-        h[:distance] = Math.sqrt sq_dist
+  #       h[:distance] = Math.sqrt sq_dist
 
-      else
+  #     else
 
-        h[:distance] = nil
+  #       h[:distance] = nil
 
-      end
+  #     end
 
-      h
+  #     h
 
-    end
+  #   end
 
-    if city
+  #   if city
 
-      region_users.sort_by { |hsh| hsh[:distance] }
+  #     region_users.sort_by { |hsh| hsh[:distance] }
 
-    else
+  #   else
 
-      region_users.sort_by { |hsh| hsh[:user][:email] }      
+  #     region_users.sort_by { |hsh| hsh[:user][:email] }      
 
-    end
+  #   end
 
-  end
+  # end
 
   def self.from_omniauth(auth)
 
@@ -173,6 +173,22 @@ class User < ApplicationRecord
     Payment.where(sender_id: self.id).sum("sum")
   end
 
+  def total_notfrozen_payment_in
+    Payment.where(recipient_id: self.id, cfrozen: false).sum("sum")
+  end
+
+  def total_notfrozen_payment_out
+    Payment.where(sender_id: self.id, cfrozen: false).sum("sum")
+  end  
+
+  def total_frozen_payment_in
+    Payment.where(recipient_id: self.id, cfrozen: true).sum("sum")
+  end
+
+  def total_frozen_payment_out
+    Payment.where(sender_id: self.id, cfrozen: true).sum("sum")
+  end
+
   def income
     total_cash_in + total_payment_in
   end
@@ -181,9 +197,43 @@ class User < ApplicationRecord
     total_cash_out + total_payment_out
   end
 
-  def get_balance
+  def _nominal_balance
 
-    total_cash_in - total_cash_out + total_payment_in - total_payment_out
+    total_cash_in - total_cash_out + total_notfrozen_payment_in - total_notfrozen_payment_out
+
+  end
+
+  def get_nominal_balance
+
+    if get_frozen_balance < 0
+
+      _nominal_balance
+
+    else
+
+      _nominal_balance + get_frozen_balance
+
+    end
+
+  end
+
+  def get_frozen_balance
+
+    total_frozen_payment_in - total_frozen_payment_out
+
+  end
+
+  def get_accessible_balance
+
+    if get_frozen_balance < 0
+
+      _nominal_balance + get_frozen_balance
+
+    else
+
+      _nominal_balance
+
+    end
 
   end
 

@@ -69,7 +69,7 @@ class Admin::ProposalsController < Admin::ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def proposal_params
-      ret = params.require(:proposal).permit(:user_id, :price, :proposable_type, :proposable_id)
+      ret = params.require(:proposal).permit(:user_id, :price, :text, :limit_hours, :limit_minutes, :proposable_type, :proposable_id)
 
       if params[:proposable]
 

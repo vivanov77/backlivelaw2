@@ -3,6 +3,9 @@ class DocRequest < ApplicationRecord
 	has_many :doc_responses, :inverse_of => :doc_request, dependent: :destroy
 	has_and_belongs_to_many :categories
 
+	has_many :file_containers, as: :fileable, dependent: :destroy
+	accepts_nested_attributes_for :file_containers, allow_destroy: true	
+
 	has_many :proposals, :as =>:proposable
 
 	after_commit :set_response_delta_flags
