@@ -90,7 +90,7 @@ class Api::DocRequestsController < Api::ApplicationController
     # Only allow a trusted parameter "white list" through.
     def doc_request_params
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/doc_responses/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/general/deserialization.md
 
       if params[:data] # JSON queries - default
 

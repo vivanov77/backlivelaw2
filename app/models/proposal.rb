@@ -3,7 +3,7 @@ class Proposal < ApplicationRecord
   belongs_to :proposable, :polymorphic => true
 
   has_one :payment_type, :as =>:payable
-  has_one :payment, :through => :payment_type 
+  has_one :payment, :through => :payment_type
 
   validates :price, presence: true
 

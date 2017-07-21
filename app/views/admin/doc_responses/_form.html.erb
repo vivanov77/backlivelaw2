@@ -22,8 +22,18 @@
   </div>
 
   <div class="field">
-    <%= f.label "Цена" %>
-    <%= f.text_field :price %>
+    <%= f.label "Дата создания" %>
+    <%= f.object.created_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Дата ознакомления" %>
+    <%= f.text_field :check_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Дата жалобы" %>
+    <%= f.text_field :complaint_date %>
   </div>
 
   <div class="field">

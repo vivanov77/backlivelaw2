@@ -5,7 +5,7 @@
     <tr>
       <!-- <th>Выбрано клиентом</th> -->
       <th>Содержимое</th>
-      <th>Цена</th>
+      <!-- <th>Цена</th> -->
       <th>Создатель</th>
       <th>Документ</th>
       <th colspan="3"></th>
@@ -17,7 +17,7 @@
       <tr>
 <!--         <td><%#= doc_response.chosen %></td> -->
         <td><%= doc_response.text %></td>
-        <td><%= doc_response.price %></td>
+        <!-- <td><%#= doc_response.price %></td> -->
         <td><%= doc_response.user.try(:email) %></td>
         <td><%= doc_response.try(:doc_response_request).try(:title) %></td>
         <td><%= link_to 'Показать', [:admin, doc_response] %></td>

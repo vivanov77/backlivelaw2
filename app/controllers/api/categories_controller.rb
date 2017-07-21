@@ -49,7 +49,7 @@ class Api::CategoriesController < Api::ApplicationController
     def category_params
       # params.require(:category).permit(:name, :question_id)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/general/deserialization.md
       ActiveModelSerializers::Deserialization.jsonapi_parse(params)      
     end
 end

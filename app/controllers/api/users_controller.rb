@@ -9,7 +9,9 @@ class Api::UsersController < Api::ApplicationController
 
   before_action :check_removed_avatar, only: [:update]
 
-  before_action :set_render_options, only: [:show, :index]  
+  before_action :set_render_options, only: [:show, :index]
+
+  before_action :arrange_balance, only: [:show, :update]  
 
   # before_action :verify_owner
     
@@ -115,7 +117,7 @@ class Api::UsersController < Api::ApplicationController
     def user_params
       # params.require(:user).permit(:first_name)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/general/deserialization.md
       # ActiveModelSerializers::Deserialization.jsonapi_parse(params)
 
       if params[:data] # JSON queries - default
@@ -207,6 +209,32 @@ class Api::UsersController < Api::ApplicationController
         city_id: city_id
       }
 
+
+    end
+
+    def arrange_balance
+
+      if params[:balance] && current_user
+
+        payments = Payment.frozen_doc_response_payments @user.id
+
+        payments.each do |payment|
+
+          if payment.unfreeze_payment?
+
+            payment.cfrozen = false
+
+            payment.save!
+
+            p "payment unfrozen"
+
+          end
+
+          p "payment not unfrozen"
+
+        end
+
+      end
 
     end
 

@@ -65,7 +65,7 @@ class Api::CashOperationsController < Api::ApplicationController
       # params.require(:cash_operation).permit(:title, :user_ids)
 
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/general/deserialization.md
 
       res = ActiveModelSerializers::Deserialization.jsonapi_parse(params)
 

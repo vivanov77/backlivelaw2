@@ -9,7 +9,9 @@
   <thead>
     <tr>
       <th>Id</th>    
-      <th>Заголовок</th>
+      <th>Назначение</th>
+      <th>Цена</th>
+      <th>Создатель</th>      
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,7 +20,9 @@
     <% @proposals.order(:id).each do |proposal| %>
       <tr style="background-color:#9cce6e;">
         <td><%= proposal.id %></td>
-        <td><%= proposal.price %></td>        
+        <td><%= proposal.purpose %></td>        
+        <td><%= proposal.price %></td>
+        <td><%= proposal.user ? proposal.user.email : "Не указано" %></td>  
         <td><%= link_to 'Показать', [:admin, proposal] %></td>
         <td><%= link_to 'Редактировать', edit_admin_proposal_path(proposal) %></td>
         <td><%= link_to 'Удалить', [:admin, proposal], method: :delete, data: { confirm: 'Вы уверены?' } %></td>

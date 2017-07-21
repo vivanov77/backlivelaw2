@@ -66,7 +66,7 @@ class Api::LibEntriesController < Api::ApplicationController
     def lib_entry_params
       # params.require(:lib_entry).permit(:title)
 # https://www.simplify.ba/articles/2016/06/18/creating-rails5-api-only-application-following-jsonapi-specification/
-# https://github.com/rails-api/active_model_serializers/blob/master/docs/general/deserialization.md
+# https://github.com/rails-api/active_model_serializers/blob/v0.10.6/docs/general/deserialization.md
 
       if params[:data] # JSON queries - default
 

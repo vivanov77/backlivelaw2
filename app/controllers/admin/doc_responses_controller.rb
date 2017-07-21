@@ -70,6 +70,7 @@ class Admin::DocResponsesController < Admin::ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def doc_response_params
       params.require(:doc_response).permit(:chosen, :text, :price, :user_id, :doc_request_id,
+      :check_date, :complaint_date,
         file_containers_attributes: ["file", "@original_filename", "@content_type", "@headers", "_destroy", "id"])
     end
 end

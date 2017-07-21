@@ -9,8 +9,18 @@
 </p>
 
 <p>
-  <strong>Цена:</strong>
-  <%= @doc_response.price %>
+  <strong>Дата создания:</strong>
+  <%= @doc_response.created_at %>
+</p>
+
+<p>
+  <strong>Дата ознакомления:</strong>
+  <%= @doc_response.check_date %>
+</p>
+
+<p>
+  <strong>Дата жалобы:</strong>
+  <%= @doc_response.complaint_date %>
 </p>
 
 <p>
@@ -19,8 +29,8 @@
 </p>
 
 <p>
-  <strong>Заказа документа:</strong>
-  <%= @doc_response.try(:doc_response_request).try(:title) %>
+  <strong>Заказ документа:</strong>
+  <%= @doc_response.try(:doc_request).try(:title) %>
 </p>
 
 <%= render 'layouts/uploaded_files', param: @doc_response %>
