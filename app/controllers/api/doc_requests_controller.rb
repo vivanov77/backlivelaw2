@@ -66,7 +66,7 @@ class Api::DocRequestsController < Api::ApplicationController
     register_user    
 
     if @doc_request.save
-      render json: @doc_request, status: :created, location: [:api, @doc_request]
+      render( {json: @doc_request, status: :created, location: [:api, @doc_request]}.merge set_render_options)
     else
       render json: @doc_request.errors, status: :unprocessable_entity
     end
