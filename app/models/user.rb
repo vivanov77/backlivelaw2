@@ -277,4 +277,10 @@ class User < ApplicationRecord
 
   # end
 
+  def self.random_password
+
+    Devise.friendly_token[0,20]
+
+  end
+
 end

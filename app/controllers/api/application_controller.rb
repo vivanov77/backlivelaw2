@@ -48,4 +48,26 @@ class Api::ApplicationController < ActionController::API
         render json: { errors: exception.message }, status: :unprocessable_entity
 	end	
 
+	def register_login_tokenized_user email, password
+
+        @user = User.find_or_create_by(email: email) { |u| u.password = password}
+        @user.add_role :client
+
+        @user.save!
+
+        @client_id = SecureRandom.urlsafe_base64(nil, false)
+        @token     = SecureRandom.urlsafe_base64(nil, false)
+
+        @user.tokens[@client_id] = {
+          token: BCrypt::Password.create(@token),
+          expiry: (Time.now + DeviseTokenAuth.token_lifespan).to_i
+        }
+        @user.save
+
+        @resource = @user # trade-off for "update_auth_header" defined in "DeviseTokenAuth::Concerns::SetUserByToken"
+
+        sign_in(:user, @user, store: false, bypass: false)	  
+
+	end
+
 end

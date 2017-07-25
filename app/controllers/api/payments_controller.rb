@@ -11,6 +11,8 @@ class Api::PaymentsController < Api::ApplicationController
 
   # after_action :process_payment_type, only: [:create]
 
+  after_action :mail_notification, only: [:create]  
+
   # GET /payments
   def index
 
@@ -155,4 +157,13 @@ class Api::PaymentsController < Api::ApplicationController
       end
 
     end
+
+    def mail_notification
+
+      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : @payment.recipient.email
+
+      PaymentsMailer.payment_income(@payment, email).deliver_now if current_user
+
+    end
+
 end

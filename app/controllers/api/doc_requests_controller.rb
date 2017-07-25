@@ -1,16 +1,20 @@
 class Api::DocRequestsController < Api::ApplicationController
 
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   # load_and_authorize_resource
     
   before_action :set_doc_request, only: [:show, :update, :destroy]
 
-  before_action :set_render_options, only: [:show, :index]   
+  before_action :set_render_options, only: [:show, :index]
+
+  after_action :mail_notification, only: [:create]
 
   # GET /doc_requests
   def index
 
     @doc_requests = DocRequest
+
+    raise UserError, "No user logged in" unless current_user
 
     if current_user.has_role? :client
 
@@ -58,6 +62,8 @@ class Api::DocRequestsController < Api::ApplicationController
   # POST /doc_requests
   def create
     @doc_request = DocRequest.new(doc_request_params)
+
+    register_user    
 
     if @doc_request.save
       render json: @doc_request, status: :created, location: [:api, @doc_request]
@@ -115,7 +121,7 @@ class Api::DocRequestsController < Api::ApplicationController
 
     def set_render_options
 
-      show_user = (param? params[:user])      
+      show_user = (param? params[:user]) || params[:email]
 
       show_proposals = (param? params[:proposals])
 
@@ -137,5 +143,30 @@ class Api::DocRequestsController < Api::ApplicationController
         show_virtual_attribute_payment: show_virtual_attribute_payment
       }
 
+    end
+
+    def mail_notification
+
+      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+
+      DocRequestsMailer.doc_request_created(@doc_request, email, @password).deliver_now if current_user
+
+    end
+
+    def register_user
+
+      if !current_user && params[:email]
+
+        email = params[:email]
+
+        @password = User.random_password   
+
+        register_login_tokenized_user email, @password
+
+        @doc_request.user_id = @user.id
+
+      end
+
     end    
+
 end

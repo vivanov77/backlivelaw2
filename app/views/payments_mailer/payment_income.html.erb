@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Вам поступил платёж</h1>
+
+    <p>
+      Вы получили платёж на сайте http://LiveLaw.info, которое будет доступно по адресу: <%= link_to @payment.sum, api_payment_url(@payment.id) %>
+    </p>
+
+    <p>
+      <strong>Сумма:</strong>
+      <%= @payment.sum %>
+    </p>
+
+    <p>
+      <strong>Отправитель:</strong>
+      <%= @payment.sender.email %>
+    </p>
+
+    <p>
+      <strong>Назначение:</strong>
+      <%= @payment.user_purpose %>
+    </p>    
+
+    <p>
+      <strong>Комментарий:</strong>
+      <%= @payment.comment %>
+    </p>
+
+  </body>
+</html>

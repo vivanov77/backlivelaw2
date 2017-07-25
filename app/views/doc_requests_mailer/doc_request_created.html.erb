@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Создан заказ на документ</h1>
+
+    <p>
+      Вы создали заказ на документ на сайте http://LiveLaw.info, ваш заказ будет доступен по адресу: <%= link_to @doc_request.title, api_doc_request_url(@doc_request.id) %>
+    </p>
+
+    <p>
+      <strong>Заголовок:</strong>
+      <%= @doc_request.title %>
+    </p>
+
+    <p>
+      <strong>Содержимое:</strong>
+      <%= @doc_request.text %>
+    </p>
+
+    <% if @password %>
+
+    <p>
+      Вы автоматически зарегистрировались на сайте http://LiveLaw.info, Ваши данные:
+    </p>
+
+    <p>
+      <strong>Логин (email):</strong>
+      <%= @email %>
+    </p>
+
+    <p>
+      <strong>Пароль (автоматически сгенерированный):</strong>
+      <%= @password %>
+    </p>
+
+    <p>
+      Вы можете изменить свой пароль в Личном кабинете
+    </p>    
+
+    <% end %>    
+
+  </body>
+</html>

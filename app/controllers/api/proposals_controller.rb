@@ -5,6 +5,8 @@ class Api::ProposalsController < Api::ApplicationController
     
   before_action :set_proposal, only: [:show, :update, :destroy]
 
+  after_action :mail_notification, only: [:create]  
+
   # GET /proposals
   def index
 
@@ -70,5 +72,14 @@ class Api::ProposalsController < Api::ApplicationController
 
       res    
 
-    end 
+    end
+
+    def mail_notification
+
+      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+
+      ProposalsMailer.proposal_created(@proposal, email).deliver_now if current_user
+
+    end
+
 end

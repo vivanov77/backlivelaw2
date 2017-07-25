@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Получено ценовое предложение</h1>
+
+    <p>
+      Вы получили ценовое предложение на сайте http://LiveLaw.info, которое будет доступно по адресу: <%= link_to @proposal.price, api_proposal_url(@proposal.id) %>
+    </p>
+
+    <p>
+      <strong>Цена:</strong>
+      <%= @proposal.price %>
+    </p>
+
+    <p>
+      <strong>Содержимое:</strong>
+      <%= @proposal.text %>
+    </p>
+
+  </body>
+</html>

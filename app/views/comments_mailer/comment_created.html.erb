@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Получен ответ (комментарий)</h1>
+
+    <p>
+      Вы получили комментарий (ответ) на сайте http://LiveLaw.info, который будет доступен по адресу: <%= link_to @comment.title, api_comment_url(@comment.id) %>
+    </p>
+
+    <p>
+      <strong>Заголовок:</strong>
+      <%= @comment.title %>
+    </p>
+
+    <p>
+      <strong>Содержимое:</strong>
+      <%= @comment.text %>
+    </p>
+
+  </body>
+</html>

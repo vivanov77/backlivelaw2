@@ -346,6 +346,14 @@ module ApplicationHelper
     (x.try(:proposable) ? (x.proposable.class.try(:runame) + "#" + x.name ) : nil)
   end
 
+  def user_payment_name x
+    name = (x.try(:name) ? (x.try(:name)) : nil ) || 
+    x.try(:title) ||
+    (x.try(:timespan) ? (x.category.name + "#" + CategorySubscription::TIME_SPANS[x.try(:timespan).to_sym]) : nil) ||
+    x.try(:doc_request).try(:title) ||
+    (x.try(:proposable) ? (x.proposable.class.try(:runame) + "#" + x.name ) : nil)
+  end  
+
   def make_grouped_options params
   # https://stackoverflow.com/questions/1192843/grouped-select-in-rails
 

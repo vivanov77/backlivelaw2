@@ -1,5 +1,7 @@
 class Api::QuestionsController < Api::ApplicationController
 
+  # include DeviseTokenAuth::Concerns::SetUserByToken
+
   # before_action :authenticate_user!
   # load_and_authorize_resource
     
@@ -8,6 +10,10 @@ class Api::QuestionsController < Api::ApplicationController
   before_action :preview_questions_chars, only: [:show, :index]
 
   before_action :set_render_options, only: [:show, :index]
+
+  after_action :mail_notification, only: [:create]
+
+  # before_action :register_user, only: [:create]
 
   # GET /questions
   def index
@@ -55,6 +61,8 @@ class Api::QuestionsController < Api::ApplicationController
 
     end
 
+    @questions = @questions.all
+
 
     if params[:offset]
 
@@ -77,12 +85,14 @@ class Api::QuestionsController < Api::ApplicationController
 
     end
 
+
+
   end
 
   # GET /questions/1
   def show
 
-    render( {json: @payment}.merge set_render_options )
+    render( {json: @question}.merge set_render_options )
 
   end
 
@@ -90,8 +100,10 @@ class Api::QuestionsController < Api::ApplicationController
   def create
     @question = Question.new(question_params)
 
+    register_user
+
     if @question.save
-      render json: @question, status: :created, location: [:api, @question]
+      render( {json: @question, status: :created, location: [:api, @question]}.merge set_render_options)
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -161,7 +173,7 @@ class Api::QuestionsController < Api::ApplicationController
 
       show_categories = (param? params[:categories])
 
-      show_user = (param? params[:user])
+      show_user = (param? params[:user]) || params[:email]
 
 
       show_proposals = (param? params[:proposals])
@@ -201,6 +213,30 @@ class Api::QuestionsController < Api::ApplicationController
 
         include: (params[:offset] ? hash1 : hash2)    
       }  
+
+    end
+
+    def mail_notification
+
+      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+
+      QuestionsMailer.question_created(@question, email, @password).deliver_now if current_user
+
+    end
+
+    def register_user
+
+      if !current_user && params[:email]
+
+        email = params[:email]
+
+        @password = User.random_password   
+
+        register_login_tokenized_user email, @password
+
+        @question.user_id = @user.id
+
+      end
 
     end
 end

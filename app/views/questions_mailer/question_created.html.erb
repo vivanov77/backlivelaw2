@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+
+    <h1>Создан вопрос</h1>
+
+    <p>
+      Вы задали вопрос на сайте http://LiveLaw.info, ваш вопрос будет доступен по адресу: <%= link_to @question.title, api_question_url(@question.id) %>
+    </p>
+
+    <p>
+      <strong>Заголовок:</strong>
+      <%= @question.title %>
+    </p>
+
+    <p>
+      <strong>Содержимое:</strong>
+      <%= @question.text %>
+    </p>
+
+
+    <% if @password %>
+
+    <p>
+      Вы автоматически зарегистрировались на сайте http://LiveLaw.info, Ваши данные:
+    </p>
+
+    <p>
+      <strong>Логин (email):</strong>
+      <%= @email %>
+    </p>
+
+    <p>
+      <strong>Пароль (автоматически сгенерированный):</strong>
+      <%= @password %>
+    </p>
+
+    <p>
+      Вы можете изменить свой пароль в Личном кабинете
+    </p>    
+
+    <% end %>
+
+  </body>
+</html>

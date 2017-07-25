@@ -5,6 +5,8 @@ class Api::CommentsController < Api::ApplicationController
     
   before_action :set_comment, only: [:show, :update, :destroy]
 
+  after_action :mail_notification, only: [:create]
+
   # GET /comments
   # GET /comments.json
   def index
@@ -77,6 +79,14 @@ class Api::CommentsController < Api::ApplicationController
       end
 
       res
+
+    end
+
+    def mail_notification
+
+      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+
+      CommentsMailer.comment_created(@comment, email).deliver_now if current_user
 
     end
 end
