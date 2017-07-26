@@ -46,4 +46,7 @@ DeviseTokenAuth.setup do |config|
   # If, however, you wish to integrate with legacy Devise authentication, you can
   # do so by enabling this flag. NOTE: This feature is highly experimental!
   # config.enable_standard_devise_support = false
+
+# https://stackoverflow.com/questions/35284854/testing-rails-api-for-sign-up-with-devise-error-missing-confirm-success-url
+  config.default_confirm_success_url = "confirmed"
 end

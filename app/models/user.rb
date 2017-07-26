@@ -7,7 +7,7 @@ class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
-          # :confirmable,
+          :confirmable,
           :omniauthable,
 # http://stackoverflow.com/questions/8186584/how-do-i-set-up-email-confirmation-with-devise
          :omniauth_providers => [:facebook, :vkontakte]
@@ -137,6 +137,7 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth_vkontakte(auth)
+
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       # user.email = auth.info.email
 # https://habrahabr.ru/post/142128/     
@@ -148,6 +149,7 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0,20]
       # user.name = auth.info.name   # assuming the user model has a name
       # user.image = auth.info.image # assuming the user model has an image
+      user.confirm
     end
   end 
 

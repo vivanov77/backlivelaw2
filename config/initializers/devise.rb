@@ -20,7 +20,7 @@ Devise.setup do |config|
   config.mailer_sender = secret_key 'YANDEX_LOGIN'
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'Devise::Mailer'
+  # config.mailer = 'Devise::Mailer'
 
   # config.mailer = 'MyDeviseMailer'  
 
