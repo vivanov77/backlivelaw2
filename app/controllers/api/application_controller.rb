@@ -72,4 +72,25 @@ class Api::ApplicationController < ActionController::API
 
 	end
 
+
+    def check_captcha
+
+      grecaptcha = params["g-recaptcha-response"]
+
+      if grecaptcha.blank?
+
+      	raise UserError, "Вы не заполнили проверку \"Я не робот\"."
+
+      end
+   
+      status = verify_google_recptcha(secret_key('RECAPTCHA_PRIVATE_KEY'), grecaptcha)
+
+      unless status
+
+		raise UserError, "Вы неправильно заполнили проверку \"Я не робот\"."
+
+      end      
+
+    end	
+
 end

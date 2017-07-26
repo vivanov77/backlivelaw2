@@ -13,6 +13,8 @@ class Api::QuestionsController < Api::ApplicationController
 
   after_action :mail_notification, only: [:create]
 
+  # before_action :check_captcha, only: [:create]
+
   # before_action :register_user, only: [:create]
 
   # GET /questions

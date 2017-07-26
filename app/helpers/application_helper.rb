@@ -388,5 +388,24 @@ module ApplicationHelper
   class UserError < StandardError; end
 
   class DoubleAdminError < StandardError; end
+  
+
+  def verify_google_recptcha(secret_key,response)
+
+    return false if response.blank?
+
+     uri = URI('https://www.google.com/recaptcha/api/siteverify')
+     res = Net::HTTP.post_form(uri, 'secret' => secret_key, 'response' => response)   
+     
+     hash = JSON.parse(res.body)
+
+     hash["success"] == true ? true : false
+  end
+
+  def param2hash param
+    # http://stackoverflow.com/questions/1667630/how-do-i-convert-a-string-object-into-a-hash-object
+    # arr["1"]
+    JSON.parse param.gsub('=>', ':') 
+  end  
 
 end
