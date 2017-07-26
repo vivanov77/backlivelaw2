@@ -147,21 +147,33 @@ class Api::DocRequestsController < Api::ApplicationController
 
     def mail_notification
 
-      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+      if current_user
 
-      DocRequestsMailer.doc_request_created(@doc_request, email, @password).deliver_now if current_user
+        email = current_user.email
 
-    end
+        token = nil
+
+      elsif @email
+
+        email = @email
+
+        token = @user.confirmation_token
+
+      end
+
+        DocRequestsMailer.doc_request_created(@doc_request, email, @password, token).deliver_now
+
+    end    
 
     def register_user
 
       if !current_user && params[:email]
 
-        email = params[:email]
+        @email = params[:email]
 
         @password = User.random_password   
 
-        register_login_tokenized_user email, @password
+        register_login_tokenized_user @email, @password
 
         @doc_request.user_id = @user.id
 

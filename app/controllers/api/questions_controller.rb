@@ -218,9 +218,21 @@ class Api::QuestionsController < Api::ApplicationController
 
     def mail_notification
 
-      email = Rails.env.development? ? secret_key("FEEDBACKS_MAIL") : current_user.email
+      if current_user
 
-      QuestionsMailer.question_created(@question, email, @password).deliver_now if current_user
+        email = current_user.email
+
+        token = nil
+
+      elsif @email
+
+        email = @email
+
+        token = @user.confirmation_token
+
+      end
+
+        QuestionsMailer.question_created(@question, email, @password, token).deliver_now
 
     end
 
@@ -228,11 +240,11 @@ class Api::QuestionsController < Api::ApplicationController
 
       if !current_user && params[:email]
 
-        email = params[:email]
+        @email = params[:email]
 
         @password = User.random_password   
 
-        register_login_tokenized_user email, @password
+        register_login_tokenized_user @email, @password
 
         @question.user_id = @user.id
 

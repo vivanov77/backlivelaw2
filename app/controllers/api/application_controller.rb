@@ -64,9 +64,11 @@ class Api::ApplicationController < ActionController::API
         }
         @user.save
 
-        @resource = @user # trade-off for "update_auth_header" defined in "DeviseTokenAuth::Concerns::SetUserByToken"
+        # @user.send_confirmation_instructions
 
-        sign_in(:user, @user, store: false, bypass: false)	  
+        # @resource = @user # trade-off for "update_auth_header" defined in "DeviseTokenAuth::Concerns::SetUserByToken"
+
+        # sign_in(:user, @user, store: false, bypass: false)
 
 	end
 
