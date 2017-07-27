@@ -2,7 +2,7 @@ class CategorySubscription < ApplicationRecord
 	belongs_to :category, :inverse_of => :category_subscriptions
 
 	has_one :payment_type, :as =>:payable
-	has_one :payment, :through => :payment_type	
+	has_one :payment, :through => :payment_type
 
 	TIME_SPANS = {day_1: "1 день", day_3: "3 дня", day_7: "7 дней", 
 		month_1: "1 месяц", month_3: "3 месяца", month_6: "6 месяцев", month_12: "12 месяцев"}.freeze

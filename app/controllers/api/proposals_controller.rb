@@ -46,7 +46,7 @@ class Api::ProposalsController < Api::ApplicationController
   # DELETE /proposals/1
   def destroy
     @proposal.destroy
-    render json: "Вопрос с id=\"#{@proposal.id}\" успешно удалён".to_json, status: :ok    
+    render json: "Предложение с id=\"#{@proposal.id}\" успешно удалено".to_json, status: :ok    
   end
 
   private

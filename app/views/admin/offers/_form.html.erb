@@ -1,0 +1,46 @@
+<%= form_for([:admin, offer]) do |f| %>
+  <% if offer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(offer.errors.count, "error") %> prohibited this offer from being saved:</h2>
+
+      <ul>
+      <% offer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Цена" %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Отправитель" %><br />
+    <%= f.collection_select :sender_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Получатель" %><br />
+    <%= f.collection_select :recipient_id, User.all, :id, :email, :include_blank => "Ничего не выбрано"
+  # http://guides.rubyonrails.org/form_helpers.html#select-boxes-for-dealing-with-models
+     %>          
+  </div>
+
+  <div class="field">
+    <%= f.label "Заголовок" %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Текст" %>
+    <%= f.text_area :text %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit submit_russian_text "Счёт" %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<h1>Счета</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Цена</th>
+      <th>Отправитель</th>
+      <th>Получатель</th>
+      <th>Заголовок</th>
+      <th>Текст</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @offers.each do |offer| %>
+      <tr>
+        <td><%= offer.price %></td>
+        <td><%= offer.sender.email %></td>
+        <td><%= offer.recipient.email %></td>
+        <td><%= offer.title %></td>
+        <td><%= offer.text %></td>
+        <td><%= link_to 'Показать', [:admin, offer] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_offer_path(offer) %></td>
+        <td><%= link_to 'Удалить', [:admin, offer], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новый счёт', new_admin_offer_path %>

@@ -75,7 +75,9 @@ Rails.application.routes.draw do
 
 		resources :proposals do
 			resources :comments
-		end		
+		end
+
+		resources :offers
 		  		
 	end
 
@@ -142,7 +144,9 @@ Rails.application.routes.draw do
 
 		resources :category_subscriptions, only: [:index, :show]
 
-		resources :proposals		
+		resources :proposals
+
+		resources :offers		
 
 	end
 

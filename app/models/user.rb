@@ -36,7 +36,9 @@ class User < ApplicationRecord
 
   has_many :cash_operations, :inverse_of => :user, dependent: :destroy
 
-  has_many :payments, foreign_key: 'sender_id', dependent: :destroy  
+  has_many :payments, foreign_key: 'sender_id', dependent: :destroy
+
+  has_many :offers, foreign_key: 'sender_id', dependent: :destroy  
 
 # see config/application.rb
 # config.roles = {client:"Клиент", admin:"Администратор", jurist:"Юрист", lawyer:"Адвокат", blocked: "Заблокирован"}

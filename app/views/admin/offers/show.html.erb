@@ -1,0 +1,27 @@
+<p>
+  <strong>Цена:</strong>
+  <%= @offer.price %>
+</p>
+
+<p>
+  <strong>Отправитель:</strong>
+  <%= @offer.sender.email %>
+</p>
+
+<p>
+  <strong>Получатель:</strong>
+  <%= @offer.recipient.email %>
+</p>
+
+<p>
+  <strong>Заголовок:</strong>
+  <%= @offer.title %>
+</p>
+
+<p>
+  <strong>Текст:</strong>
+  <%= @offer.text %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_offer_path(@offer) %> |
+<%= link_to 'Назад', admin_offers_path %>

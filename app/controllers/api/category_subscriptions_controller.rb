@@ -14,7 +14,7 @@ class Api::CategorySubscriptionsController < Api::ApplicationController
   # GET /category_subscriptions/1
   # GET /category_subscriptions/1.json
   def show
-    render json: @category_subscription    
+    render json: @category_subscription
   end
 
   private

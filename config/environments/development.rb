@@ -68,6 +68,6 @@ Rails.application.configure do
 }
 
 # ngrok external ip
-config.web_console.whitelisted_ips = '54.162.112.37'
+config.web_console.whitelisted_ips = '54.147.138.7'
   
 end
