@@ -4,7 +4,7 @@ class DocRequestSerializer < ActiveModel::Serializer
   has_many :doc_responses, if: -> { should_render_responses }
   has_many :categories, if: -> { should_render_categories }
   has_many :proposals, if: -> { should_render_proposals }
-  has_one :virtual_attribute_payment, if: -> { should_render_virtual_attribute_payment }
+  has_one :virtual_relation_payment, if: -> { should_render_virtual_relation_payment }
 
 # http://stackoverflow.com/questions/42244237/activemodel-serializers-has-many-with-condition-at-run-time
   def should_render_user
@@ -25,8 +25,8 @@ class DocRequestSerializer < ActiveModel::Serializer
     @instance_options[:show_proposals]
   end 
 
-  def should_render_virtual_attribute_payment
-    @instance_options[:show_virtual_attribute_payment]
+  def should_render_virtual_relation_payment
+    @instance_options[:show_virtual_relation_payment]
   end
   
 end

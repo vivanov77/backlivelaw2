@@ -10,7 +10,7 @@ class DocRequest < ApplicationRecord
 
 	after_commit :set_response_delta_flags
 
-	def virtual_attribute_payment
+	def virtual_relation_payment
 
 		proposal_ids = Proposal.where(proposable_type: "DocRequest", proposable_id: self.id).map &:id
 

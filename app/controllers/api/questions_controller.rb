@@ -22,21 +22,22 @@ class Api::QuestionsController < Api::ApplicationController
 
     @questions = Question
 
-    if current_user
+# Это неправильные ограничения:
+    # if current_user
 
-      if current_user.has_role? :client
+    #   if current_user.has_role? :client
 
-        @questions = @questions.where(user_id: current_user.id)
+    #     @questions = @questions.where(user_id: current_user.id)
 
-      elsif (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
+    #   elsif (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
 
-         @questions = @questions.includes(:categories).
+    #      @questions = @questions.includes(:categories).
 
-         where(categories: {id: (current_user.actual_purchased_categories.map &:id)})
+    #      where(categories: {id: (current_user.actual_purchased_categories.map &:id)})
 
-      end
+    #   end
 
-    end
+    # end
 
     if param? params[:charged]
 

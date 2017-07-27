@@ -10,7 +10,7 @@ class Api::ProposalsController < Api::ApplicationController
   # GET /proposals
   def index
 
-    @proposals = Proposal.order(:id);
+    @proposals = Proposal.order(:id)
 
     render json: @proposals
 

@@ -127,12 +127,12 @@ class Api::DocRequestsController < Api::ApplicationController
 
       show_categories = (param? params[:categories])
 
-      show_virtual_attribute_payment = (param? params[:payment])
+      show_virtual_relation_payment = (param? params[:payment])
 
       render_conditions = 
 
       {
-        include: [:user, :categories, :proposals, :virtual_attribute_payment],
+        include: [:user, :categories, :proposals, :virtual_relation_payment],
 
         show_user: show_user,
 
@@ -140,7 +140,7 @@ class Api::DocRequestsController < Api::ApplicationController
 
         show_proposals: show_proposals,
         
-        show_virtual_attribute_payment: show_virtual_attribute_payment
+        show_virtual_relation_payment: show_virtual_relation_payment
       }
 
     end
