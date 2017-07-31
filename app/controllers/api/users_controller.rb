@@ -183,6 +183,8 @@ class Api::UsersController < Api::ApplicationController
 
       show_distance = (param? params[:distance])
 
+      show_roles = (param? params[:roles])      
+
       show_balance = (param? params[:balance])      
 
       city_id = params[:city_id]
@@ -197,6 +199,8 @@ class Api::UsersController < Api::ApplicationController
         include: [:cities, :actual_purchased_category_subscriptions],
 
         show_cities: show_cities,
+
+        show_roles: show_roles,
 
         show_virtual_relation_distance: show_distance,
 
@@ -226,11 +230,11 @@ class Api::UsersController < Api::ApplicationController
 
             payment.save!
 
-            p "payment unfrozen"
+            # p "payment unfrozen"
 
           end
 
-          p "payment not unfrozen"
+          # p "payment not unfrozen"
 
         end
 
