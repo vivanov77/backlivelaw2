@@ -1,0 +1,31 @@
+<h1>Чат-сессии</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Специалист</th>
+      <th>Клиент</th>
+      <th>Завершено</th>
+      <th>Токен</th>      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chat_sessions.each do |chat_session| %>
+      <tr>
+        <td><%= chat_session.specialist %></td>
+        <td><%= chat_session.clientable %></td>
+        <td><%= chat_session.finished %></td>
+        <td><%= chat_session.secret_chat_token %></td>        
+        <td><%= link_to 'Показать', [:admin, chat_session] %></td>
+        <td><%= link_to 'Редактировать', edit_admin_chat_session_path(chat_session) %></td>
+        <td><%= link_to 'Удалить', [:admin, chat_session], method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Новая чат-сессия', new_admin_chat_session_path %>

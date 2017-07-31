@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  specialist: one
+  clientable: one
+  clientable_type: Clientable
+  closed: false
+
+two:
+  specialist: two
+  clientable: two
+  clientable_type: Clientable
+  closed: false

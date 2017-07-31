@@ -1,0 +1,6 @@
+<h1>Редактирование чат-сессии</h1>
+
+<%= render 'form', chat_session: @chat_session %>
+
+<%= link_to 'Показать', [:admin, @chat_session] %> |
+<%= link_to 'Назад', admin_chat_sessions_path %>

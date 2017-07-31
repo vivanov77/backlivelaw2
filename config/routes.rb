@@ -78,6 +78,8 @@ Rails.application.routes.draw do
 		end
 
 		resources :offers
+
+		resources :chat_sessions		
 		  		
 	end
 
@@ -146,7 +148,9 @@ Rails.application.routes.draw do
 
 		resources :proposals
 
-		resources :offers		
+		resources :offers
+
+		resources :chat_sessions		
 
 	end
 

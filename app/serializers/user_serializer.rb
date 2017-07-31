@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :first_name, :active, :last_name, :middle_name, :email_public, :phone,
+  attributes :id, :email, :first_name, :avatar, :active, :last_name, :middle_name, :email_public, :phone,
   :experience, :qualification, :price, :university, :faculty, :dob_issue, :work, :staff, :dob,
   :balance, :online, :created_at, :updated_at, :online_time, :login, :fax, :userdata, :extends
   # has_many :cities, if: -> { should_render_association }

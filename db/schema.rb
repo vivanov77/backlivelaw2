@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727130752) do
+ActiveRecord::Schema.define(version: 20170728114601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,18 @@ ActiveRecord::Schema.define(version: 20170727130752) do
     t.datetime "updated_at",      null: false
     t.index ["receivable_type", "receivable_id"], name: "index_chat_messages_on_receivable_type_and_receivable_id", using: :btree
     t.index ["sendable_type", "sendable_id"], name: "index_chat_messages_on_sendable_type_and_sendable_id", using: :btree
+  end
+
+  create_table "chat_sessions", force: :cascade do |t|
+    t.integer  "specialist_id"
+    t.string   "clientable_type"
+    t.integer  "clientable_id"
+    t.boolean  "finished",          default: false
+    t.string   "secret_chat_token"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["clientable_type", "clientable_id"], name: "index_chat_sessions_on_clientable_type_and_clientable_id", using: :btree
+    t.index ["specialist_id"], name: "index_chat_sessions_on_specialist_id", using: :btree
   end
 
   create_table "chat_templates", force: :cascade do |t|
@@ -197,11 +209,13 @@ ActiveRecord::Schema.define(version: 20170727130752) do
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.text     "text"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "read",         default: false
-    t.boolean  "spam",         default: false
-    t.boolean  "delta",        default: true,  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "read",            default: false
+    t.boolean  "spam",            default: false
+    t.boolean  "delta",           default: true,  null: false
+    t.integer  "chat_session_id"
+    t.index ["chat_session_id"], name: "index_messages_on_chat_session_id", using: :btree
     t.index ["recipient_id"], name: "index_messages_on_recipient_id", using: :btree
     t.index ["sender_id"], name: "index_messages_on_sender_id", using: :btree
   end

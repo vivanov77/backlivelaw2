@@ -1,0 +1,17 @@
+<p>
+  <strong>Специалист:</strong>
+  <%= @chat_session.specialist %>
+</p>
+
+<p>
+  <strong>Клиент:</strong>
+  <%= @chat_session.clientable %>
+</p>
+
+<p>
+  <strong>Завершена:</strong>
+  <%= @chat_session.finished %>
+</p>
+
+<%= link_to 'Редактировать', edit_admin_chat_session_path(@chat_session) %> |
+<%= link_to 'Назад', admin_chat_sessions_path %>

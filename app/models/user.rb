@@ -52,7 +52,7 @@ class User < ApplicationRecord
   validates :price, numericality: true, allow_nil: true
   validates :balance, numericality: true, allow_nil: true
 
-  validates :login, uniqueness: true  
+  # validates :login, uniqueness: true  
 
 # http://guides.rubyonrails.org/active_record_validations.html#performing-custom-validations
   include ActiveModel::Validations

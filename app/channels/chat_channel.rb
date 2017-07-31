@@ -69,6 +69,8 @@ class ChatChannel < ApplicationCable::Channel
 
     if identifier.include? "secret_chat_token"
 
+      token = identifier["secret_chat_token"]
+
       if current_user.class.to_s == "GuestChatToken"
 
           asker_type = :guest_chat_login
@@ -89,6 +91,16 @@ class ChatChannel < ApplicationCable::Channel
       message = { asker_type: asker_type, asker_value: asker_value, chat_subscribed: :off }
 
       ActionCable.server.broadcast stream_name, chat_cancel: message if stream_name
+
+      chat_session = ChatSession.where(secret_chat_token: token, finished: false).first
+
+      if chat_session
+
+        chat_session.finished = true
+
+        chat_session.save!
+
+      end
 
     end
 
@@ -112,7 +124,41 @@ class ChatChannel < ApplicationCable::Channel
 
       if (current_user.has_role?(:lawyer) || current_user.has_role?(:jurist))
 
-        message = { answerer_id: current_user.id, chat_request_accept: param_message["chat_request_accept"] }
+        chat_session = ChatSession.where(secret_chat_token: token, finished: false).first
+
+        chat_parties_array = secret_token_users token, "secret_chat_token"
+
+        if chat_parties_array.size == 1
+
+          message = { message_error: "Only 1 chat party. Minimum required = 2. Secret_chat_token = " + token }
+
+        elsif chat_parties_array.size > 2
+
+          message = { message_error: "More than 2 parties in the chat. Secret_chat_token = " + token }
+
+        elsif chat_session
+
+          message = { message_error: "Some previous chat session is pending. Aborting. Secret_chat_token = " + token }
+
+        else
+
+          correspondent_index = 1 - chat_parties_array.index(current_user)
+
+          correspondent_user = chat_parties_array[correspondent_index]
+
+          # Начинаем чат-сессию
+          if param_message["chat_request_accept"] == "true"
+
+            chat_session = ChatSession.create specialist_id: current_user.id, 
+            clientable_type: correspondent_user.class.to_s,
+            clientable_id: correspondent_user.id,
+            secret_chat_token: token
+
+          end        
+
+          message = { answerer_id: current_user.id, chat_request_accept: param_message["chat_request_accept"] }
+        
+        end
 
       else
 
@@ -143,7 +189,9 @@ class ChatChannel < ApplicationCable::Channel
 
         return
         
-      end      
+      end
+
+      chat_session = ChatSession.where(secret_chat_token: token, finished: false).first
 
       chat_parties_array = secret_token_users token, "secret_chat_token"
 
@@ -155,15 +203,20 @@ class ChatChannel < ApplicationCable::Channel
 
         message = { message_error: "More than 2 parties in the chat. Secret_chat_token = " + token }
 
+      elsif !chat_session
+
+          message = { message_error: "Active chat session is not found. Aborting. Secret_chat_token = " + token }
+
       else
 
         correspondent_index = 1 - chat_parties_array.index(current_user)
 
-        correspondent_user = chat_parties_array[correspondent_index]   
+        correspondent_user = chat_parties_array[correspondent_index]
 
         message = { sendable_type: current_user.class.to_s, sendable_id: current_user.id,
           receivable_type: correspondent_user.class.to_s, receivable_id: correspondent_user.id,
-          text: param_message["text"] }
+          text: param_message["text"],
+          chat_session_id: chat_session.id }
 
         chat_message = ChatMessage.new(message)
 
