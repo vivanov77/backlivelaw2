@@ -14,7 +14,7 @@ class Api::DocResponsesController < Api::ApplicationController
   # GET /doc_responses
   def index
 
-    @doc_responses = DocResponse
+    @doc_responses = DocResponse.all
 
     if params[:category]
 
